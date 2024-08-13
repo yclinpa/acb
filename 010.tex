@@ -1,0 +1,208 @@
+\section{Seqential Compactness}
+\label{sec:seq-comp}
+
+Compactness is the single most important concept in real analysis.
+It is what reduces the infinite to the finite.
+
+\begin{defn}
+  A subset $A$ of a metric space $M$ is \textsf{sequentially compact} if every sequence $\langle a_n \rangle$ in $A$ has a subsequence $\langle a_{n_k} \rangle$ that converges to a limit in $A$.
+\end{defn}
+
+The empty set and finite sets are trivial examples of sequentially compact sets.
+For a sequence $\langle a_n \rangle$ contained in a finite set repeats a term infinitely often, and the corresponding constant subsequence converges.
+
+Let us first derive some properties that every compact set enjoys.
+
+\begin{thm}
+  \label{thm:cpt-closed-bounded}
+  Every sequentially compact set is closed and bounded.
+\end{thm}
+
+\begin{proof}
+  Let $A$ be a sequentially compact set in a metric space $M$.
+  Let us show that $A$ is a closed set first.
+  Suppose that $p \in M$ is a limit point of $A$,
+  that is, there is a sequence $\langle a_n \rangle$ in $A$ that converges to $p$.
+  Since $A$ is sequentially compact, there is some subsequence of $\langle a_n \rangle$ that converges to $q \in A$.
+  But the whole sequence $\langle a_n \rangle$ already converges, hence it converges to $q$ as well.
+  By the uniqueness of limit, we see that $p = q \in A$.
+  Thus $A$ is closed.
+
+  To see why $A$ must be bounded, we suppose that $A$ is unbounded to begin with.
+  Fix a point $m \in M$, there is a point $a_n \in A$ such that $d(a_n, m) \geqslant n$ for every $n \in \mathbb{N}$.
+  Since $A$ is sequentially compact, $\langle a_n \rangle$ has a subsequence $\langle a_{n_k} \rangle$ that converges in $A$.
+  Being a convergent sequence, $\langle a_{n_k} \rangle$ is a bounded sequence.  But this contradicts to the construction that $d(m,a_{n_k}) \geqslant n_k \geqslant k \to \infty$ as $k \to \infty$.
+  Hence $A$ must be a bounded set.
+\end{proof}
+
+The converse of Theorem~\ref{thm:cpt-closed-bounded} in the Euclidean space $\mathbb{R}^n$ is also true, as we shall see.
+But its proof is much harder.
+We will break the proof into several steps.
+The following set is the starting point.
+
+\begin{thm}
+  \label{thm:bounded-closed-interval-cpt}
+  Any bounded closed interval $[a,b] \subseteq \mathbb{R}$ is sequentially compact.
+\end{thm}
+
+\begin{proof}
+  Let $\langle x_n \rangle$ be a sequence in $[a,b]$ and set
+  \[
+    C = \{ x \in [a,b] \colon x_n < x \text{ only finitely often} \}.
+  \]
+  Equivalently, for all but finitely many $n$, $x_n \geqslant x$.
+  Since $a \in C \ne \varnothing$ and $b$ is an upper bound for $C$, the supremum $c = \sup C \in [a,b]$ by the least upper bound property.
+  We claim that there is a subsequence of $\langle x_n \rangle$ that converges to $c$.
+  If there is no subsequence $\langle x_n \rangle$ that converges to $c$, then there is an $r > 0$ such that the interval $(c - r, c + r)$ only contains a finite number of terms in $\langle x_n \rangle$. 
+  Since there is an $r' \in \mathbb{R}$ such that $0 \leqslant r' < r$ and $c - r' \in C$, we see that $c + r \in C$ as well, contradicting to $c = \sup C$.
+  Therefore the claim holds and our proof is complete.
+\end{proof}
+
+By taking Cartesian products and the fact that a sub-subsequence of a sequence is a subsequence itself, we have the following results.
+
+\begin{thm}
+  \label{thm:cpt-product}
+  The Cartesian product of $m$ sequentially compact sets is sequentially compact for every $m \in \mathbb{N}$, $m \geqslant 2$.
+\end{thm}
+
+\begin{proof}
+  The base case $m = 2$ holds by the comment before the theorem.
+  The rest is true by mathematical induction on $m$.
+\end{proof}
+
+\begin{cor}
+  Every \textsf{box} $[a_1, b_1] \times [a_2, b_2] \times \cdots \times [a_m, b_m]$ in $\mathbb{R}^m$ is sequentially compact.
+\end{cor}
+
+Actually this corollary is equivalent to the following named theorem.
+
+\begin{thm}[Bolzano-Weierstrass theorem]
+  \label{thm:bw}
+  Every bounded sequence in $\mathbb{R}^m$ has a convergent subsequence.
+\end{thm}
+
+\begin{proof}
+  A bounded sequence is contained in a box, which is sequentially compact, and therefore the sequence must have a subsequence that converges to a limit in that box. 
+\end{proof}
+
+Here is a simple fact about sequential compacts.
+\begin{thm}
+  \label{thm:cpt-closed-subset}
+  Every closed subset of a sequentially compact set is also sequentially compact.
+\end{thm}
+
+\begin{proof}
+  Let $A$ be a closed subset of a sequentially compact set $K$.
+  Pick a sequence $\langle a_n \rangle$ in $A$.
+  Viewing it as a sequence in $K$, it has a subsequence $\langle a_{n_k} \rangle$ that converges to a point $p \in K$. 
+  Since $A$ is closed, $p \in A$ as well.
+  This shows that $A$ is sequentially compact.
+\end{proof}
+
+Now we come to the first partial converse to Theorem~\ref{thm:cpt-closed-bounded}.
+
+\begin{thm}[Heine-Borel theorem]
+  Every closed and bounded subset of $\mathbb{R}^m$ is sequentially compact.
+\end{thm}
+
+\begin{proof}
+  Let $A \subseteq \mathbb{R}^m$ be closed and bounded.
+  Boundedness implies that $A$ is contained in some box, which is sequentially compact.
+  Since $A$ is closed, Theorem~\ref{thm:cpt-closed-subset} implies that $A$ is also sequentially compact.
+\end{proof}
+
+The Heine-Borel theorem states that closed and bounded subsets of Euclidean spaces are sequentially compact, but it is vital to remember that a closed and bounded subset of a general metric space may fail to be sequentially compact.
+For example, the set $\mathbb{N}$ of natural numbers equipped with the discrete metric is a complete metric space, it is closed in itself, and it is bounded.
+But it is not sequentially compact.
+After all, what subsequence $\langle 1, 2, 3, \dots \rangle$ converges?
+
+Next we discuss how sequentially compact sets behave under continuous transformations.
+
+\begin{thm}
+  \label{thm:cont-cpt}
+  If $f : M \to N$ is continuous and $A$ is a sequentially compact subset of $M$ then $f(A)$ is a sequentially compact subset of $N$.
+  That is, a continuous function sends sequentially compact sets to sequentially compact sets.
+\end{thm}
+
+\begin{proof}
+  Suppose that $\langle b_n \rangle$ is a sequence in $f(A)$.
+  For each $n \in \mathbb{N}$ choose a point $a_n \in A$ such that $f(a_n) = b_n$.
+  Since $A$ is sequentially compact there is a subsequence $\langle a_{n_k} \rangle$ that converges to some point $a \in A$.
+  By continuity of $f$ it follows that $\langle b_{n_k} \rangle = \langle f(a_{n_k}) \rangle \to f(p) \in f(A)$ as $k \to \infty$.
+  Thus, every sequence $\langle b_n \rangle$ in $f(A)$ has a subsequence that converges to a limit in $f(A)$, which shows that $f(A)$ is sequentially compact.
+\end{proof}
+
+From Theorem~\ref{thm:cont-cpt} follows the natural generalization of the min/max theorem before which concerns continuous real-valued functions defined an interval $[a,b]$.
+
+\begin{cor}
+  A continuous real-valued function defined on a nonempty, sequentially compact set is bounded; it assumes maximum and minimum values.
+\end{cor}
+
+\begin{proof}
+  Let $f: M \to \mathbb{R}$ be continuous and $A$ be a nonempty, sequentially compact subset of $M$.
+  By Theorem~\ref{thm:cont-cpt} $f(A)$ is a sequentially compact subset of $\mathbb{R}$.
+  By Theorem~\ref{thm:cpt-closed-bounded} $f(A)$ is bounded and closed.
+  Being a nonempty and bounded set in $f(A)$, its supremum and infimum both exist.
+  Since they are limits of $f(A)$, they belong to $f(A)$ as well because $f(A)$ is closed. 
+\end{proof}
+
+A homeomorphism is a bicontinuous bijection.
+Thus sequentially compactness is a topological property, as stated below; it follows directly from Theorem~\ref{thm:cont-cpt}.
+
+\begin{thm}
+  If $M$ is sequentially compact and $M$ is homeomorphic to $N$ then $N$ is sequentially compact.
+  Sequential compactness is a topological property.
+\end{thm}
+
+Interestingly, the assumption on bicontinuity between sequential compacts seems superfluous.
+
+\begin{thm}
+  If $f: M \to N$ is a continuous bijection and $M$ is sequentially compact, then $f$ is a homeomorphism between $M$ and $N$.
+  That is, its inverse mapping $f^{-1}: N \to M$ is automatically continuous.
+\end{thm}
+
+\begin{proof}
+  Suppose that $q_n \to q$ in $N$.
+  Since $f$ is a bijection, $p_n = f^{-1}(q_n)$ and $p = f^{-1}(q)$ are well-defined points in $M$.
+  To check continuity of $f^{-1}$ we must show that $p_n \to p$.
+
+  If $\langle p_n \rangle$ refuses to converge to $p$, then there are a subsequence $\langle p_{n_k}\rangle$ and a $\delta > 0$ such that $d(p_{n_k}, p) \geqslant \delta$. 
+  Sequential compactness of $M$ gives a further subsequence which we still write $\langle p_{n_\ell} \rangle$ that converges to a point $p^* \in M$ as $\ell \to \infty$.
+  Necessarily, $d(p,p^*) \geqslant \delta$, which implies $p \ne p^*$.
+
+Since $f$ is continuous we have $f(p_{n_\ell}) \to f(p^*)$ as $\ell \to \infty$.
+The limit of a convergent sequence is unchanged by passing to a subsequence, and so $f(p_{n_\ell}) = q_{n_\ell} \to q$ as $\ell \to \infty$.
+Thus, $f(p^*) = q = f(p)$, contrary to $f$ being a bijection.
+It follows that $p_n \to p$ and therefore that $f^{-1}$ is continuous since it preserves sequential convergence.
+\end{proof}
+
+Lastly, we combine the concepts of uniform continuity and sequential compactness.
+Here is the definition for uniformly continuous mappings between metric spaces.
+
+\begin{defn}
+  A mapping $f: M \to N$ between metric spaces is \textsf{uniformly continuous} if for each $\varepsilon > 0$ there exists a $\delta > 0$ such that
+  \[
+    p, q \in M \text{ and } d_M(p,q) < \delta \implies
+    d_N(f(p), f(q)) < \varepsilon.
+  \]
+\end{defn}
+
+Again one should compare this definition with that of ordinary continuous functions and note their difference.
+
+\begin{thm}
+  Every continuous function defined on a sequentially compact set is uniformly continuous.
+\end{thm}
+
+\begin{proof}
+  Suppose not, that is, $f: M \to N$ is continuous, $M$ is sequentially compact, but $f$ is not uniformly continuous.
+  Then there is some $\varepsilon > 0$ such that no matter how small $\delta$ is, there exist points $p, q \in M$ with $d_M(p,q) < \delta$ but $d_N( f(p), f(q) ) \geqslant \varepsilon$.
+  Take $\delta = 1/n$ for each $n \in \mathbb{N}$ to product two sequences $\langle p_n \rangle, \langle q_n \rangle$ in $M$ such that $d_M(p_n,q_n) < 1/n$ but $d_N(f(p_n),f(q_n)) \geqslant \varepsilon$.
+  Sequential compactness of $M$ implies that there is a subsequence $\langle p_{n_k}\rangle$ of $\langle p_n \rangle$ that converges to some $p \in M$ as $k \to \infty$.
+  Since $d_M(p_{n_k}, q_{n_k}) < 1/n_k \to 0$ as $k \to \infty$, $\langle q_{n_k} \rangle$ converges to $p$ as well.
+  Continuity of $f$ at $p$ implies that $f(p_{n_k}) \to f(p)$ and $f(q_{n_k}) \to f(p)$.
+  When $k$ is sufficiently large we have
+  \[
+    d_N(f(p_{n_k}), f(q_{n_k})) \leqslant d_N( f(p_{n_k}), f(p) ) + d_N( f(p), f(q_{n_k}) ) < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon,
+  \]
+  which contradicts to our construction that $d_N(f(p_{n_k}),f(q_{n_k})) \geqslant \varepsilon$ for any $k$.
+\end{proof}

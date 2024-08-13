@@ -1,0 +1,401 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{April 29, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 12: Concepts and computations for multiple integrals} 
+\end{center}
+
+We now generalize the theory of univariate Riemann integration to multivariates.
+For simplicity, we assume throughout that the functions $f, g$ etc.\ that we integrate are real-valued rather than vector-valued, and at first we assume that $f$ is a function of two variables only.
+
+Consider a rectangle $R = [a,b] \times [c,d]$ in $\mathbb{R}^2$.  Partitions $\mathcal{P}$ and $\mathcal{Q}$ for $[a,b]$ and $[c,d]$, respectively,
+\[
+  \mathcal{P} = \{ a = x_0 < \cdots < x_m = b \}, \quad
+  \mathcal{Q} = \{ c = y_0 < \cdots < y_n = d \},
+\]
+give rise to a ``grid'' $\mathcal{G} = \mathcal{P} \times \mathcal{Q}$ of rectangles
+\[
+  R_{ij} = I_i \times J_j
+\]
+where $I_i = [x_{i-1},x_i]$ and $J_j = [y_{j-1},y_j]$.
+Let $\Delta x_i = x_i - x_{i-1}$ and $\Delta y_j = y_j - y_{j-1}$, and denote the area of $R_{ij}$ as
+\[
+  |R_{ij}| = \Delta x_i \Delta y_j.
+\]
+Let $\mathcal{S}$ be the collection of sample points $(s_{ij},t_{ij}) \in R_{ij}$.
+
+Given a function $f: R \to \mathbb{R}$, the corresponding Riemann sum is
+\[
+  R(f,\mathcal{G},\mathcal{S}) = \sum_{i=1}^m \sum_{j=1}^n f(s_{ij}, t_{ij}) |R_{ij}|.
+\]
+If there is a number to which the Riemann sums converge as the mesh of the grid (the diameter of the largest rectangle) tends to zero then $f$ is Riemann integrable and that number is the Riemann integral
+\[
+  \int_R f = \lim_{\|\mathcal{G}\|\to0} R(f,\mathcal{G},\mathcal{S}).
+\]
+
+Another approach was given from Darboux.  The lower and upper sums of a bounded function $f$ with respect to the grid $\mathcal{G}$ is
+\[
+  L(f,\mathcal{G}) = \sum_{i,j} m_{ij} |R_{ij}|, \quad U(f,\mathcal{G}) = \sum_{i,j} M_{ij} |R_{ij}|,
+\]
+where $m_{ij}$ (resp.\ $M_{ij}$) is the infimum (resp.\ supremum) of $f(s,t)$ as $(s,t)$ varies over the rectangle $R_{ij}$.
+The lower integral is the supremum of the lower sums and the upper integral is the infimum of the upper sums, as before.
+
+The proofs of the following facts are conceptually identical to the one-dimensional versions explained in the course last semester.
+\begin{enumerate}[(a)]
+  \item If $f$ is Riemann integrable then it is bounded.
+  \item The set of Riemann integrable real functions on a rectangle $R$ is a vector space $\mathcal{R} = \mathcal{R}(R)$ and integration is a linear map from $\mathcal{R}$ to $\mathbb{R}$.
+  \item The constant function $f = k$ is integrable and its integral is $k |R|$.
+  \item If $f, g \in \mathcal{R}$ and $f \leqslant g$ then 
+    \[
+      \int_R f \leqslant \int_R g.
+    \]
+  \item Every lower sum is less than or equal to every upper sum, and consequently the lower integral is no greater than the upper integral:
+    \[
+      (L) \int_R f \leqslant (U) \int_R f.
+    \]
+  \item For a bounded function, Riemann integrability is equivalent to Darboux integrability, that is, the equality of the lower and upper integrals.
+\end{enumerate}
+
+The Riemann-Lebesgue theorem is another result that generalizes naturally to multiple integrals.  It states that a bounded function is Riemann integrable if and only if its discountinuities form a zero set.
+A set $Z \subseteq \mathbb{R}^2$ is a \textsf{zero set} if for each $\varepsilon > 0$ there is a countable covering of $Z$ by open rectangles $S_\ell$ whose total area is less than $\varepsilon$:
+\[
+  \sum_\ell |S_\ell| < \varepsilon.
+\]
+By the $\varepsilon/2^\ell$ construction, a countable union of zero sets is still a zero set.
+
+As in dimension 1, we express the discountinuity set of our function $f : R \to \mathbb{R}$ as the union
+\[
+  D = \cup_{k \in \mathbb{N}} D_k,
+\]
+where $D_k$ is the set of points $z \in \mathbb{R}$ at which the \textit{oscillation} of $f$ is at least $1/k$, that is,
+\[
+  \op{osc}_z f := \lim_{r \to 0+} \op{diam}(f(B_r(z))) \geqslant \frac1k
+\]
+where $B_r(z)$ is the $r$-neighborhood of $z$ in $R$.
+The set $D_k$ is compact.
+
+Assume that $f : R \to \mathbb{R}$ is Riemann integrable.
+It is bounded and its upper and lower integrals are equal.
+Fix $k \in \mathbb{N}$.
+Given $\varepsilon > 0$, there exists a $\delta > 0$ such that if $\mathcal{G}$ is a grid with mesh less than $\delta$ then
+\[
+  U(f,\mathcal{G}) - L(f,\mathcal{G}) < \varepsilon.
+\]
+Fix such a grid $\mathcal{G}$.  Each $R_{ij}$ in the grid that contains in its interior a point of $D_k$ has $M_{ij} - m_{ij} \geqslant 1/k$, where $m_{ij}$ and $M_{ij}$ are the infimum and supremum, respectively, of $f$ on $R_{ij}$.  The other points of $D_k$ lie in the zero set of gridlines $\{ x_i \} \times [c,d]$ and $[a,b] \times \{ y_j \}$.  Since $U - L < \varepsilon$, the total area of these rectangles with oscillation at least $1/k$ does not exceed $k \varepsilon$.  Since $k$ is fixed and $\varepsilon$ is arbitrary, $D_k$ is a zero set.  Taking $k = 1, 2, \dots$ shows that the discontinuity set $D = \cup_k D_k$ is a zero set.
+
+Conversely, assume that $f$ is bounded and $D$ is a zero set.  Fix any $k \in \mathbb{N}$.  Each $z \in R \setminus D_k$ has a neighborhood $W = W_z$ such that
+\[
+  \sup \{ f(w) \colon w \in W \} - \inf \{ f(w) \colon w \in W \} < \frac1k.
+\]
+Since $D_k$ is a zero set, it can be covered by countably many open rectangles $S_\ell$ of small total area, say
+\[
+  \sum_\ell |S_\ell| < \sigma.
+\]
+Let $\mathcal{V}$ be the covering of $R$ by the neighborhoods $W$ with small oscillation, and the rectangles $S_\ell$.  Since $R$ is compact, $\mathcal{V}$ has a positive Lebesgue number $\lambda$.  Take a grid with mesh less than $\lambda$.  This breaks the sum
+\[
+  U - L = \sum (M_{ij} - m_{ij}) |R_{ij}|
+\]
+into two parts---the sum of those terms for which $R_{ij}$ is contained in a neighborhood $W$ with small oscillation, plus a sum of terms for which $R_{ij}$ is contained in one of the rectangles $S_\ell$.  The latter sum is less than $2M \sigma$, while the former is less than $|R|/k$.  Thus, when $k$ is large and $\sigma$ is small, $U - L$ is small, which implies Riemann integrability.  Hence the Riemann-Lebesgue theorem remains valid for function of two (or more) variables.
+
+Now we come to the first place that multiple integration has something new to say.  Suppose that $f : R \to \mathbb{R}$ is bounded and define the lower and upper \textsf{slice integrals}
+\[
+  \underline{F}(y) = (L) \int_a^b f(x,y) \, \dd x, \qquad
+  \overline{F}(y) = (U) \int_a^b f(x,y) \, \dd x.
+\]
+For each $y \in [c,d]$, these are the lower and upper integrals of the univariate function $f^y : [a,b] \to \mathbb{R}$ defined by $f^y(x) = f(x,y)$.  They are the integrals of $f(x,y)$ on the horizontail line $y = \op{const}$.
+
+\begin{thm}[Fubini's theorem]
+  \label{thm:fubini}
+  If $f$ is Riemann integrable on $R$, then $\underline{F}$ and $\overline{F}$ are integrable on $[c,d]$.  Moreover, 
+  \[
+    \int_R f = \int_c^d \underline{F} \, \dd y = \int_c^d \overline{F} \, \dd y.
+  \]
+\end{thm}
+
+Since $\underline{F} \leqslant \overline{F}$ and the integral of their difference is zero, it follows from the one-dimensional Riemann-Lebesgue theorem that there exists a linear zero set $Y \subseteq [c,d]$ such that $\underline{F}(y) = \overline{F}(y)$ whenever $y \in [c,d] \setminus Y$.  That is, the integral of $f(x,y)$ respect to $x$ exists for almost all $y$ and we get the more common way to write the Fubini's formula
+\begin{equation}
+  \label{eq:iter}
+  \iint_R f \, \dd x \, \dd y = \int_c^d \left( \int_a^b f(x,y) \, \dd x \right) \dd y.
+\end{equation}
+The meaning of (\ref{eq:iter}) is that a multiple integral can be evaluated by an \textsf{iterated integral} when it is valid.
+
+There is, however, an ambiguity in (\ref{eq:iter}).  What is the value of the integrand $\int_a^b f(x,y) \, \dd x$ when $y \in Y$?  For such a $y$, $\underline{F}(y) < \overline{F}(y)$ and the integral of $f(x,y)$ with respect to $x$ does not exist.  The answer is that we can choose any value between $\underline{F}(y)$ and $\overline{F}(y)$.  The integral with respect to $y$ will be unaffected.
+
+\begin{proof}[Proof of Fubini's theorem]
+  If $\mathcal{G} = \mathcal{P} \times \mathcal{Q}$ partitions $[a,b] \times [c,d]$ we claim that
+  \begin{equation}
+    \label{eq:lower-sum}
+    L(f, \mathcal{G}) \leqslant L(\underline{F}, \mathcal{Q}).
+  \end{equation}
+  Fix any partition interval $J_j \subseteq [c,d]$.  If $y \in J_j$ then
+  \[
+    m_{ij} = \inf \{ f(s,t) \colon (s,t) \in R_{ij} \} 
+    \leqslant \inf \{ f(s,y) \colon s \in I_i \} = m_i(f^y).
+  \]
+  Thus, for all $y \in J_j$ we have
+  \[
+    \sum_{i=1}^m m_{ij} \Delta x_i \leqslant \sum_{i=1}^m m_i(f^y) \Delta x_i = L(f^y, \mathcal{P}) \leqslant \underline{F}(y).
+  \]
+  Since $m_j(\underline{F}) = \inf \{ \underline{F}(y) \colon y \in J_j\}$, it follows that
+  \[
+    \sum_{i=1}^m m_{ij} \Delta x_i \leqslant m_j(\underline{F}).
+  \]
+  Therefore
+  \[
+    L(f,\mathcal{G}) = \sum_{j=1}^n \sum_{i=1}^m m_{ij} \Delta x_i \Delta y_j \leqslant \sum_{j=1}^n m_j(\underline{F}) \Delta y_j = L(\underline{F}, \mathcal{Q}),
+  \]
+  which gives (\ref{eq:lower-sum}).  Analogously, $U(\overline{F}, \mathcal{Q}) \leqslant U(f,\mathcal{G})$.  Thus
+  \[
+    L(f,\mathcal{G}) \leqslant L(\underline{F},\mathcal{Q}) \leqslant U(\overline{F},\mathcal{Q}) \leqslant U(f,\mathcal{G}).
+  \]
+  Since $f$ is integrable, the outer terms of these inequalities differ by arbitrarily little when the mesh of $\mathcal{G}$ is small.  Taking infima and suprema over all grids $\mathcal{G} = \mathcal{P} \times \mathcal{Q}$ gives
+  \[
+    \int_R f = \sup_{\mathcal{G}} L(f,\mathcal{G}) \leqslant \sup_{\mathcal{Q}} L(\underline{F}, \mathcal{Q}) \leqslant \inf_{\mathcal{Q}} U(\underline{F},\mathcal{Q}) \leqslant \inf_{\mathcal{G}} U(f,\mathcal{G}) = \int_R f.
+  \]
+  The resulting equality of these five inequalities implies that $\underline{F}$ is integrable and its integral on $[c,d]$ equals that of $f$ over $R$.  The integral of $\overline{F}$ is handled in the same way.
+\end{proof}
+
+\begin{cor}
+  If $f$ is Riemann integrable then the order of integration---first $x$ then $y$ or vice versa---is irrelevant to the value of the iterated integral,
+  \[
+    \int_c^d \left( \int_a^b f(x,y) \, \dd x \right) \dd y
+    = \int_a^b \left( \int_c^d f(x,y) \, \dd y \right) \dd x.
+  \]
+\end{cor}
+
+\begin{proof}
+  Both iterated integrals equal the integral of $f$ over $R$.
+\end{proof}
+
+The second new aspect of multiple integration concerns the change of variables formula.  It is the higher-dimensional version of integration by substitution.  We will suppose that $\varphi : U \to W$ is a $\mathcal{C}^1$-diffeomorphism (i.e., a $\mathcal{C}^1$ mapping with a $\mathcal{C}^1$ inverse) between open subsets of $\mathbb{R}^2$, that $R \subseteq U$, and that a Riemann integrable function $f: W \to \mathbb{R}$ is given.  Let $\Delta_\varphi(z)$ be the determinant of $[\DD \varphi(z)]$ at a point $z \in U$.
+
+\begin{thm}[Change of variables formula]
+  Under the preceding assumptions we have
+  \[
+    \int_R (f \circ \varphi) \cdot | \Delta_\varphi | = \int_{\varphi(R)} f.
+  \]
+\end{thm}
+
+If $S$ is a bounded subset of $\mathbb{R}^2$, its \textsf{area} (or \textsf{Jordan content}) is by definition of the integral of its characteristic function $\chi_S$, if the integral exists.  When the integral does exist we say that $S$ is \textsf{Riemann measurable}.  According to the Riemann-Lebesgue theorem, $S$ is Riemann measurable if and only if its boundary is a zero set.  For $\chi_S$ is discontinuous at $z$ if and only if $z$ is a boundary point of $S$.  The characteristic function of a rectangle $R$ is Riemann integrable and its integral is $|R|$, so we are justified in using the same notation for area of a general set $S$, namely,
+\[
+  |S| = \op{area}(S) = \int \chi_S.
+\]
+
+\begin{prop}
+  \label{prop:linear-change}
+  If $T : \mathbb{R}^2 \to \mathbb{R}^2$ is a linear isomorphism then for every Riemann measurable set $S \subseteq \mathbb{R}^2$, $T(S)$ is Riemann measurable and
+  \[
+    |T(S)| = |\det T| \cdot |S|.
+  \]
+\end{prop}
+
+Proposition~\ref{prop:linear-change} is a version of the change of variables formula in which $\varphi = T$, $R = S$, and $f = 1$.  It remains true in $\mathbb{R}^n$ and is called the \textsf{volume multiplier formula}.  It leads to a \textit{definition} of the determinant of a linear transformation $\mathbb{R}^n \to \mathbb{R}^n$ as a volume multiplier.
+
+\begin{proof}
+  We first state two facts here.  The first fact is that the matrix $A$ that represents the isomorphism $T$ is a product of elementary matrices
+  \[
+    A = E_1 \cdots E_k,
+  \]
+  where each $E_i$ is a $2 \times 2$ matrix of one of the follow types:
+  \[
+    \begin{bmatrix}
+      \lambda & 0 \\ 0 & 1
+    \end{bmatrix} \quad
+    \begin{bmatrix}
+      1 & 0 \\ 0 & \lambda 
+    \end{bmatrix} \quad 
+    \begin{bmatrix}
+      0 & 1 \\ 1 & 0 
+    \end{bmatrix} \quad
+    \begin{bmatrix}
+      1 & \sigma \\ 0 & 1
+    \end{bmatrix},
+  \]
+  where $\lambda > 0$.  The second fact that each of elementary matrix $E$ sends a rectangle $R$ to a parallelogram $E(R)$ and
+  \begin{equation}
+    \label{eq:ER}
+    |E(R)| = |\det E| \cdot |R|.
+  \end{equation}
+  We claim that (\ref{eq:ER}) implies that for any Riemann measurable set $S$, $E(S)$ is also Riemann measurable and
+  \begin{equation}
+    \label{eq:ES}
+    |E(S)| = |\det E| \cdot |S|.
+  \end{equation}
+
+  Let $\varepsilon > 0$ be given.  Choose a grid $\mathcal{G}$ on $R \supseteq S$ with mesh so small that the rectangles $R$ of $\mathcal{G}$ satisfy
+  \begin{equation}
+    \label{eq:S-epsilon}
+    |S| - \varepsilon \leqslant \sum_{R \subseteq S} |R| \leqslant \sum_{R \cap S \ne \varnothing} |R| \leqslant |S| + \varepsilon.
+  \end{equation}
+  The interiors of the inner rectangles---those with $R \subseteq S$---are disjoint, and therefore for each $z \in \mathbb{R}^2$ we have
+  \[
+    \sum_{R \subseteq S} \chi_{\op{int} R}(z) \leqslant \chi_S(z).
+  \]
+  The same is true after we apply $E$, namely
+  \[
+    \sum_{R \subseteq S} \chi_{\op{int} E(R)}(z) \leqslant \chi_{E(S)}(z).
+  \]
+  Linearity and monotonicity of the integral, and Riemann measurability of the sets $E(R)$ imply that
+  \begin{equation}
+    \label{eq:ER-inner}
+    \sum_{R\subseteq S} |E(R)| = \sum_{R \subseteq S} \int \chi_{\op{int} E(R)} = \sum_{R\subseteq S} (L) \int \chi_{\op{int} E(R)} \leqslant (L) \int \chi_{E(S)}.
+  \end{equation}
+  Similarly,
+  \[
+    \chi_{E(S)}(z) \leqslant \sum_{R \cap S \ne \varnothing} \chi_{E(R)}(z)
+  \]
+  which implies that
+  \begin{equation}
+    \label{eq:ER-outer}
+    (U) \int \chi_{E(S)} \leqslant \sum_{R\cap S\ne\varnothing} (U) \int \chi_{E(R)} = \sum_{R\cap S\ne\varnothing} \int \chi_{E(R)} = \sum_{R\cap S\ne\varnothing} |E(R)|.
+  \end{equation}
+  By (\ref{eq:ER}) and (\ref{eq:S-epsilon}), (\ref{eq:ER-inner}) and (\ref{eq:ER-outer}) become
+  \begin{align*}
+    |\det E| (|S| - \varepsilon) &\leqslant |\det E| \sum_{R \subseteq S} |R| \leqslant (L) \int \chi_{E(S)} \\ &\leqslant (U) \int \chi_{E(S)} \leqslant |\det E| \sum_{R \cap S \ne \varnothing} |R| \leqslant |\det E| (|S| + \varepsilon).
+  \end{align*}
+  Since these lower and upper integrals do not depend on $\varepsilon$ and $\varepsilon$ is arbitrarily small, they equal the common value $|\det E| \cdot |S|$, which completes the proof of (\ref{eq:ES}).
+
+  Finally, the determinant of a matrix product is the product of the determinants.  Since the matrix $A = [T]$ is the product of elemenatary matrices $E_1, \dots, E_k$, (\ref{eq:ES}) implies that if $S$ is Riemann measurable then so is $T(S)$ and
+  \[
+    |T(S)| = |E_1 \cdots E_k(S)| = |\det E_1| \cdots |\det E_k| |S| = |\det T| |S|.
+  \]
+\end{proof}
+
+\noindent\textbf{Remark.} Proposition~\ref{prop:linear-change} remains valid in $\mathbb{R}^n$, since any invertiable matrix can also be decomposed into a product of elementary matrices.
+
+\medskip
+
+We isolate two facts in preparation for the proof of the change of variables formula.  We use the maximum coordinate norm on $\mathbb{R}^2$ and the associated operator norm on its linear transformations.  With respect to this norm on $\mathbb{R}^2$, the closed $r$-neighborhood of $p$ is a square $S_r(p)$ of side length $2r$ and center $p$.  We write $S_r$ when $p = (0,0)$.
+
+\begin{lem}
+  \label{lem:34}
+  Suppose that $\psi: U \to \mathbb{R}^2$ is $\mathcal{C}^1$, $0 \in U$, $\psi(0) = 0$, and for all $u \in U$ we have $\| \DD \psi(u) - \op{I} \| \leqslant \sigma$.  If $S_r \subseteq U$, then
+  \[
+    S_{r(1-\sigma)} \subseteq \psi(S_r) \subseteq S_{r(1+\sigma)}.
+  \]
+\end{lem}
+
+\begin{proof}
+  We have $\psi(u) = u + \rho(u)$ where the remainder $\rho(u)$ is $\mathcal{C}^1$, $\rho(0) = 0$, and $\| \DD \rho \| \leqslant \sigma$.  If $|u| \leqslant r$, this implies that $|\psi(u)| \leqslant r (1 + \sigma)$, so $\psi(S_r) \subseteq S_{r(1+\sigma)}$ as claimed.  The other half of the assertion is a quantitative version of the inverse function theorem.
+
+  For each $v \in S_{r(1-\sigma)}$ we claim that there is a unique $u \in S_r$ such that $v = \psi(u)$, and hence $S_{r(1-\sigma)} \subseteq \psi(S_r)$.  Define $K_v: S_r \to \mathbb{R}^2$ by
+  \[
+    K_v(u) = v - \rho(u).
+  \]
+  It contracts $S_r$ into itself.  For $|v| \leqslant r(1-\sigma)$ and $|u| \leqslant r$ imply
+  \[
+    |K_v(u)| \leqslant r(1-\sigma) + \sigma r = r,
+  \]
+  while $|v| \leqslant r(1-\sigma)$ and $|u|, |u'| \leqslant r$ imply
+  \[
+    |K_v(u) - K_v(u')| = |\rho(u) - \rho(u')| \leqslant \sigma |u - u'|
+  \]
+  by the mean value theorem.  The contraction $K_v$ then has a unique fixed point $u$.  It satisfies $u = K_v(u) = v - \rho(u)$, so $\psi(u) = u + \rho(u) = v$.
+\end{proof}
+
+\begin{lem}
+  \label{lem:35}
+  The Lipschitz image of a zero set is a zero set.
+\end{lem}
+
+\begin{proof}
+  Suppose that $Z$ is a zero set and $h : Z \to \mathbb{R}^2$ satisfies a Lipschitz condition
+  \[
+    |h(z) - h(z')| \leqslant L |z - z'|.
+  \]
+  Given $\varepsilon > 0$, there is a countable covering of $Z$ by squares $S_k$ such that 
+  \[
+    \sum_k |S_k| < \varepsilon.
+  \]
+  Each set $S_k \cap Z$ has diameter no greater than $\op{diam} S_k$ and therefore $h(S_k \cap Z)$ has diameter no greater than $L \op{diam} S_k$.  As such it is contained in a square $S'_k$ of edge length $L \op{diam} S_k$.  The squares $S'_k$ cover $h(Z)$ and
+  \[
+    \sum_k |S'_k| \leqslant L^2 \sum_k (\op{diam} S_k)^2 = 2 L^2 \sum_k |S_k| \leqslant 2 L^2 \varepsilon.
+  \]
+  Therefore $h(Z)$ is a zero set.
+\end{proof}
+
+\begin{proof}[Proof of the change of variables formula]
+  Recall what our assumptions are: $\varphi: U \to W$ is a $\mathcal{C}^1$-diffeomorphism, $f: W \to \mathbb{R}$ is Riemann integrable, $R$ is a rectangle in $U$, and it is asserted that
+  \begin{equation}
+    \label{eq:cv}
+    \int_R (f \circ \varphi) \cdot | \Delta_\varphi | = \int_{\varphi(R)} f.
+  \end{equation}
+  Let $D'$ be the set of discontinuities of $f$, which is a zero set.  Then
+  \[
+    D = \varphi^{-1}(D')
+  \]
+  is the set of discontinuities of $f \circ \varphi$.  The $\mathcal{C}^1$ mean value theorem implies that $\varphi^{-1}$ is Lipschitz, Lemma~\ref{lem:35} implies that $D$ is a zero set, and the Riemann-Lebesgue theorem implies that $f \circ \varphi$ is Riemann integrable.  Since $| \Delta_\varphi |$ is continuous, it is Riemann integrable and so is the product $(f \circ \varphi) \cdot |\Delta_\varphi|$.  In short, the left-hand side of (\ref{eq:cv}) makes sense.
+
+  Since $\varphi$ is a diffeomorphism, it is a homeomorphism and it carries the boundary of $R$ to the boundary of $\varphi(R)$.  The former boundary is a zero set and by Lemma~\ref{lem:35} so is the latter.  Thus $\chi_{\varphi(R)}$ is Riemann integrable.  Choose a rectangle $R'$ that contains $\varphi(R)$.  Then the right-hand side of (\ref{eq:cv}) becomes
+  \[
+    \int_{\varphi(R)} f = \int_{R'} f \cdot \chi_{\varphi(R)},
+  \]
+  which also makes sense.  It remains to show that the two side of (\ref{eq:cv}) not only make sense but are equal.
+
+  The idea is simple: Use a grid $\mathcal{G}$ to break $R$ into squares $R_{ij}$ of radius $r$, prove an approximate result on each $R_{ij}$, add the results, and take a limit as $r$ tends to zero.  The details are not so simple.
+
+  Let $z_{ij}$ be the center point of $R_{ij}$ and call
+  \[
+    A_{ij} = \DD \varphi(z_{ij}), \quad \varphi(z_{ij}), \quad \varphi(R_{ij}) = W_{ij}.
+  \]
+  The Taylor approximation to $\varphi$ on $R_{ij}$ is the affine map
+  \[
+    \phi_{ij}(z) = w_{ij} + A (z - z_{ij}).
+  \]
+
+  The composite $\psi = \phi_{ij}^{-1} \circ \varphi$ sends $z_{ij}$ to itself and its derivative at $z_{ij}$ is the identity transformation $\operatorname{I}$.  Uniform continuity of $\DD\varphi(z)$ on $R$ implies that for all $R_{ij}$ and for all $z \in R_{ij}$ we have $\| \DD \psi(z) - \operatorname{I} \| < \sigma$, and $\sigma = \sigma(r) \to 0$ as $r \to 0$.  Lemma~\ref{lem:34} implies that $\psi(R_{ij})$ is sandwiched between squares of radii $(1\pm\sigma) r$ centered at $z_{ij}$.  Applying $\phi_{ij}$ to this square sandwich gives the parallelogram sandwich
+  \begin{equation}
+    \label{eq:sandwich}
+    \phi_{ij}( (1-\sigma) R_{ij} ) \subseteq \varphi(R_{ij}) = W_{ij} \subseteq \phi_{ij}( (1+\sigma) R_{ij}),
+  \end{equation}
+  where $(1\pm\sigma)R_{ij}$ referes to the $(1\pm\sigma)$-dilation of $R_{ij}$ centered at $z_{ij}$.
+
+  By Proposition~\ref{prop:linear-change} this gives the area estimate
+  \begin{equation}
+    \label{eq:area-estimate}
+    (1-\sigma)^2 J_{ij} |R_{ij}| \leqslant |W_{ij}| \leqslant (1+\sigma)^2 J_{ij} |R_{ij}|
+  \end{equation}
+  where $J_{ij} = | \Delta_\varphi(z_{ij}) |$.
+
+  Let $m_{ij}$ and $M_{ij}$ be the infimum and supremum of $f \circ \varphi$ on $R_{ij}$.  Then, for all $w \in \varphi(R) = W$ we have
+  \[
+    \sum m_{ij} \chi_{\operatorname{int} W_{ij}}(w) \leqslant f(w) \leqslant \sum M_{ij} \chi_{W_{ij}}(w)
+  \]
+  which integrates to
+  \begin{equation}
+    \label{eq:18}
+    \sum m_{ij} |W_{ij}| \leqslant \int_{\varphi(R)} f \leqslant \sum M_{ij} |W_{ij}|.
+  \end{equation}
+  Using (\ref{eq:area-estimate}), we replace $|W_{ij}|$ in (\ref{eq:18}), getting
+  \[
+    (1-\sigma)^2 \sum m_{ij} J_{ij} |R_{ij}| \leqslant \int_{\varphi(R)} f \leqslant (1 + \sigma)^2 \sum M_{ij} J_{ij} |R_{ij}|.
+  \]
+
+  Uniform continuity of the Jacobian implies that there exists $\tau = \tau(r)$ such that for all $z, z' \in R_{ij}$ we have
+  \[
+    1 - \tau \leqslant \frac{ \Delta_\varphi(z) }{ \Delta_\varphi(z') } \leqslant 1 + \tau
+  \]
+  and $\tau(r) \to 0$ as $r \to 0$.  This gives
+  \begin{equation}
+    \label{eq:19}
+    (1-\tau) L \leqslant \sum m_{ij} J_{ij} |R_{ij}| \leqslant \sum M_{ij} J_{ij} |R_{ij}| \leqslant (1 + \tau) U,
+  \end{equation}
+  where $L$ and $U$ are the lower and upper sums of $(f \circ \varphi) \cdot | \Delta_\varphi |$ with respect to the grid $\mathcal{G}$.  Thus, the integral of $f$ on $\varphi(R)$ is sandwiched between $(1-\tau)(1-\sigma)^2 L$ and $(1+\tau)(1+\sigma)^2 U$.  As the grid mesh $r$ tends to zero, the sandwich shrinks to the integral $\int_R (f\circ \varphi) |\Delta_\varphi|$ and $\int_{\varphi(R)} f$, which completes the proof of their equality.
+\end{proof}
+
+Finally, here is a sketch of the $n$-dimensional theory.  Instead of a two-dimensional rectangle we have a cell
+\[
+  R = [a_1,b_1] \times \cdots \times [a_n,b_n].
+\]
+Riemann sums of a function $f: R \to \mathbb{R}$ are defined as before: Take a grid $\mathcal{G}$ of small cells $R_\ell$ in $R$, take a sample point $s_\ell$ in each, and set
+\[
+  R(f,\mathcal{G},\mathcal{S}) = \sum f(s_\ell) |R_\ell|
+\]
+where $|R_\ell|$ is the product of the edge lengths of the small cell $R_\ell$ and $\mathcal{S}$ is the set of sample points.  If the Riemann sums converge to a limit it is the integral.  The general theory, including the Riemann-Lebesgue theorem, is the same as in dimension 2.
+
+Fubini's theorem is proved by induction on $n$, and has the same meaning: Integration on a cell can be done slice by slice, and the order in which the iterated integration is performed has no effect on the answer.
+
+The change of variables formula has the same statement, only now the Jacobian is the determinant of an $n \times n$ matrix.  In place of area we have volume, the $n$-dimensional volume of a set $S \subseteq \mathbb{R}^n$ being the integral of its characteristic function.  The volume-multiplier formula, Proposition~\ref{prop:linear-change}, has essentially the same proof but the elementary matrix notation is messier.  (It helps to realize that the following types of elementary row operations suffice for row reduction: Transposition of two adjacent rows, multiplication of the first row by $\lambda$, and addition of the second row to the first.)  The proof of the change of variable formula itself differs only in that $(1\pm\sigma)^2$ becomes $(1\pm\sigma)^n$.  This is the end of the whole story.
+\end{document}

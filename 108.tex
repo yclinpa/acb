@@ -1,0 +1,251 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{April 1, 2024}
+\input{24aac-macro}
+\newcommand{\Rmk}{\textbf{Remark.}}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 8: Higher derivatives, extremum problems, and Taylor polynomials} 
+\end{center}
+
+Higher-order partial derivatives are defined by iteration.  For example, the \textit{second-order (mixed) partial derivative} of $f$ with respect to $x_j$ and $x_k$ is defined by
+\[
+  \frac{\partial^2 f}{\partial x_j \partial x_k} = \frac{\partial}{\partial x_j} \left( \frac{\partial f}{\partial x_k} \right) \quad ( = \DD_j \DD_k f = \DD_{jk} f = f_{x_k x_j}. )
+\]
+Be aware of the order of differential operators!  Sometimes $D_{jk} f \ne D_{kj} f$, but certain sufficient conditions ensure the commutativity of these operators.  We state the conditions as follows.
+
+\begin{thm}
+  Suupose that $V$ is open in $\mathbb{R}^2$, that $(a,b) \in V$, and that $f : V \to \mathbb{R}$.
+  If $f$ is $\mathcal{C}^1$ on $V$, and if one of the mixed second partial derivatives of $f$ exists on $V$ and is continuous at the point $(a,b)$, then the other mixed second partial derivative exists at $(a,b)$ as well, and
+  \[
+    \frac{\partial^2 f}{\partial y \, \partial x} (a,b) = \frac{\partial^2 f}{\partial x\,\partial y}(a,b).
+  \]
+\end{thm}
+Note that the hypotheses are met when $f \in \mathcal{C}^2(V)$.
+
+\begin{proof}
+  Suppose that $f_{yx}$ exists on $V$ and is continuous at $(a,b)$.
+  Consider
+  \[
+    \Delta(h,k) = f(a+h, b+k) - f(a+h, b) - f(a, b+k) + f(a,b),
+  \]
+  for $|h|, |k|$ being small so that the rectangle whose opposite vertices are $(a,b)$ and $(a+h,b+k)$ lies completely in $V$.
+  Apply the mean value theorem twice to choose scalars $s, t \in (0,1)$ such that
+  \begin{align*}
+    \Delta(h,k) &= k f_y(a+h,b+tk) - k f_y(a,b+tk) \\
+    &= k h f_{yx}(a+sh, b+tk).
+  \end{align*}
+  Since this last mixed partial derivative is continuous at $(a,b)$, we have
+  \begin{equation}
+    \label{eq:fyx}
+    \lim_{k \to 0} \lim_{h \to 0} \frac{ \Delta(h,k) }{hk} = \lim_{(h,k) \to (0,0)} \frac{ \Delta(h,k) }{ hk } = f_{yx}(a,b).
+  \end{equation}
+
+  On the other hand, the mean value theorem also implies that there is a scalar $u \in (0,1)$ such that
+  \begin{align*}
+    \Delta(h,k) &= f(a+h, b+k) - f(a, b+k) - f(a+h, b) + f(a,b) \\
+    &= h f_x(a+uh, b+k) - h f_x(a+uh, b).
+  \end{align*}
+  Hence it follows from (\ref{eq:fyx}) that
+  \begin{equation}
+    \label{eq:fxy}
+    \lim_{k \to 0} \lim_{h \to 0} \frac{1}{k} \left( f_x(a+uh, b+k) - f_x(a+uh,b) \right) 
+    = \lim_{k \to 0} \lim_{h \to 0} \frac{\Delta(h,k)}{ hk } = f_{yx}(a,b).
+  \end{equation}
+  Since $f_x$ is continuous on $V$, we can let $h = 0$ in the first expression of (\ref{eq:fxy}).
+  We conclude by definition that
+  \[
+    f_{xy}(a,b) = \lim_{k\to0} \frac{1}{k} \left( f_x(a,b+k) - f(a,b) \right) = f_{yx}(a,b).
+  \]
+\end{proof}
+
+\noindent\textit{Remark.} Although we state this theorem in $\mathbb{R}^2$, it can be in any dimensional space since we only commute two (adjacent) variables at a time.
+Counterexamples could arise when both the mixed second partial derivatives fail to be continuous at the same point, as the following example shows.
+
+\noindent\textbf{Example.} Consider the function
+\[
+  f(x,y) = 
+  \begin{cases}
+    \dfrac{xy(x^2-y^2)}{x^2+y^2}, & \text{if $(x,y) \ne (0,0)$;} \\
+    0,                            & \text{if $(x,y) =   (0,0)$.}
+  \end{cases}
+\]
+Show that $f_{xy}(0,0) \ne f_{yx}(0,0)$.
+
+Partial derivatives can be used to find maxima and minima of
+functions, as we see in the next theorem.
+
+\begin{thm}
+  \label{thm:critical}
+  Let $A$ be an open set in $\mathbb{R}^n$.  If a relative maximum (or relative
+  minimum) of $f : A \rightarrow \mathbb{R}$ occurs at a point $a$ in the
+  interior of $A$ and all the partial derivatives $\DD_i f(a)$ exist,
+  then $\DD_i f(a) = 0$ for all $i$.
+\end{thm}
+
+\begin{proof}
+Let $g_i(x) = f(x_1, \dots, x, \dots, x_n)$ with $x$ in the
+$i^{\text{th}}$ position.  Clearly $g_i$ has a relative maximum (or
+relative minimum) at $a_i$, and $g_i$ is defined in an open interval
+containing $a_i$.  Hence $0 = g_i'(a) = \DD_i f(a)$ from the elementary
+calculus.  
+\end{proof}
+
+\medskip
+
+Nevertheless, the converse of Theorem~\ref{thm:critical} is false,
+even for $n = 1$ (for instance, look at $f(x) = x^3$.)  Also in higher
+dimensional case, the converse fails in another way.  Suppose, for
+example, that $f: \mathbb{R}^2 \rightarrow \mathbb{R}$ is defined by $f(x,y) = x^2
+- y^2$.  Then $\DD_1 f(0,0) = 0$ because $g_1$ has a minimum at $0$,
+while $\DD_2 f(0,0) = 0$ because $g_2$ has a maximum at $0$.  Clearly
+$(0,0)$ is neither a relative maximum nor a relative minimum for $f$.
+
+Like that in one variable case, the points where all the first partial
+derivatives vanish are called the {\sffamily critical points}, and
+they are the candidates where we look for extreme values.  If the
+function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ possesses continuous
+second-order partial derivatives in an open set in $\mathbb{R}^n$, there is
+a sufficient condition for local extrema of the function.
+
+\begin{thm}
+  \label{thm:2_dev_criterion}
+  Let $f : \mathbb{R}^n \rightarrow \mathbb{R}$ have continuous second-order
+  partial derivatives in an open set $S \subseteq \mathbb{R}^n$.  Assume
+  that $p \in S$ and suppose that $\DD_i f(p) = 0$ for all $i$.
+  Let $H$ denote the symmetric $n \times n$ matrix
+  \begin{equation*}
+    H = \bigl[ f_{x_i x_j}(p) \bigr]_{i,j}.
+  \end{equation*}
+  If $H$ is positive definite (resp.~negative definite,) then $f$
+  assumes a relative minimum (resp.~relative maximum) at $p$.  If
+  $H$ is neither positive semidefinite nor negative semidefinite, then
+  $p$ becomes a saddle point of $f$: in some direction $f$ achieves
+  a relative minimum; in another direction $f$ achieves a relative
+  maximum.
+\end{thm}
+
+\noindent\textbf{Remark.} The matrix $H$ is usually called the {\sffamily Hessian} of $f$
+at $p$.
+
+\medskip
+
+\Rmk For an $n \times n$ symmetric matrix $H$, $H$ is called
+{\sffamily positive definite} if $x^{\TT} H x > 0$ for every $x \in \mathbb{R}^n
+\setminus \{ 0 \}$.  $H$ is called {\sffamily positive semidefinite}
+if the greater sign becomes non-strict.  Similar definitions for
+{\sffamily negative definite} and {\sffamily negative semidefinite}
+matrices.  (We always write a point $x$ in $\mathbb{R}^n$ as a column
+vector; hence $x^\TT$, the transpose of $x$, is a row vector.)
+
+\begin{proof} 
+  There is a $\delta > 0$ such that $B(p, \delta) \subseteq S$.
+For every point $x$ in this ball, $x$ can be joint with $p$ by a
+line segment $L$, and $L \subseteq S$.  Parameterize $L$ as $\gamma(t) = (1
+- t) p + t x$.  Define
+\begin{equation*}
+  g(t) = f(\gamma(t)) = f\bigl( (1-t) p + t x \bigr).
+\end{equation*}
+Then $g$ is a $C^2$-function in $t \in [0,1]$.  Hence by the Taylor's
+theorem,
+\begin{equation*}
+  g(t) = g(0) + g'(0) \, t + \frac{g''(0)}{2} \, t^2 + o(t^2).
+\end{equation*}
+(Here we use the small-$o$ notation.)  By the chain rule,
+\begin{align*}
+  g'(t) &= \sum_{j=1}^n \frac{\partial f(\gamma(t))}{\partial x_j} (x_j - p_j) = \DD f(\gamma(t))
+  \cdot (x - p) \quad \Longrightarrow \quad g'(0) =
+  \DD f(\gamma(0)) \cdot (x - p) = 0 ; \\
+  g''(t) &= \sum_{i,j=1}^n \frac{\partial^2 f(\gamma(t))}{\partial x_i \partial x_j} (x_i - p_i) (x_j - p_j) = (x - p)^\TT \cdot \bigl[ \frac{\partial^2 f(\gamma(t))}{\partial x_i \partial x_j} \bigr]
+  \cdot (x - p) \\ &\Longrightarrow g''(0) = (x - p)^\TT
+  \cdot H \cdot (x - p).
+\end{align*}
+Therefore
+\begin{equation*}
+  f(\gamma(t)) - f(p) = g(t) - g(0) = \frac{t^2}{2} (x - p)^\TT \cdot H
+  \cdot (x - p) + o(t^2).
+\end{equation*}
+Hence for sufficiently small $t$, $f(\gamma(t)) - f(p)$ has the same sign
+as that of the quadratic form $Q = (x - p)^\TT \cdot H \cdot (x -
+p)$.  Now when the symmetric matrix $H$ is positive definite, the
+quadratic form $Q$ can be written as a sum of squares; therefore
+$f(\gamma(t)) > f(p)$ for sufficiently small $t$ unless $t = 0$.  On the
+other hand, when $H$ is negative definite, $-Q$ is a sum of squares;
+therefore $f(\gamma(t)) < f(p)$ for sufficiently small $t$ unless $t =
+0$.  If $H$ is neither positive semidefinite nor negative
+semidefinite, there are integers $k$ and $\ell$ with $1 \leqslant k < \ell \leqslant n$ such that
+\begin{equation*}
+  H = \sum_{j=1}^k v_j^2 - \sum_{j=k+1}^\ell v_j^2
+\end{equation*}
+after a change of variable.  In the case the last claim in the theorem
+follows immediately.  
+\end{proof}
+
+\medskip
+\noindent\textbf{Remark.} Since $H$ is a symmetric matrix over $\mathbb{R}$, $H$ is always diagonalizable by the polarization theorem.  Furthermore, there is an
+orthogonal matrix $P$ such that $P^{-1} H P$ is diagonal ($P$ is
+orthogonal if $P^{-1} = P^\TT$.)  Hence $H$ is positive definite
+(resp.~negative definite) if and only if all of its eigenvalues are
+positive (resp.~negative.)  
+
+\medskip
+
+\noindent\textbf{Remark.} For the case $n = 2$, that $H$ is positive definite is equivalent to $\det H > 0$ and $\dfrac{\partial^2 f(p)}{\partial x_1^2} > 0$.  If $\det H < 0$, then $f$ achieves a relative maximum in one direction but a relative minimum in another; we call this point a {\em saddle\/} point.  This is the method we have seen in the course of elementary calculus before.
+
+To obtain a multidimensional version of Taylor's formula, we need to defined higher-order differentials.
+Let $p \geqslant 1$, let $V$ be an open set in $\mathbb{R}^n$, let $a \in V$, and let $f : V \to \mathbb{R}$.
+We shall say that $f$ has a $p^\text{th}$-order total differential at $a$ if and only if the $(p-1)^\text{st}$-order partial derivatives of $f$ exist on $V$ and are differentiable at $a$, in which case we call
+\[
+  \DD^{(p)} f(a; h) := \sum_{i_1, i_2, \dots, i_p=1}^n \frac{\partial^p f}{\partial x_{i_1} \cdots \partial x_{i_p}}(a) h_{i_1} \cdots h_{i_p},
+  \quad h = (h_1, \dots, h_n) \in \mathbb{R}^n
+\]
+the \textsf{$p^\text{th}$-order total differential} of $f$ at $a$.
+Note that
+\begin{align*}
+  \DD^{(p)} f(a;h) &= \DD^{(1)} \left( \DD^{(p-1)} f \right) (a; h) \\
+  &= \sum_{j=1}^n \frac{\partial}{\partial x_j} \left( \sum_{i_1,\dots,i_{p-1}=1}^n \frac{\partial^{p-1} f}{\partial x_{i_1} \cdots \partial x_{i_{p-1}}}(a) h_{i_1} \cdots h_{i_p-1} \right) h_j
+\end{align*}
+for $p > 1$.  Also note that $\DD^{(1)} f(a; h)$ is the first-order approximation of $f(a+h) - f(a)$ when $|h|$ is small enough, i.e.,
+\[
+  f(a+h) \approx f(a) + \DD f^{(1)}(a; h) = f(a) + \nabla f(a) \cdot h.
+\]
+
+Below is a multidimensional version of Taylor's formula.
+
+\begin{thm}[Taylor's formula in $\mathbb{R}^n$]
+  Let $p \in \mathbb{N}$, $V$ be open in $\mathbb{R}^n$, and the segment $[x,a] \subseteq V$.  Suppose that $f : V \to \mathbb{R}$ such that the $p^{\text{th}}$-order total derivative of $f$ exists on $V$, then there is a point $c \in [x,a]$ such that
+  \[
+    f(x) = f(a) + \sum_{k=1}^{p-1} \frac{1}{k!} \DD^{(k)} f(a;h) + \frac{1}{p!} \DD^{(p)} f(c,h)
+  \]
+  for $h := x - a$.
+\end{thm}
+Note that the hypotheses are met if $V$ is convex and $f \in \mathcal{C}^p(V)$.
+
+\begin{proof}
+  Let $h = x - a$.  Choose $\delta > 0$ so small that $a + t h \in V$ for reals $t \in (-\delta, 1 + \delta)$.  Define a one-variable function
+  \[
+    F(t) = f(a+th), \quad t \in (-\delta, 1 + \delta)
+  \]
+  $F$ is differentiable in $(-\delta, 1+\delta)$.  Hence by the chain rule,
+  \[
+    F'(t) = \DD f(a+th)(h) = \sum_{k=1}^n \frac{\partial f}{\partial x_k} (a + th) h_k.
+  \]
+  In fact, a simple induction argument can be used to verify that
+  \[
+    F^{(j)}(t) = \sum_{i_1, \dots, i_j=1}^n \frac{\partial^j f}{\partial x_{i_1} \cdots \partial x_{i_j}} (a + th) h_{i_1} \cdots h_{i_j}
+  \]
+  for $j = 1, 2, \dots, p$.  Thus
+  \begin{align*}
+    F^{(j)}(0) &= \DD^{(j)} f(a;h), && j = 1, 2, \dots, p-1; \\
+    F^{(p)}(t) &= \DD^{(p)} f(a+th; h) && t \in (-\delta, 1+\delta).
+  \end{align*}
+  
+  We have proven that the real function $F$ has a derivative of order $p$ everywhere on $(-\delta, 1+\delta) \supseteq [0,1]$.  Therefore, by the one-dimensional Taylor formula,
+  \begin{align*}
+    f(x) - f(a) &= F(1) - F(0) = \sum_{j=1}^{p-1} \frac{1}{j!} F^{(j)}(0) + \frac{1}{p!} F^{(p)}(t) \\
+    &= \sum_{j=1}^{p-1} \frac{1}{j!} \DD^{(j)} f(a;h) + \frac{1}{p!} \DD^{(p)} f(a+th; h)
+  \end{align*}
+  for some $t \in (0,1)$.  Now let $c = a + th$ and the proof is finished.
+\end{proof}
+
+\end{document}

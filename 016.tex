@@ -1,0 +1,856 @@
+\chapter{Integration on $\mathbb{R}$}
+\label{sec:integration}
+
+\section{Riemann integrals}
+\label{sec:Riemann-integral}
+
+We now start developing an integration theory that covers most situations in elementary calculus class.
+The motivation is that when $f : [a,b] \to \mathbb{R}$ is a non-negative, continuous function over $[a,b]$, the definite integral
+\[
+  \int_a^b f(x) \, \dd x
+\]
+should represent (the value of) the area of the region in $\mathbb{R}^2$ that is bounded by the lines $x=a$, $x=b$, $y=0$, and the graph $y = f(x)$.
+When the graph $y = f(x)$ is ``straight'', i.e. composed of line segments, the area can be calculated by ancient geometry.
+However, even in the ``easiest'' case, the computation of the area of a circle requires a limiting process.
+So we need a rigorous foundation for integrals to make sense of what area means.
+Here we deal with integral theory in $\mathbb{R}^1$.
+That theory on $\mathbb{R}^n$ will be discussed in the analysis class in the following semester.
+
+\begin{defn}
+  Let $[a,b]$ be a bounded closed interval in $\mathbb{R}$.
+  A \textsf{partition} $\mathcal{P}$ for $[a,b]$ is a \textit{finite} collection of points that includes the endpoints $a$ and $b$.
+  Conventionally we write
+  \begin{equation}
+    \label{eq:part}
+    \mathcal{P} = \{ a = x_0 < x_1 < \cdots < x_{n-1} < x_n = b \}.
+  \end{equation}
+  Given a partition $\mathcal{P}$ for $[a,b]$ as in (\ref{eq:part}), the interval $I_i = [x_{i-1}, x_i]$ will be called the $i^{\text{th}}$ subinterval determined by $\mathcal{P}$, $i = 1, 2, \dots, n$.
+  The length of $I_i$ is denoted by $\Delta x_i = |I_i| = x_i - x_{i-1}$.
+  The \textsf{mesh} of a partition $\mathcal{P}$ is the length of the longest subinterval deteremined by $\mathcal{P}$, and is denoted by $\| \Delta \mathcal{P} \|$.
+\end{defn}
+
+Now we define the following numbers, which are bounds for the area of the region under the graph $y = f(x)$ when the notion ``area'' is appropriate and fits into our intuition.
+
+\begin{defn}
+  Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for a bounded closed interval $[a,b]$.
+  For a bounded function $f: [a,b] \to \mathbb{R}$, define the following sums.
+  \begin{enumerate}[(i)]
+    \item The \textsf{upper sum} of $f$ over $\mathcal{P}$ is
+    \[
+      U(f,\mathcal{P}) = \sum_{i=1}^n M_i \Delta x_i,
+    \]
+    where $M_i = \sup \{ f(x) \colon x \in I_i \}$, $i = 1, \dots, n$.
+
+    \item The \textsf{lower sum} of $f$ over $\mathcal{P}$ is
+    \[
+      L(f,\mathcal{P}) = \sum_{i=1}^n m_i \Delta x_i,
+    \]
+    where $m_i = \inf \{ f(x) \colon x \in I_i \}$, $i = 1, \dots, n$.
+  \end{enumerate}
+\end{defn}
+
+In the following we will keep the notations $M_i$ and $m_i$ with the above meanings.  In case there are multiple functions we will write $M_i(f)$ and $m_i(g)$ which are self-evident.
+
+Note that we require that $[a,b]$ is a bounded interval, because when it is infinite there will always be at least one subinterval determined by any partition having infinite length.
+Also note that we require that $f$ is a bounded function, for otherwise there will be some $M_i$ or $m_i$ being infinite to make the upper sum or the lower sum no sense.
+But we do not ask $f$ to be continuous.
+
+Before we proceed to pass to the limit process, we compare upper sums and lower sums under different partitions for $[a,b]$.
+
+\begin{defn}
+  Let $\mathcal{P}$, $\mathcal{Q}$ be two partitions for a bounded closed interval $[a,b]$.
+  We say that $\mathcal{P}$ is a \textsf{refinement} of $\mathcal{Q}$, $\mathcal{P}$ is \textsf{finer} than $\mathcal{Q}$, or equivalently $\mathcal{Q}$ is \textsf{coarser} than $\mathcal{P}$, when $\mathcal{P} \supseteq \mathcal{Q}$.
+
+  The \textsf{(least) common refinement} of partitions $\mathcal{P}$ and $\mathcal{Q}$ for $[a,b]$ is their union $\mathcal{P} \cup \mathcal{Q}$ (properly ordered).
+\end{defn}
+
+Intuitively, a partition for a bounded closed intervals is a finite collection of division points; of course it has to contain both endpoints.
+Hence a finer partition means more division points.
+A finer partition can be obtained by adding a finite number of division points, one at a time.
+And a common refinement is the partition that contains both partitions.
+
+\begin{thm}
+  \label{thm:refine}
+  Let $f : [a,b] \to \mathbb{R}$ be a bounded function.
+  For two partitions $\mathcal{P}$ and $\mathcal{Q}$ for $[a,b]$ with $\mathcal{P}$ finer than $\mathcal{Q}$, we have the following comparisons between upper and lower sums:
+  \[
+    L(f,\mathcal{Q}) \leqslant L(f,\mathcal{P}) \leqslant U(f,\mathcal{P}) \leqslant U(f,\mathcal{Q}).
+  \]
+\end{thm}
+
+\begin{proof}
+  The middle inequality is obvious since infimum is no greater than supremum and the length of each subinterval determined by a parition is always positive.
+  By symmetry it suffices to show the last inequality $U(f,\mathcal{P}) \leqslant U(f,\mathcal{Q})$ when $P \supseteq \mathcal{Q}$; the first inequality follows from an analogous argument.
+  Furthermore, we may assume that $\mathcal{P} = \mathcal{Q} \cup \{ c \}$ for some $c \in (a,b)$ and $c \notin \mathcal{Q}$.
+  The general case follows from mathematical induction (on the difference of cardinalities of $\mathcal{P}$ and $\mathcal{Q}$).
+  
+  Let $\mathcal{Q} = \{ a = x_0 < x_1 < \cdots < x_n = b \}$ and $c \in (x_{i-1}, x_i)$.
+  Then $\mathcal{P} = \{ a = y_0 < y_1 < \cdots < y_{n+1} = b \}$ where
+  \[
+    y_j =
+    \begin{cases}
+      x_j, & \text{if $j < i$}, \\
+      c,   & \text{if $j = i$}, \\
+      x_{j-1}, & \text{if $j > i$}.
+    \end{cases}
+  \]
+
+  Define 
+  \[
+    M = \sup \{ f(t) \colon t \in [x_{i-1}, x_i] \}
+  \]
+  and
+  \[
+    M_1 = \sup \{ f(t) \colon t \in [y_{i-1},c] \}, \qquad
+    M_2 = \sup \{ f(t) \colon t \in [c, y_{i+1}] \}.
+  \]
+  Since $[y_{i-1},c] \cup [c, y_{i+1}] = [x_{i-1},x_i]$, we see that $\Delta y_i + \Delta y_{i+1} = \Delta x_i$ and $M \geqslant M_1$, $M \geqslant M_2$.
+  Therefore
+  \begin{align*}
+    U(f,\mathcal{P}) - U(f,\mathcal{Q}) &= (M_1 \Delta y_i + M_2 \Delta y_{i+1}) - M \Delta x_i \\
+    &= (M_1 - M) \Delta y_i + (M_2 - M) \Delta y_{i+1} \leqslant 0.
+  \end{align*}
+  Therefore $U(f,\mathcal{P}) \leqslant U(f,\mathcal{Q})$. 
+\end{proof}
+
+\begin{cor}
+  Let $f : [a,b] \to \mathbb{R}$ be a bounded function, and $\mathcal{P}$, $\mathcal{Q}$ be two partitions for $[a,b]$.
+  Then
+  \[
+    L(f,\mathcal{P}) \leqslant U(f,\mathcal{Q}).
+  \]
+\end{cor}
+
+\begin{proof}
+  Let $\mathcal{P} \cup \mathcal{Q}$ denote the common refinement of $\mathcal{P}$ and $\mathcal{Q}$.  Then by Theorem~4,
+  \[
+    L(f,\mathcal{P}) \leqslant L(f, \mathcal{P} \cup \mathcal{Q}) \leqslant U(f, \mathcal{P} \cup \mathcal{Q}) \leqslant U(f, \mathcal{Q}).
+  \]
+\end{proof}
+
+From Theorem~4 we learn that the upper sums decrease but the lower sums increase as we keep adding more division points to partitions.
+By Corollary~5 every lower sum is a lower bound for upper sums, while every upper sum is an upper bound for lower sums.
+There is also a trivial partition $\{ a < b \}$ for $[a,b]$.
+These inspire the following definitions.
+
+\begin{defn}
+  Let $f : [a,b] \to \mathbb{R}$ be a bounded function.
+
+  \begin{enumerate}[(i)]
+    \item The \textsf{upper integral} of $f$ over $[a,b]$ is
+      \[
+	\overline{I} = \overline{\int_a^b} f = (U) \int_a^b f := 
+	\inf \{ U(f,\mathcal{P}) \colon \mathcal{P} \text{ is a parition for $[a,b]$} \}.
+      \]
+
+    \item The \textsf{lower integral} of $f$ over $[a,b]$ is
+      \[
+	\underline{I} = \underline{\int_a^b} f = (L) \int_a^b f := 
+	\sup \{ L(f,\mathcal{P}) \colon \mathcal{P} \text{ is a parition for $[a,b]$} \}.
+      \]
+  \end{enumerate}
+\end{defn}
+
+Hence there are upper integrals and lower integrals for any bouned functions over any bounded closed intervals.
+Of course we have $\displaystyle (U) \int_a^b f \geqslant (L) \int_a^b f$. 
+The real challenge is when they coincide.
+That is the definition for (Darboux/Riemann) integrability.
+
+\begin{defn}
+  Let $f : [a,b] \to \mathbb{R}$ be a bounded function.
+  $f$ is said to be \textsf{Riemann integrable} over $[a,b]$ if its upper integral and lower integral coincide, that is,
+  \[
+    (U) \int_a^b f = (L) \int_a^b f.
+  \]
+  The common value is called the \textsf{(definite) integral} of $f$ over $[a,b]$ and is denoted by
+  \[
+    \int_a^b f = \int_a^b f(x) \, \dd x.
+  \]
+
+  The class of all Riemann integrable functions over $[a,b]$ is denoted by $\mathcal{R}([a,b])$, or simply $\mathcal{R}$ if the interval $[a,b]$ is clear from the content.
+\end{defn}
+
+It is not hard to see that constant functions are always integrable over any bounded closed intervals, and its integral equals the constant value of the function times the length of the bounded closed integral, which is exactly the (signed) area of the rectangular region under the graph of the constant function.
+In order to prove that a larger class of functions are also integrable, we need an effective criterion to check the integrability.
+
+\begin{thm}[Riemann's integrability criterion]
+  \label{thm:riemann-integrable-cauchy-criterion}
+  A bounded function $f : [a,b] \to \mathbb{R}$ is Riemann integrable if and only if for any $\varepsilon > 0$ there is a partition $\mathcal{P}$ for $[a,b]$ such that
+  \begin{equation}
+    \label{eq:riemann-cauchy-criterion}
+    U(f,\mathcal{P}) - L(f,\mathcal{P}) < \varepsilon.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  ($\Longrightarrow$) 
+  Denote the integral by $I = \overline{\int_a^b} f = \underline{\int_a^b} f$.
+  Let $\varepsilon > 0$ be given. 
+  Since the upper integral is the infimum of the upper sums, there is a partition $\mathcal{P}_1$ for $[a,b]$ such that
+  \[
+    U(f,\mathcal{P}_1) < I + \frac{\varepsilon}{2}.
+  \]
+  On the other hand, since the lower integral is the supremum of the lower sums, there is a partition $\mathcal{P}_2$ for $[a,b]$ such that
+  \[
+    L(f,\mathcal{P}_2) > I - \frac{\varepsilon}{2}.
+  \]
+  Take $\mathcal{P} = \mathcal{P}_1 \cup \mathcal{P}_2$ to be their common refinement.  By Theorem~\ref{thm:refine} we see that
+  \[
+    U(f,\mathcal{P}) - L(f,\mathcal{P}) \leqslant U(f,\mathcal{P}_1) - L(f,\mathcal{P}_2) < \left( I + \frac{\varepsilon}{2} \right) - \left( I - \frac{\varepsilon}{2} \right) = \varepsilon,
+  \]
+  which is what is asked for.
+  
+  ($\Longleftarrow$) We know that for any $\varepsilon > 0$, there is a partition $\mathcal{P}$ for $[a,b]$ such that $U(f,\mathcal{P}) - L(f,\mathcal{P}) < \varepsilon$.
+  Since $\overline{\int_a^b} f \leqslant U(f,\mathcal{P})$ and $\underline{\int_a^b} f \geqslant L(f,\mathcal{P})$, we have
+  \[
+    0 \leqslant \overline{\int_a^b} f - \underline{\int_a^b} f \leqslant U(f,\mathcal{P}) - L(f,\mathcal{P}) < \varepsilon.
+  \]
+  Since $\varepsilon$ is arbitrary, we conclude that $\overline{\int_a^b} f = \underline{\int_a^b} f$, i.e., $f$ is Riemann integrable over $[a,b]$ by definition.
+\end{proof}
+
+\noindent\textit{Remark.} Note that if (\ref{eq:riemann-cauchy-criterion}) holds for a partition $\mathcal{P}$ for $[a,b]$, then
+\[
+  U(f,\mathcal{P}') - L(f,\mathcal{P}') < \varepsilon
+\]
+for any partition $\mathcal{P}'$ for $[a,b]$ that is finer than $\mathcal{P}$.
+
+Now we are able to prove the following theorem concerning integrability of continuous functions.
+
+\begin{thm}
+  Let $f: [a,b] \to \mathbb{R}$ be a continuous function.
+  Then $f$ is Riemann integrable over $[a,b]$.
+\end{thm}
+
+\begin{proof}
+  Since $f$ is continuous on $[a,b]$, it is bounded on $[a,b]$ (so it is eligible to talk about integrability on $[a,b]$ or not).
+  Also this implies that $f$ is \textit{uniformly continuous} on $[a,b]$.
+  Hence for any $\varepsilon > 0$ there is a $\delta > 0$ such that 
+  \begin{equation}
+    \label{eq:uni-cont}
+    |f(x) - f(y)| < \frac{\varepsilon}{2(b-a)} \qquad \text{whenever $x,y \in [a,b]$ and $|x-y| < \delta$.}
+  \end{equation}
+
+  Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$ such that $\| \Delta \mathcal{P} \| < \delta$. (For example, take an integer $N$ large enough so that $\dfrac{b-a}{N} < \delta$ and partition $[a,b]$ into $N$ subintervals of equal length.)
+  Then by (\ref{eq:uni-cont}) we have $M_i - m_i \leqslant \varepsilon$ for any $i$.
+  Hence we may estimate the difference of the upper and lower sums determined by $\mathcal{P}$ as
+  \[
+    U(f,\mathcal{P}) - L(f,\mathcal{P}) = \sum_{i=1}^n (M_i - m_i) \Delta x_i \leqslant \sum_{i=1}^n \frac{\varepsilon}{2(b-a)} \Delta x_i = \frac{\varepsilon}{2 (b-a)} \cdot (b-a) = \frac{\varepsilon}{2} < \varepsilon.
+  \]
+  Therefore $f$ is Riemann integrable over $[a,b]$ by Riemann's integrability criterion.
+\end{proof}
+
+With the definition of Riemann integrability, we can now prove a few properties for integrals.
+
+\begin{thm}[Linearity for integrals]
+  \label{thm:int-linearity}
+  Let $f, g$ be two integrable functions over a bounded closed interval $[a,b]$, and $\lambda$ be a real constant.
+  Then both $f+g$ and $\lambda f$ are integrable over $[a,b]$, with
+  \begin{align*}
+    \int_a^b (f+g) &= \int_a^b f + \int_a^b g, \\
+    \int_a^b \lambda f &= \lambda \int_a^b f.
+  \end{align*}
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$.  We use $M_i(f)$ and $m_i(f)$ to denote the supremum and the infimum of $f$ in the $i^{\text{th}}$ subinterval determined by $\mathcal{P}$, respectively.
+  It is clear that
+  \[
+    M_i(f+g) \leqslant M_i(f) + M_i(g) \quad
+    \text{and} \quad
+    m_i(f+g) \geqslant m_i(f) + m_i(g)
+  \]
+  for any $i = 1, 2, \dots, n$.  Hence $U(f+g, \mathcal{P}) \leqslant U(f,\mathcal{P}) + U(g,\mathcal{P})$ and $L(f+g,\mathcal{P}) \geqslant L(f,\mathcal{P}) + L(g,\mathcal{P})$.
+  
+  Let us concentrate on the inequalities $U(f+g, \mathcal{P}) \leqslant U(f,\mathcal{P}) + U(g,\mathcal{P})$ now.
+  Then $(U)\int_a^b (f+g) \leqslant U(f,\mathcal{P}) + U(g,\mathcal{P})$.
+  For any $\varepsilon > 0$, there is a partition $\mathcal{P}_0$ for $[a,b]$ such that $U(f,\mathcal{P}_0) < (U)\int_a^b f + \frac{\varepsilon}{2}$ and $U(g,\mathcal{P}_0) < (U)\int_a^b g + \frac{\varepsilon}{2}$. Hence
+  \[
+    (U) \int_a^b (f + g) \leqslant U(f, \mathcal{P}_0) + U(g, \mathcal{P}_0) < (U) \int_a^b f + (U) \int_a^b g + \varepsilon.
+  \]
+  Since this holds for any $\varepsilon > 0$, we conclude that 
+  \[
+    (U) \int_a^b (f+g) \leqslant (U)\int_a^b f + (U)\int_a^b g
+  \]
+  by the $\varepsilon$-principle.
+  An analogous inequality holds for the lower integrals.
+  So we have
+  \begin{equation}
+    \label{eq:sum-integral}
+  (L) \int_a^b f + (L) \int_a^b g \leqslant (L) \int_a^b (f+g) \leqslant 
+(U) \int_a^b (f+g) \leqslant (U) \int_a^b f + (U) \int_a^b g.
+  \end{equation}
+  When both $f$ and $g$ are integrable over $[a,b]$, 
+  the two ends of (\ref{eq:sum-integral}) meet.  
+  Therefore all of the inequalities in (\ref{eq:sum-integral}) become equalities, which mean that $f+g$ is integrable over $[a,b]$ and $\int_a^b (f+g) = \int_a^b f + \int_a^b g$.
+
+  We still use the same partition $\mathcal{P}$ as above.
+  For $\lambda \geqslant 0$, we have
+  \[
+    M_i(\lambda f) = \lambda \cdot M_i(f) \quad
+    \text{and} \quad
+    m_i(\lambda f) = \lambda \cdot m_i(f);
+  \]
+  while for $\lambda < 0$,
+  \[
+    M_i(\lambda f) = \lambda \cdot m_i(f) \quad
+    \text{and} \quad
+    m_i(\lambda f) = \lambda \cdot M_i(f).
+  \]
+  It is then straightforward to conclude that in both cases $\lambda f$ is also integrable over $[a,b]$ with $\int_a^b \lambda f = \lambda \int_a^b f$.
+\end{proof}
+
+\begin{thm}
+  Let $f : [a,b] \to \mathbb{R}$ be a bounded function.
+  If $f$ is integrable over $[a,b]$, then $f$ is integrable over any closed subinterval $[c,d] \subseteq [a,b]$.
+  Indeed, for any $c \in (a,b)$, we have
+  \begin{equation}
+    \label{eq:sum-interval}
+    \int_a^c f + \int_c^b f = \int_a^b f.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  Let $\varepsilon > 0$ be given.
+  Since $f$ is integrable over $[a,b]$, there is a partition $\mathcal{P}$ for $[a,b]$ such that
+  \[
+    U(f,\mathcal{P}) - L(f,\mathcal{P}) < \varepsilon.
+  \]
+  Let $\mathcal{P}' = \mathcal{P} \cup \{c, d\}$.  Then
+  \[
+    U(f,\mathcal{P}') - L(f,\mathcal{P}') < \varepsilon
+  \]
+  as well.  Now define $\mathcal{P}_{[c,d]} := \mathcal{P}' \cap [c,d]$, i.e., taking those division points that lie in $[c,d]$.
+  It is clear that
+  \[
+    U(f,\mathcal{P}_{[c,d]}) - L(f,\mathcal{P}_{[c,d]}) \leqslant U(f,\mathcal{P}') - L(f,\mathcal{P}') < \varepsilon.
+  \]
+  Since $\varepsilon$ is arbitrary, we conclude that $f$ is integrable over $[a,b]$ by Riemann's integrability criterion.
+
+  To prove (\ref{eq:sum-interval}), we start with a partition $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$.  Let $\mathcal{Q} = \mathcal{P} \cup \{c\}$, and further define $\mathcal{Q}_{[a,c]} = \mathcal{Q} \cap [a,c]$ and $\mathcal{Q}_{[c,b]} = \mathcal{Q} \cap [c,b]$.
+  Then we have
+  \[
+    U(f,\mathcal{Q}_{[a,c]}) + U(f,\mathcal{Q}_{[c,b]}) = U(f,\mathcal{Q}) \leqslant U(f,\mathcal{P}).
+  \]
+  Since the upper integral is the infimum for upper sums, we have
+  \[
+    (U) \int_a^c f + (U) \int_c^b f \leqslant U(f, \mathcal{P}).
+  \]
+  Since this is true for any partition $\mathcal{P}$ for $[a,b]$, we conclude that
+  \[
+    (U) \int_a^c f + (U) \int_c^b f \leqslant (U) \int_a^b f.
+  \]
+  Likewise, we have
+  \[
+    (L) \int_a^c f + (L) \int_c^b f \geqslant (L) \int_a^b f.
+  \]
+  
+  When $f \in \mathcal{R}([a,b])$, the upper and lower integrals of $f$ over $[a,b]$ are the same.  Therefore (\ref{eq:sum-interval}) holds.
+\end{proof}
+
+Originally the identity (\ref{eq:sum-interval}) holds only for $a < c < b$ and $f \in \mathcal{R}([a,b])$. However, if we define
+\[
+\int_a^a f = 0 \qquad \text{and} \qquad \int_b^a f = - \int_a^b f
+\]
+for any integrable function $f$, the (\ref{eq:sum-interval}) holds regardless how $a,b,c$ are ordered, that is,
+\[
+  \tag{\ref{eq:sum-interval}}
+    \int_a^c f + \int_c^b f = \int_a^b f
+\]
+for any integral function $f$ and real numbers $a,b$, and $c$.
+
+The following comparison theorem is clear and we omit its proof.
+\begin{thm}[Comparison theorem for integrals]
+  Let $f, g$ be bounded functions on $[a,b]$.  If $f(x) \leqslant g(x)$ for each $x \in [a,b]$, then
+  \[
+    (L) \int_a^b f \leqslant (L) \int_a^b g \qquad \text{and} \qquad
+    (U) \int_a^b f \leqslant (U) \int_a^b g.
+  \]
+  In particular, if $f \in \mathcal{R}([a,b])$ and $m \leqslant f(x) \leqslant M$ for each $x \in [a,b]$, then
+  \[
+    m(b-a) \leqslant \int_a^b f \leqslant M(b-a).
+  \]
+\end{thm}
+
+\begin{thm}
+  \label{thm:abs-integrable}
+  If $f \in \mathcal{R}([a,b])$, so does $|f|$.
+  Moreover, we have
+  \[
+    \left| \int_a^b f \right| \leqslant \int_a^b |f|.
+  \]
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$.  Then
+  \[
+    M_i(|f|) - m_i(|f|) \leqslant M_i(f) - m_i(f)
+  \]
+  for each $i = 1, 2, \dots, n$ by considering the signs of $f$ in each subinterval.  This implies that
+  \[
+    U(|f|,\mathcal{P}) - L(|f|,\mathcal{P}) \leqslant U(f,\mathcal{P}) - L(f,\mathcal{P}).
+  \]
+  Therefore $|f|$ is integrable over $[a,b]$ whenever $f$ is.
+
+  Since $-|f| \leqslant f \leqslant |f|$ and they are all integrable, hence by the comparison theorem we see that
+  \begin{equation}
+    \label{eq:int-abs}
+    - \int_a^b |f| \leqslant \int_a^b f \leqslant \int_a^b |f|.
+  \end{equation}
+  Because the outer terms in (\ref{eq:int-abs}) are opposite to each other, we obtain
+  \[
+    \left| \int_a^b f \right| \leqslant \int_a^b |f|.
+  \]
+\end{proof}
+
+\begin{thm}
+  Let $f$ and $g$ be two integrable functions over $[a,b]$.
+  \begin{enumerate}[(i)]
+    \item The square $f^2$ is integrable over $[a,b]$.
+
+    \item The product $fg$ is integrable over $[a,b]$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item Since it is assumed that $f \in \mathcal{R}([a,b])$, it is also bounded on $[a,b]$.  Say $|f| \leqslant M$ for some $M > 0$ on $[a,b]$.
+    Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$. 
+    For any $x,y \in I_i$, we have
+    \[
+      |(f(x))^2 - (f(y))^2| = \bigl| |f(x)|^2 - |f(y)|^2 \bigr| = (|f(x)|+|f(y)|) \bigl||f(x)|-|f(y)|\bigr| \leqslant 2M \bigl| |f(x)| - |f(y)|\bigr|.
+    \]
+    Hence
+    \[
+      M_i(f^2) - m_i(f^2) = M_i(|f|^2) - m_i(|f|^2) \leqslant 2 M ( M_i(|f|) - m_i(|f|) ).
+    \]
+    Summing over all $i$, we obtain
+    \[
+      U(f^2,\mathcal{P}) - L(f^2,\mathcal{P}) \leqslant 2M (U(|f|,\mathcal{P}) - L(|f|,\mathcal{P})).
+    \]
+    Since $\mathcal{P}$ is arbitrary, by Theorem~\ref{thm:abs-integrable}, $|f|$ is integrable over $[a,b]$, we conclude that $f^2$ is also integrable over $[a,b]$.
+
+  \item This statement follows immediately from the identity
+    \[
+      fg = \frac{1}{4} \left( (f+g)^2 - (f-g)^2 \right),
+    \]
+    Theorem~\ref{thm:int-linearity} and (i).
+\end{enumerate}
+\end{proof}
+
+\begin{thm}[Mean value theorem for integrals]
+  Suppose that $f$ and $g$ are integrable over $[a,b]$ with $g \geqslant 0$.
+  Set
+  \[
+    m = \inf \{ f(x) \colon x \in [a,b] \} \quad \text{and} \quad M = \sup \{ f(x) \colon x \in [a,b] \}.
+  \]
+  Then there is a number $c \in [m, M]$ such that
+  \[
+    \int_a^b f g = c \int_a^b g.
+  \]
+  Furthermore, if $f$ is continuous on $[a,b]$, then there exists a point $x_0 \in [a,b]$ such that
+  \[
+    \int_a^b f g = f(x_0) \int_a^b g.
+  \]
+\end{thm}
+
+\begin{proof}
+  By Theorem~5~(ii) we know that $fg$ is integrable over $[a,b]$.
+  Since $g \geqslant 0$, by the comparison theorem we have
+  \[
+    m \int_a^b g \leqslant \int_a^b fg \leqslant M \int_a^b g. 
+  \]
+  If $\int_a^b g = 0$, then $c$ can be any number from $[m,M]$.
+  Otherwise, set
+  \[
+    c = \frac{ \int_a^b fg }{\int_a^b g } \in [m,M].
+  \]
+
+  If $f$ is continuous on $[a,b]$, then there is a point $x_0 \in [a,b]$ such that $f(x_0) = c$ by the intermediate value theorem.
+\end{proof}
+
+\section{Riemann sums}
+\label{sec:Riemann-sum}
+
+Now we turn to another approach to definite integrals.
+Let $f : [a,b] \to \mathbb{R}$ be a function (not necessarily bounded), and $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$.
+From each subinterval $I_i = [ x_{i-1}, x_i ]$ a \textit{sample point} $t_i \in [x_{i-1},x_i]$ is chosen; the collection of these sample points will be denoted by $\mathcal{T} = \{ t_1, t_2, \dots, t_n \}$.
+Then the \textsf{Riemann sum} corresponding to $f, \mathcal{P}$, and $\mathcal{T}$ is defined by
+\begin{equation*}
+  R(f,\mathcal{P},\mathcal{T}) := \sum_{i=1}^n f(t_i) \Delta x_i = f(t_1) \Delta x_1 + \cdots + f(t_n) \Delta x_n.
+\end{equation*}
+
+It is clear that when $f$ is bounded on $[a,b]$, we have
+\begin{equation}
+  \label{eq:dar-rie-dar}
+  L(f,\mathcal{P}) \leqslant R(f,\mathcal{P},\mathcal{T}) \leqslant U(f,\mathcal{P}),
+\end{equation}
+since $m_i \leqslant f(t_i) \leqslant M_i$ and $\Delta x_i > 0$ for all $i$.
+Now we give the definition when the Riemann sum converges.
+
+\begin{defn}
+  A real number $I$ is the \textsf{Riemann integral} of $f$ over $[a,b]$ if for any $\varepsilon > 0$ there is a partition $\mathcal{P}_0$ for $[a,b]$ such that
+  \[
+    | R(f,\mathcal{P},\mathcal{T}) - I | < \varepsilon
+  \]
+  for any partition $\mathcal{P}$ for $[a,b]$ that is \textit{finer} than $\mathcal{P}_0$ and any collection $\mathcal{T}$ of sample points chosen from (subintervals determined by) $\mathcal{P}$.
+
+  If such an $I$ exists it is unique, we denote it as
+  \[
+    I = \lim_{\|\Delta\mathcal{P}\| \to 0} R(f,\mathcal{P},\mathcal{T}) = \lim_{\| \Delta\mathcal{P} \| \to 0} \sum_{i=1}^n f(t_i) \Delta x_i,
+  \]
+  and we say that $f$ is \textsf{Riemann integrable} over $[a,b]$.
+\end{defn}
+
+Wait\dots, we have two definitions for Riemann integrability, one from Riemann and another from Darboux.
+In fact they are equivalent, as the following theorem shows.
+
+\begin{thm}
+  Let $f: [a,b] \to \mathbb{R}$ be a real-valued function.  Then $f$ is Darboux integrable over $[a,b]$ if and only if $f$ is Riemann integrable over $[a,b]$.  Moreover, the Riemann integral coincides with the Darboux integral in the sense that
+  \[
+    \int_a^b f = I = \lim_{\| \Delta\mathcal{P} \| \to 0} R(f,\mathcal{P},\mathcal{T}).
+  \]
+\end{thm}
+
+\begin{proof}
+  ($\Longrightarrow$) Suppose that $f$ is Darboux integrable over $[a,b]$.
+  For any $\varepsilon > 0$ there is a partition $\mathcal{P}_0$ for $[a,b]$ such that
+  \[
+    U(f,\mathcal{P}_0) - L(f,\mathcal{P}_0) < \varepsilon.
+  \]
+  Then for any collection $\mathcal{T}$ of sample points chosen from any partition $\mathcal{P}$ for $[a,b]$ that is finer than $\mathcal{P}$, we have by (1)
+  \[
+    R(f,\mathcal{P},\mathcal{T}), \int_a^b f \in [ L(f,\mathcal{P}), U(f,\mathcal{P}) ] \subseteq [ L(f,\mathcal{P}_0), U(f,\mathcal{P}_0)].
+  \]
+  Therefore $|R(f,\mathcal{P},\mathcal{T}) - \int_a^b f| \leqslant U(f,\mathcal{P}_0) - L(f,\mathcal{P}_0) < \varepsilon$.
+  Since $\varepsilon$ is arbitrary, we have shown that $f$ is Riemann integrable over $[a,b]$, and $\int_a^b f$ indeed is the Riemann integral of $f$ over $[a,b]$.
+
+  ($\Longleftarrow$) Conversely, suppose that $f$ is Riemann integrable over $[a,b]$.
+  Firstly we note that $f$ has to be bounded on $[a,b]$.
+  Let $I$ be the Riemann integral of $f$ over $[a,b]$.
+  Take $\varepsilon = 1$ and let $\mathcal{P}_0$ be a partititon for $[a,b]$ such that $|R(f,\mathcal{P},\mathcal{T}) - I| < 1$ for any paritition $\mathcal{P}$ for $[a,b]$ that is finer than $\mathcal{P}_0$.
+  If $f$ is not bounded on $[a,b]$, there is a subinterval $I_i$ determined by $\mathcal{P}_0$ such that $f$ is not bounded on $I_i$.  Then there are two points $t_i, t'_i \in I_i$ such that
+  \[
+    | f(t_i) \Delta x_i - f(t'_i) \Delta x_i | > 2.
+  \]
+  Let $\mathcal{T}$ be a collection of sample points from $\mathcal{P}_0$ that contains $t_i$ and $\mathcal{T}' = (\mathcal{T} \setminus \{ t_i \}) \cup \{ t'_i \}$.  Then
+  \begin{align*}
+    2 = 1 + 1 &> |R(f,\mathcal{P}_0,\mathcal{T}) - I| + |R(f,\mathcal{P}_0,\mathcal{T}') - I| \\
+    &\geqslant |R(f,\mathcal{P}_0,\mathcal{T}) - R(f,\mathcal{P}_0,\mathcal{T}')| \\
+    &= | f(t_i) \Delta x_i - f(t'_i) \Delta x_i | > 2,
+  \end{align*}
+  a contradiction!  Hence $f$ is bounded on $[a,b]$.
+
+  To continue to show that $f$ is Darboux integrable over $[a,b]$, for any $\varepsilon > 0$ we fix a partition $\mathcal{P}$ for $[a,b]$ such that
+  \[
+    | R(f,\mathcal{P},\mathcal{T}) - I | < \frac{\varepsilon}{3}
+  \]
+  for any collection $\mathcal{T}$ of sample points from $\mathcal{P}$.
+  Using the approximation property for supremum and infimum, we can choose sample points $t_i$ and $t'_i$ from each subinterval $I_i$ determied by $\mathcal{P}$ such that
+  \[
+    f(t_i) - f(t'_i) > M_i - m_i - \frac{\varepsilon}{3 (b-a)}.
+  \]
+  Therefore, if we denote $\mathcal{T} = \{ t_1, \dots, t_n \}$ and $\mathcal{T}' = \{ t'_1, \dots, t'_n \}$, we get
+  \begin{align*}
+    U(f,\mathcal{P}) - L(f,\mathcal{P}) &= \sum_{i=1}^n (M_i - m_i) \Delta x_i \\
+    &< \sum_{i=1}^n \left( f(t_i) - f(t'_i) + \frac{\varepsilon}{3(b-a)} \right) \Delta x_i \\
+    &= R(f,\mathcal{P},\mathcal{T}) - R(f,\mathcal{P},\mathcal{T}') + \frac{\varepsilon}{3(b-a)} \sum_{i=1}^n \Delta x_i \\
+    &\leqslant | R(f,\mathcal{P},\mathcal{T}) - I | + | I - R(f,\mathcal{P},\mathcal{T}') | + \frac{\varepsilon}{3(b-a)} (b-a) \\ &< \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon.
+  \end{align*}
+  Since $\varepsilon$ is arbitrary, we have shown that $f$ is Darboux integrable over $[a,b]$.
+\end{proof}
+
+\section{Change of variable}
+\label{sec:change-of-variable}
+
+From now on Riemann integrability can be used exchangably with Darboux integrability.
+We also note here that the approach from sample points and Riemann sums is more widely used in freshman calculus.
+
+\begin{thm}[Change of variable]
+  Let $\alpha$ be a differentiable, strictly increasing function on $[a,b]$ such that $\alpha' \in \mathcal{R}([a,b])$.  Let $c = \alpha(a)$ and $d = \alpha(b)$, and $f$ be an integrable function on $[c,d]$.
+  Then
+  \[
+    \int_c^d f(u) \, \dd u = \int_a^b f(\alpha(x)) \alpha'(x) \, \dd x.
+  \]
+\end{thm}
+
+\begin{proof}
+  We note first that $\alpha$ is a bijection from $[a,b]$ onto $[c,d]$.
+  Moreover, if $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ is a partition for $[a,b]$, then $\mathcal{Q} = \{ c = y_0 < \cdots < y_n = d \}$ is a partition for $[c,d]$ and vice versa, where $y_i = \alpha(x_i)$ for each $i$.
+  Also if $\mathcal{T} = \{ t_1, \dots, t_n \}$ is a collection of sample points from $\mathcal{P}$, then $\mathcal{U} = \{ u_1, \dots, u_n \}$ is a collection of sample points from $\mathcal{Q} = \alpha(\mathcal{P})$, where $u_i = \alpha(t_i)$ for each $i$.
+
+  Suppose that $|f| \leqslant M$ for some $M > 0$.  Since $\alpha' \in \mathcal{R}([a,b])$, for any given $\varepsilon > 0$ there is partition $\mathcal{P}_0$ for $[a,b]$ such that for any $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ for $[a,b]$ that is finer than $\mathcal{P}_0$ and any two collection of sample points $\mathcal{S}$ and $\mathcal{T}$ from $\mathcal{P}$ we have
+  \[
+    \sum_{i=1}^n |\alpha'(s_i) - \alpha'(t_i)| \Delta x_i < \frac{\varepsilon}{2M}.
+  \]
+
+  Let $\mathcal{P}, \mathcal{Q}, \mathcal{T}, \mathcal{U}$ be as above.
+  Then we have the following Riemann sum
+  \[
+    R(f,\mathcal{Q},\mathcal{U}) = \sum_{i=1}^n f(u_i) \Delta y_i = \sum_{i=1}^n f(u_i) \alpha'(s_i) \Delta x_i
+  \]
+  for some points $s_i \in [x_{i-1},x_i]$, by the mean value theorem.
+  On the other hand
+  \[
+    R( (f \circ \alpha) \cdot \alpha', \mathcal{P}, \mathcal{T}) = 
+    \sum_{i=1}^n f(\alpha(t_i)) \alpha'(t_i) \Delta x_i = \sum_{i=1}^n f(u_i) \alpha'(t_i) \Delta x_i.
+  \]
+  Hence
+  \[
+    | R(f,\mathcal{Q},\mathcal{U}) - R( (f\circ\alpha)\cdot \alpha', \mathcal{P}, \mathcal{T}) | \leqslant \sum_{i=1}^n |f(u_i)| \, |\alpha'(s_i) - \alpha'(t_i)| \Delta x_i < M \cdot \frac{\varepsilon}{2M} = \frac{\varepsilon}{2}.
+  \]
+
+  Since $f$ is integrable over $[c,d]$, there is a partition $\mathcal{Q}_1$ for $[c,d]$ (which can be chosen finer than $\mathcal{Q}_0 = f(\mathcal{P}_0)$) such that
+  \[
+    | R( f, \mathcal{Q}, \mathcal{U} ) - \int_c^d f | < \frac{\varepsilon}{2}
+  \]
+  for any partition $\mathcal{Q}$ finer than $\mathcal{Q}_1$ and any collection $\mathcal{U}$ of sample points from $\mathcal{Q}$.  Therefore for any partition $\mathcal{P}$ for $[a,b]$ that is finer than $\mathcal{P}_1 = \alpha^{-1}(\mathcal{Q}_1)$ and any collection $\mathcal{T}$ of sample points from $\mathcal{P}$, we have
+  \begin{align*}
+    &| R( (f\circ \alpha) \cdot \alpha', \mathcal{P}, \mathcal{T} ) - \int_c^d f | \\
+    \leqslant \,\, &| R( (f\circ \alpha) \cdot \alpha', \mathcal{P}, \mathcal{T}) - R( f, \mathcal{Q}, \mathcal{U}) | + | R(f,\mathcal{Q},\mathcal{U}) - \int_c^d f| \\ < \,\, &\frac{\varepsilon}{2} + \frac{\varepsilon}{2} =  \varepsilon.
+  \end{align*}
+  Since $\varepsilon$ is arbitrary, we conclude that $(f \circ \alpha) \cdot \alpha'$ is integrable over $[a,b]$ and
+  \[
+    \int_c^d f(u) \, \dd u = \int_a^b f(\alpha(x)) \alpha'(x) \, \dd x.
+  \]
+\end{proof}
+
+\section{Fundamental theorem of calculus}
+\label{sec:FTC}
+
+It is impractical to compute definite integrals from Riemann/upper/lower sums every time.
+So some computational techniques for integrals are called for.
+Fortunately the fundamental theorem of calculus tells us that definite integrals can be evaluated from antiderivatives.
+We start with the notion of indefinite integral.
+
+\begin{defn}
+  Let $f : [a,b] \to \mathbb{R}$ be an integrable function over $[a,b]$.
+  For any $x \in [a,b]$, define
+  \[
+    F(x) = \int_a^x f.
+  \]
+  Then the function $F : [a,b] \to \mathbb{R}$ is called an \textsf{indefinite integral} of $f$.
+\end{defn}
+
+Unlike in the freshman calculus, an indefinite integral may not be differentiable.
+But we can precisely tell when it is differentiable, as the following theorem says.
+
+\begin{thm}[Fundamental theorem of calculus, part one]
+  \label{thm:FTC-1}
+  Let $f : [a,b] \to \mathbb{R}$ be a Riemann integrable function over $[a,b]$, and define
+  \[
+    F(x) = \int_a^x f, \qquad x \in [a,b],
+  \]
+  to be an indefinite integral of $f$.  Then $F$ is a continuous function on $[a,b]$.
+
+  Furthermore, if $f$ is continuous at $x_0 \in [a,b]$, then $F$ is differentiable at $x_0 \in [a,b]$, with derivative $F'(x_0) = f(x_0)$.
+\end{thm}
+
+\begin{proof}
+  Let us prove the continuity of $F$ first.
+  Since $f$ is integrable over $[a,b]$, $f$ is bounded, say $|f| \leqslant M$ for some $M > 0$.
+  Then for any $x,t \in [a,b]$, we have
+  \[
+    | F(t) - F(x) | = \left| \int_a^t f - \int_a^x f \right| = \left| \int_x^t f \right| \leqslant \left| \int_x^t M \right| = M |t-x|.
+  \]
+  Hence $F$ is (Lipschitz) continuous on $[a,b]$ (with Lipschitz constant $M$).
+
+  Now suppose that $f$ is continuous at $x_0 \in [a,b]$.
+  For any $\varepsilon > 0$, there is a $\delta > 0$ such that whenever $t \in [a,b]$ and $|t-x_0| < \delta$, we have $|f(t) - f(x_0)| < \varepsilon$. Then for any $t \in [a,b]$,
+  \begin{align*}
+    F(t) - F(x_0) - f(x_0) (t-x_0) &= \int_{x_0}^t f(u) \, \dd u - \int_{x_0}^t f(x_0) \, \dd u \\
+    &= \int_{x_0}^t ( f(u) - f(x_0) ) \, \dd u.
+  \end{align*}
+  Therefore whenever $0 < |t-x_0| < \delta$,
+  \begin{align*}
+    \left| \frac{ F(t) - F(x_0) }{ t - x_0 } - f(x_0) \right| &\leqslant \frac{1}{|t-x_0|} \left| \int_{x_0}^t |f(u) - f(x_0)| \, \dd u \right| \\
+    &\leqslant \frac{1}{|t-x_0|} \cdot \varepsilon \cdot |t-x_0| = \varepsilon.
+  \end{align*}
+  Since $\varepsilon$ is arbitrary, we conclude that
+  \[
+    \lim_{t \to x_0} \frac{ F(t) - F(x_0) }{ t - x_0 } = f(x_0),
+  \]
+  that is, $F$ is differentiable at $x_0 \in [a,b]$ with $F'(x_0) = f(x_0)$.
+\end{proof}
+
+\noindent\textit{Remark.} If $f$ is integrable over $[a,b]$ but not continuous at $x_0 \in [a,b]$, then an indefinite integral $F$ of $f$ may not be differentiable at $x_0$.
+For example, consider $f: [0,2] \to \mathbb{R}$ defined as
+\[
+  f(x) = 
+  \begin{cases}
+    0, & \text{ if $x \in [0,1]$}; \\
+    1, & \text{ if $x \in (1,2]$}.
+  \end{cases}
+\]
+Then an indefinite integral $F(x) = \int_0^x f$ of $f$ over $[0,2]$ is given by
+\[
+  F(x) = 
+  \begin{cases}
+    0, & \text{ if $x \in [0,1]$}; \\
+    x-1, & \text{ if $x \in (1,2]$}.
+  \end{cases}
+\]
+It is clear that this $F$ is not differentiable at $1$.
+
+\medskip
+Another part of the fundamental theorem of calculus concerns the procedure of differentiation followed by integration.
+We state this procedure as in the next theorem.
+
+\begin{thm}[Fundamental theorem of calculus, part two]
+  \label{thm:FTC-2}
+  Let $f$ be a differentiable real function on $[a,b]$ whose derivative $f'$ is integrable over $[a,b]$.
+  Then
+  \[
+    \int_a^b f' = f(b) - f(a).
+  \]
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal{P} = \{ a = x_0 < \cdots < x_n = b \}$ be a partition for $[a,b]$.
+  By the mean value theorem, in each subinterval $I_i$ determined by $\mathcal{P}$ there is a point $t_i$ such that
+  \[
+    f(x_i) - f(x_{i-1}) = f'(t_i) \Delta x_i.
+  \]
+  Let $\mathcal{T} = \{ t_1, \dots, t_n \}$ be the collection of these sample points from $\mathcal{P}$.
+  Then the Riemann sum obtained from $f, \mathcal{P}$, and $\mathcal{T}$ is
+  \begin{align*}
+    R(f', \mathcal{P}, \mathcal{T}) &= \sum_{i=1}^n f'(t_i) \Delta x_i \\
+    &= \sum_{i=1}^n \left( f(x_i) - f(x_{i-1}) \right) \\
+    &= f(x_n) - f(x_0) = f(b) - f(a).
+  \end{align*}
+  That is, the value $f(b) - f(a)$ appears as a Riemann sum in {\em every} partition for $[a,b]$.
+  Since $f'$ is integrable over $[a,b]$, $f(b) - f(a)$ must be the Riemann integral $\int_a^b f$ by uniqueness.
+\end{proof}
+
+Let $f$ be a real function on an interval.  An \textsf{antiderivative} of $f$ is a differentiable function $F$ on $I$ whose derivative is $f$, i.e., $F' = f$.
+Theorem~\ref{thm:FTC-2} is the reason why we look for an antiderivative of the integrand when evaluating a definite integral; in this way no limiting process is needed.
+On the other hand, it might not be possible to write down such an antiderivative, even for a simple-looking function such as $\sqrt{x^3 + x + 1}$.
+
+Let us use the fundamental theorem of calculus to prove two useful tools in integration.
+The first application is the formula of integration by parts, whose proof is straightforward after the hypothesis is met.
+
+\begin{thm}[Integration by parts]
+  Let $f$ and $g$ be two differentiable functions on $[a,b]$ such that both $f'$ and $g'$ are integrable on $[a,b]$.  Then
+  \begin{equation}
+    \label{eq:by-parts}
+    \int_a^b f'g + \int_a^b fg' = f(b) g(b) - f(a) g(a).
+  \end{equation}
+\end{thm}
+
+\noindent\textit{Remark.} Equation~(\ref{eq:by-parts}) is usually written as
+\[
+  \int_a^b f g' = f(b)g(b) - f(a)g(a) - \int_a^b f' g.
+\]
+
+\begin{proof}
+  Let $h = f \cdot g$. $h$ is differentiable because it is a product of two differentiable functions.
+  And $h' = f'g + fg'$ is integrable over $[a,b]$ since all of $f, f', g, g'$ are integrable.
+  Hence (\ref{eq:by-parts}) follows from Theorem~\ref{thm:FTC-2}:
+  \[
+    \int_a^b (f'g + fg') = \int_a^b h' 
+    = h(b) - h(a) 
+    = f(b) g(b) - f(a) g(a).
+  \]
+\end{proof}
+
+The second application is the formula for change of variable.
+We have proven a general case when the integrand is only assumed to be integrable.
+However, when the integrand is continuous, there is an easier proof using the fundamental theorem of calculus.
+
+\begin{thm}[Change of variable, continuous case]
+  If $\alpha$ is continuously differentiable on $[a,b]$, and $f$ is continuous on $\alpha([a,b])$, then
+  \begin{equation}
+    \label{eq:change-of-variable}
+    \int_{\alpha(a)}^{\alpha(b)} f = \int_a^b f(\alpha(x)) \alpha'(x) \, \dd x.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  Define the following indefinite integrals:
+  \begin{align*}
+    F(y) &= \int_{\alpha(a)}^y f, & & y \in \alpha([a,b]); \\
+    G(x) &= \int_a^x f(\alpha(t)) \alpha'(t) \, \dd t, & & x \in [a,b].
+  \end{align*}
+
+  It follows from Theorem~\ref{thm:FTC-1} that for $x \in [a,b]$,
+  \begin{align*}
+    \frac{\dd}{\dd x} F(\alpha(x)) &= F'(\alpha(x)) \alpha'(x) = f(\alpha(x)) \alpha'(x); \\
+    \frac{\dd}{\dd x} G(x) &= f(\alpha(x)) \alpha'(x).
+  \end{align*}
+  That is,
+  \[
+    \frac{\dd}{\dd x} (F(\alpha(x)) - G(x)) = 0, \qquad x \in [a,b].
+  \]
+  By the mean value theorem, $F(\alpha(x)) - G(x)$ takes a constant value $C$ on $[a,b]$.  By plugging in $x = a$ we see that 
+  \[
+    C = F(\alpha(a)) - G(a) = 0 - 0 = 0.
+  \]
+  Therefore $G(x) = F(\alpha(x))$ for all $x \in [a,b]$, which is Equation~(\ref{eq:change-of-variable}).
+\end{proof}
+
+\noindent\textit{Remark.} Equation~(\ref{eq:change-of-variable}) might take another form: when $I = [a,b]$ and $J = \alpha(I)$, Equation~(\ref{eq:change-of-variable}) may be written as
+\[
+  \int_J f(u) \, \dd u = \int_I f(\alpha(x)) |\alpha'(x)| \, \dd x.
+\]
+The absolute sign for $\alpha'$ takes care of both the cases $\alpha' \geqslant 0$ and $\alpha' \leqslant 0$.
+
+\section{Integral form for Taylor remainder}
+\label{sec:taylor-integral}
+
+Let us briefly review the notion of Taylor polynomials.
+Suppose a function $f : I \to \mathbb{R}$ has derivatives of sufficiently high orders in an open interval $I$.
+Then near a point $a \in I$ $f$ can be approximated by a polynomial in the following form:
+\begin{gather*}
+  f(x) = \sum_{k=0}^r \frac{ f^{(k)}(a) }{ k! } (x - a)^k + R_r(x-a), \\
+  \lim_{x \to a} \frac{ R_r(x-a) }{ (x-a)^r }  = 0.
+\end{gather*}
+That is, the remainder term $R_r(x-a)$ is $r^{\text{th}}$-order flat at $x = a$. 
+The polynomial
+\[
+  P_r(x) = \sum_{k=0}^r \frac{ f^{(k)}(a) }{k!} (x-a)^k = f(a) + f'(a) (x-a) + \cdots + \frac{f^{(r)}(a)}{r!} (x-a)^r
+\]
+is called the $r^{\text{th}}$-order Taylor polynomial of $f$ at $a$.
+We have seen that if $f$ has $(r+1)^{\text{st}}$-order derivative in $I$, then the remainder $R_r(h)$ assumes the {\em Lagrange form}:
+\[
+  R_r(h) = \frac{ f^{(r+1)}(\theta) }{(r+1)!} h^{r+1}
+\]
+for some $\theta$ between $a$ and $a+h$.
+
+With integration by parts, we can prove an integral form for the remainder.
+\begin{thm}
+  Let $f \in \mathcal{C}^{r+1}(I)$ where $I$ is an open interval and $a \in I$.
+  Then the $r^{\text{th}}$-order Taylor remainder of $f$ at $a$ can be written as
+  \begin{equation}
+    \label{eq:remainder-integral}
+    R_r(h) = R_r(x-a) = \frac{1}{r!} \int_a^x (x-t)^{r} f^{(r+1)}(t) \, \dd t.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  The proof is by induction on $r$.
+  For $r = 0$, Equation~(\ref{eq:remainder-integral}) holds by the fundamental theorem of calculus:
+  \[
+    R_0(x-a) = f(x) - f(a) = \int_a^x f'(t) \, \dd t.
+  \]
+  
+  Suppose Equation~(\ref{eq:remainder-integral}) holds for some $r \in \mathbb{N} \cup \{ 0 \}$.  Note that 
+  \begin{equation}
+    \label{eq:rr1}
+    R_r(h) = \frac{ f^{(r+1)}(a) }{ (r+1)! } (x-a)^{r+1} + R_{r+1}(h), \qquad x = a + h.
+  \end{equation}
+  By the formula of integration by parts,
+  \begin{align}
+    R_r(h) &= \frac{1}{r!} \int_a^x (x-t)^r f^{(r+1)}(t) \, \dd t \notag \\
+    &= \frac{-1}{(r+1)!} \int_a^x f^{(r+1)}(t) \, \dd (x-t)^{r+1} \notag \\
+    &= \left. \frac{-f^{(r+1)}(t)}{(r+1)!} (x-t)^{r+1} \right|_a^x + \frac{1}{(r+1)!} \int_a^x (x-t)^{r+1} f^{(r+2)}(t) \, \dd t \notag \\
+      &= \frac{ f^{(r+1)}(a) }{(r+1)!} (x-a)^{r+1} + \frac{1}{(r+1)!} \int_a^x (x-t)^{r+1} f^{(r+2)}(t) \, \dd t. \label{eq:rr2}
+  \end{align}
+  Comparison between (\ref{eq:rr1}) and (\ref{eq:rr2}) yields
+  \[
+    R_{r+1}(h) = \frac{1}{(r+1)!} \int_a^x (x-t)^{r+1} f^{(r+2)}(t) \, \dd t,
+  \]
+  that is, the formula holds for $r+1$ as well.
+  Hence the proof is completed by mathematical induction.
+\end{proof}
+
+The integral form of the $r^{\text{th}}$-order remainder of the Taylor polynomial can also be used to give error estimate if we have bounds on $|f^{(r+1)}|$.
+Working examples can be found somewhere else for interested readers.

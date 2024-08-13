@@ -1,0 +1,102 @@
+\section{The Completeness Axioms}
+\label{sec:complete-axioms}
+
+The playground for analysis is the real number system.
+The real number system is an ordered field that contains the rational number system as a subfield.
+The main difference between these two fields are the so-called {\em completeness axiom}.
+Indeed, there are four properties that are often refered as the axiom.  They are:
+
+\begin{property}[Least upper bound property]
+  Let $E$ be a nonempty subset of $\mathbb{R}$ which is bounded above.
+  Then the supremum $\sup E$ for $E$ exists in $\mathbb{R}$.
+\end{property}
+
+\begin{property}[Monotone convergence property]
+  Let $\langle a_n \rangle$ be an increasing real sequence which is bounded above.
+  Then $\langle a_n \rangle$ converges in $\mathbb{R}$.
+\end{property}
+
+\begin{property}[Nested interval property]
+  Let $\langle I_n \rangle$ be a nested sequence of nondegenerate bounded closed intervals in $\mathbb{R}$, that is, they are closed intervals such that $I_1 \supseteq I_2 \supseteq I_3 \supseteq \cdots$.  Then their intersection $\cap_n I_n$ is nonempty in $\mathbb{R}$.
+\end{property}
+
+\begin{property}[Convergence of Cauchy sequences]
+  Any Cauchy sequence of real numbers converges in $\mathbb{R}$.
+\end{property}
+
+These four properties are equivalent in the following sense: if any one is assumed to be true (i.e.\ an axiom), then the other three are valid (i.e.\ theorems).
+So far in our class the implication $(1) \implies (4)$ has been shown, and $(1) \implies (2)$ is assigned as an exercise.
+In this note we are going to fill in the rest so that anyone can be implied by each of the others.
+
+\noindent\textbf{(2) $\implies$ (3)}.
+Write each $I_n = [a_n, b_n]$, where $a_n, b_n \in \mathbb{R}$ with $b_n - a_n > 0$ for any $n \in \mathbb{N}$ since $I_n$ is nondegenerate.
+Since $\langle I_n \rangle$ is a nested sequence, we have
+\[
+  a_1 \leqslant a_2 \leqslant \cdots \leqslant a_n \leqslant \cdots \leqslant b_n \leqslant \cdots \leqslant b_2 \leqslant b_1.
+\]
+From this we see that the sequence $\langle a_n \rangle$ of left endpoints is increasing and bounded above (by $b_1$), while the sequence $\langle b_n \rangle$ of right endpoints is decreasing and bounded below (by $a_1$).
+By the monotone convergence property (2), we deduce that both
+\[
+  \alpha = \lim_{n \to \infty} a_n, \qquad \text{and} \qquad
+  \beta  = \lim_{n \to \infty} b_n
+\]
+exist in $\mathbb{R}$.
+Since $a_n < b_n$ for any $n \in \mathbb{N}$, we have $\alpha \leqslant \beta$ by the limit comparison theorem; in particular $[\alpha, \beta] \ne \varnothing$.
+Since $\alpha \geqslant a_n$ and $\beta \leqslant b_n$ for any $n$, we see that $[\alpha, \beta] \subseteq I_n$ for all $n \in \mathbb{N}$, and this implies that
+\[
+  \varnothing \ne [\alpha, \beta] \subseteq \bigcap_{n=1}^\infty I_n,
+\]
+which is needed to show. \qed
+
+\noindent\textit{Remark.} There is a further implication for the nested interval property: if the length of $I_n$, i.e, $b_n - a_n$, converges to $0$ as $n \to \infty$, then the intersection of all those intervals is a singleton, namely $\{ \alpha \} = \{ \beta \}$.  This fact can easily be seen in the argument above.
+  
+\medskip
+\noindent\textbf{(3) $\implies$ (1)}.
+Suppose we are given a nonempty subset $E$ of $\mathbb{R}$ which is bounded above by $M \in \mathbb{R}$.
+Since $E$ is nonempty, we may pick an element $a_1 \in E$; let $b_1 = M$.
+Clearly $a_1 \leqslant b_1$.
+Now we proceed recursively: suppose $a_n \leqslant b_n$ are given so that $a_n \in E$ and $b_n$ is an upper bound for $E$.
+If $a_n = b_n$ then the process is terminated since this common number is already the maximum of $E$, hence it is the supremum of $E$.
+Otherwise let us consider $c_n = \dfrac{a_n + b_n}{2}$; this $c_n$ is either an upper bound for $E$ or not.
+If $c_n$ is an upper bound for $E$, then we set $a_{n+1} = a_n$ and $b_{n+1} = c_n$; if $c_n$ is not an upper bound for $E$, then we set $b_{n+1} = b_n$, and choose an element $a_{n+1} \in E$ such that $a_{n+1} > c_n$.
+In any case $a_{n+1} \in E$ and $b_{n+1}$ is still an upper bound for $E$, so the induction goes through.
+Moreover it holds that $b_{n+1} - a_{n+1} \leqslant \frac{1}{2} (b_n - a_n)$, hence $b_n - a_n \to 0$ as $n \to \infty$..
+Through this process, when it does not stop after a finite number of steps, a nested sequence $\langle I_n = [a_n, b_n] \rangle$ of bounded closed intervals has been constructed.
+By the nested interval property, there is exactly one point $\alpha \in \mathbb{R}$ that belongs to each of the intervals $I_n = [a_n, b_n]$.
+We hereby claim that $\alpha = \sup E$.
+
+As $\alpha$ is the limit of a sequence $\langle b_n \rangle$ of upper bounds for $E$, $\alpha$ itself is also an upper bound for $E$: if not, then there is a number $x \in E$ with $x > \alpha$; take $\varepsilon = x - \alpha > 0$, and there is an $N \in \mathbb{N}$ such that $b_n < \alpha + \varepsilon = x$ for any $n \geqslant N$, contradicting to the construction that $b_n$ is an upper bound for $E$.
+On the other hand, if $t < \alpha$, then we consider $\varepsilon = \alpha - t > 0$.  As $a_n \to \alpha$ as $n \to \infty$, there is an $N' \in \mathbb{N}$ such that $a_n > \alpha - \varepsilon = t$ for any $n \geqslant N'$. 
+This means that $t$ is not an upper bound for $E$, because $a_n \in E$ by construction.
+Since we have shown that any number $t$ smaller than $\alpha$ cannot be an upper bound for $E$, together we conclude that $\alpha = \sup E$.  \qed
+
+\medskip
+\noindent\textbf{(4) $\implies$ (2)}.
+Suppose $\langle a_n \rangle$ is an increasing sequence that is bounded above.
+We claim that it is a Cauchy sequence.
+
+If $\langle a_n \rangle$ is not a Cauchy sequence, then there is an $\varepsilon > 0$ such that, for any $N \in \mathbb{N}$, there are $m, n \geqslant N$ such that $|a_m - a_n| \geqslant \varepsilon$.
+Let us start with $N = 1$.
+By assumption, there are $m_1 \geqslant n_1 \geqslant 1$ such that $a_{m_1} \geqslant a_{n_1} + \varepsilon \geqslant a_1 + \varepsilon$ (note that we use the assumption that $\langle a_n \rangle$ is increasing).
+For this $m_1$, there are $m_2 \geqslant n_2 \geqslant m_1$ such that $a_{m_2} \geqslant a_{n_2} + \varepsilon \geqslant a_{m_1} + \varepsilon \geqslant a_1 + 2 \varepsilon$.
+Proceed inductively, we see that there is an increasing sequence $\langle m_k \rangle$ of positive integers such that $a_{m_k} \geqslant a_1 + k \varepsilon$ for any $k \in \mathbb{N}$.
+But this contradicts to the hypothesis that $\langle a_n \rangle$ is bounded above, per the Archimedean principle.
+
+Now we have shown that $\langle a_n \rangle$ is a Cauchy sequence, hence by Property~4 it converges in $\mathbb{R}$.  \qed
+
+\medskip
+Now we have come to a full circle that all these four properties are proved equivalent, as the following figure shows.  We hope that a reader can appreciate the importance of these properties, as they establish the essential properties of reals used in analysis.
+
+\begin{center}
+  \begin{tikzpicture}
+    \draw (0,0) node [fill=red!20!white, draw] (l) {Least upper bound property (1)};
+    \draw (8,-4) node [fill=green!50!white, draw] (m) {Monotone convergence property (2)};
+    \draw (8,0) node [fill=blue!20!white, draw] (c) {Convergence of Cauchy sequences (4)};
+    \draw (0,-4) node [fill=yellow, draw] (n) {Nested interval property (3)};
+    \draw [line width=1pt, double distance=2pt, arrows=-Stealth] (l) -- (m);
+    \draw [line width=1pt, double distance=2pt, arrows=-Stealth] (m) -- (n);
+    \draw [line width=1pt, double distance=2pt, arrows=-Stealth] (n) -- (l);
+    \draw [line width=1pt, double distance=2pt, arrows=-Stealth] (l) -- (c);
+    \draw [line width=1pt, double distance=2pt, arrows=-Stealth] (c) -- (m);
+  \end{tikzpicture}
+\end{center}

@@ -1,0 +1,308 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{March 7, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 4: Compactness in $\mathcal{C}^0$}
+\end{center}
+
+In this Topic $\mathcal{C}^0 = \mathcal{C}^0(K)$ denotes the space of continuous real-valued functions over a compact metric space $K$; that is, $\mathcal{C}^0 = \mathcal{C}^0(K, \mathbb{R})$.
+If it feels unfamiliar, $K$ can be a bounded closed interval $[a,b] \subseteq \mathbb{R}$.
+
+The Heine-Borel theorem states that a closed and bounded set in $\mathbb{R}^m$ is compact.
+On the other hand, closed and bounded sets in $\mathcal{C}^0$ are rarely compact.
+Consider, for example, the closed unit ball
+\[
+  \mathcal{B} = \{ f \in \mathcal{C}^0([0,1], \mathbb{R}) \colon \| f \| \leqslant 1 \}.
+\]
+To see that $\mathcal{B}$ is not (sequentially) compact we look again at the sequence $\langle f_n(x) = x^n \rangle$.
+It lies in $\mathcal{B}$.
+Does it have a subsequence that converges (with respect to the metric $d$ of $\mathcal{C}^0$) to a limit in $\mathcal{C}^0$?
+No.  For if $f_{n_k}$ converges to $f$ in $\mathcal{C}^0$ then $f_{n_k} \to f$ pointwise in $[0,1]$ as $k \to \infty$.
+Thus $f(x) = 0$ if $x < 1$ but $f(1) = 1$, but this function $f$ does not belong to $\mathcal{C}^0$.
+The cause of the problem is the fact that $\mathcal{C}^0$ is infinite dimensional.
+In fact it can be shown that if $V$ is a normed vector space then its closed unit ball is compact if and only if $V$ is finite dimensional.
+
+Nevertheless, we want to have theorems that guarantee certain closed and bounded subsets of $\mathcal{C}^0$ are compact.
+For we want to extract a convergent subsequence of functions from a given sequence of functions.
+Below is a definition that leads to sufficiency of such actions.
+
+\begin{defn}
+  A sequence $\langle f_n \rangle$ of $\mathcal{C}^0$ functions is called \textsf{equicontinuous} if for any $\varepsilon > 0$, there is a $\delta > 0$ such that
+  \[
+    |f_n(t) - f_n(s)| < \varepsilon \qquad \text{whenever $|t-s| < \delta$ for all $n \in \mathbb{N}$.}
+  \]
+\end{defn}
+
+  These functions $f_n$ are \textit{equally continuous}, in the sense that for any $\varepsilon > 0$ the same $\delta > 0$ works for all $f_n$, $n \in \mathbb{N}$.
+  Maybe it should be termed \textit{uniformly equicontinuous}, but we stay with the tradition.
+  In contrast to pointwise equicontinuity, which requires that for any $\varepsilon > 0$ and for any $x$, there is a $\delta > 0$ such that
+  \[
+    |f_n(t) - f_n(x)| < \varepsilon \qquad \text{whenever $|t-x| < \delta$ for all $n \in \mathbb{N}$.}
+  \]
+  Note that here $\delta$ may depend on $x$ as well as $\varepsilon$.
+
+The definitions work equally well for sets of functions, not only sequences of functions.
+A set $\mathcal{E} \subseteq \mathcal{C}^0$ is equicontinuous if
+\[
+  (\forall\, \varepsilon > 0)(\exists \delta > 0)(|t - s| < \delta \text{ and } f \in \mathcal{E} \implies |f(t) - f(s)| < \varepsilon).
+\]
+The crucial part is that $\delta$ does not depend on any particular $f \in \mathcal{E}$.
+It is valid for all $f \in \mathcal{E}$ simultaneously.
+
+Before we hit the big theorem, the following definition is needed.
+
+\begin{defn}
+  Let $\langle f_n \rangle$ be a sequence of functions defined on a nonempty set $E$.
+  We say that $\langle f_n \rangle$ is \textsf{pointwise bounded} on $E$ if the sequence $\langle f_n(x) \rangle$ is bounded for each $x \in E$.  To be more precise, for each $x \in E$, there is a positive number $M_x \in \mathbb{R}$ such that 
+  \begin{equation} 
+    \label{eq:pointwise-bdd}
+    | f_n(x) | \leqslant M_x
+  \end{equation}
+  for all $n \in \mathbb{N}$.
+  On the other hand, $\langle f_n \rangle$ is called \textsf{uniformly bounded} on $E$ if there is a positive number $M \in \mathbb{R}$ such that $|f_n(x)| \leqslant M$ for all $x \in E$ and for all $n \in \mathbb{N}$.
+\end{defn}
+
+The notion of uniform boundedness is clear: there is one constant $M$ that works for all $x \in E$.
+Now we can state our main result.
+
+\begin{thm}[Arzel\`a-Ascoli theorem]
+  Let $K$ be a compact metric space, and $\mathcal{C}^0(K)$ denote the metric space of continuous real functions on $K$.
+  Suppose that $\langle f_n \rangle$ is a sequence in $\mathcal{C}^0$ that is pointwise bounded and equicontinuous on $K$. Then $\langle f_n \rangle$ contains a subsequence that converges uniformly on $K$.
+\end{thm}
+
+The proof of the Arzel\`a-Ascoli theorem is split into several steps, each of which has its own interest.  
+But first we start with a property that is stronger than pointwise boundedness in this situation.
+
+\begin{prop}
+  Let $\langle f_n \rangle$ be a sequence in $\mathcal{C}^0(K)$ that is pointwise bounded and equicontinuous on $K$.
+  Then $\langle f_n \rangle$ is uniformly bounded on $K$.
+\end{prop}
+
+\begin{proof}
+  Take $\varepsilon = 1$ in the definition of equicontinuity.
+  There is a $\delta > 0$ such that $|f_n(x) - f_n(y)| < 1$ for all $n \in \mathbb{N}$ whenever $x,y \in K$ and $d(x,y) < \delta$.
+  Since $K$ is compact, there is a finite number of points $x_1, x_2, \dots, x_n \in K$ such that $K \subseteq K_\delta(x_1) \cup \cdots \cup K_\delta(x_n)$.  Let
+  \[
+    M = \max \{ M_{x_i} \colon 1 \leqslant i \leqslant n \},
+  \]
+  where $M_{x_i}$ is taken in (\ref{eq:pointwise-bdd}).
+
+  Now for any $x \in K$, there is some index $i \in \{1, 2, \dots, n \}$ such that $d(x, x_i) < \delta$.
+  Then for any $n \in \mathbb{N}$,
+  \[
+    |f_n(x)| < |f_n(x_i)| + 1 \leqslant M_{x_i} + 1 \leqslant M + 1.
+  \]
+  Therefore $\langle f_n \rangle$ is uniformly bounded by $M + 1$ on the whole set $K$.
+\end{proof}
+
+\begin{lem}
+  \label{lem:cpt-separable}
+  Let $K$ be a compact metric space.  Then $K$ is separable in the sense that it has a countable dense subset.
+\end{lem}
+
+\begin{proof}
+  For each $n \in \mathbb{N}$, there is a finite number of points $x_{n,1}, \dots, x_{n,k_n}$ such that
+  \[
+    K \subseteq K_{1/n}(x_{n,1}) \cup \cdots \cup K_{1/n}(x_{n,k_n})
+  \]
+  since $K$ is compact.
+  Let $E$ be the following countable set
+  \[
+    E := \{ p_{ij} \colon i \in \mathbb{N}, \, 1 \leqslant j \leqslant k_i \}.
+  \]
+  We claim that $E$ is dense in $K$.
+  For any $x \in K$ and $\delta > 0$, there is an integer $N \in \mathbb{N}$ such that $\frac1N < \delta$.  Then there is a point $x_{N,j} \in E$ such that $x \in K_{1/N}(x_{N,j})$; that is, $x_{N,j} \in K_{1/N}(x) \subseteq K_\delta(x)$.  This shows that every neighborhood of $x$ intersects with $E$ nontrivially, and the proof is finished.
+\end{proof}
+
+\begin{lem}
+  \label{lem:pointwise-countable}
+  If $\langle f_n \rangle$ be a sequence of pointwise bounded real functions on a countable set $E$, then $\langle f_n \rangle$ has a subsequence $\langle f_{n_k} \rangle$ such that $\langle f_{n_k}(x) \rangle$ converges for every $x \in E$.
+\end{lem}
+
+\begin{proof}
+  Arrange all the points of $E$ into a sequence: $x_1, x_2, \dots, x_n, \dots$.
+  Since $\langle f_n(x_1) \rangle$ is a bounded sequence in $\mathbb{R}$, it has a convergent subsequence $\langle f_{1,n}(x_1) \rangle$ by the Bolzano-Weierstrass theorem.
+  In turn $\langle f_{1,n}(x_2) \rangle$ has a convergence subsequence $\langle f_{2,n}(x_2) \rangle$; note that $\langle f_{2,n}(x_1) \rangle$ converges as well since it is a subsequence of the convergent sequence $\langle f_{1,n}(x_1) \rangle$.
+  Proceeding inductively, for each $k \in \mathbb{N}$ there is a subsequence $\langle f_{k,n} \rangle$ such that $\langle f_{k,n}(x_j) \rangle$ converges for every $j \in \mathbb{N}$ and $j \leqslant k$.
+
+  Now we go down along the diagonal, viz.\ the sequence $\langle f_{k,k} \rangle$.  Except for the first $k-1$ terms, $\langle f_{k,k} \rangle$ is a subsequence of $\langle f_{k,n} \rangle$, hence it converges at every $x_k \in E$.  Hence $\langle f_{k,k} \rangle$ is a subsequence that we want.
+\end{proof}
+
+\begin{proof}[Proof of the Arzel\`a-Ascoli theorem]
+  Let $E$ be the countable subset of $K$ we constructed in Lemma~\ref{lem:cpt-separable}.
+  By Lemma~\ref{lem:pointwise-countable} $\langle f_n \rangle$ has a subsequence $\langle f_{n_k} \rangle$ such that $\langle f_{n_k}(x) \rangle$ converges for every $x \in E$.
+  Rename $g_k = f_{n_k}$ for all $k \in \mathbb{N}$.
+  We claim that $\langle g_k \rangle$ converges uniformly on $K$.
+ 
+  For any $\varepsilon > 0$, there is a $\delta > 0$ that comes from the equicontinuity of $\langle g_k \rangle$ on $K$.
+  By our construction of $E$, there are finitely many points $x_1, \dots, x_m$ in $E$ such that
+  \[
+    K \subseteq K_\delta(x_1) \cup \cdots \cup K_\delta(x_m).
+  \]
+  
+  Since $\langle g_k(x) \rangle$ converges for every $x \in E$, there is an integer $N \in \mathbb{N}$ such that
+  \[
+    |g_i(x_s) - g_j(x_s)| < \varepsilon
+  \]
+  whenever $i \geqslant N$, $j \geqslant N$, and $1 \leqslant s \leqslant m$.
+
+  Now for any given $x \in E$, there is an index $s \in \{ 1, 2, \dots, m \}$ such that $d(x, x_s) < \delta$, which implies that
+  \[
+    |g_i(x) - g_i(x_s)| < \varepsilon
+  \]
+  for any $i \in \mathbb{N}$.
+
+  Finally, for any $i, j \geqslant N$, we have
+  \[
+    |g_i(x) - g_j(x)| \leqslant |g_i(x) - g_i(x_s)| + |g_i(x_s) - g_j(x_s)| + |g_j(x_s) - g_j(x)| < \varepsilon + \varepsilon + \varepsilon = 3\varepsilon.
+  \]
+  This inequality works for any $x \in K$, therefore we conclude that $\langle g_k \rangle$ converges uniformly on $K$.
+\end{proof}
+
+At the first sight, it might be hard to verify whether the hypotheses of the Arzel\`a-Ascoli theorem are met in a given situation.
+There are some versions that come up more frequently.
+One such is the following.
+
+\begin{cor}
+  Assume that $\langle f_n \rangle$ is a sequence of differentiable real functions on a bounded closed interval $[a,b]$ whose derivatives are uniformly bounded on $[a,b]$.
+  If for one point $x_0$, the sequence $\langle f_n(x_0) \rangle$ is bounded, then the sequence $\langle f_n \rangle$ has a subsequence that converges uniformly on the whole interval $[a,b]$.
+\end{cor}
+
+\begin{proof}
+  Let $M > 0$ be a bound for the derivatives $|f_n'(x)|$, valid for all $n \in \mathbb{N}$ and $x \in [a,b]$.
+  Equicontinuity of $\langle f_n \rangle$ followins from the mean value theorem:
+  \[
+    |t-s| < \delta \implies |f_n(t) - f_n(s)| = |f_n'(\theta)| \, |t-s| < M \delta
+  \]
+  for some $\theta$ between $t$ and $s$.
+  Thus given $\varepsilon$, the choice $\delta = \frac{\varepsilon}{M}$ shows that $\langle f_n \rangle$ is equicontinuous.
+
+  Let $C$ be a bound for $\langle f_n(x_0 \rangle$, valid for all $n \in \mathbb{N}$.  Then
+  \[
+    |f_n(x)| \leqslant |f_n(x_0)| + |f_n(x) - f_n(x_0)| \leqslant C + M |x-x_0| \leqslant C + M (b-a)
+  \]
+    for any $x \in [a,b]$.  Therefore $\langle f_n \rangle$ is uniformly bounded on $K$, which is stronger than pointwise boundedness on $K$.
+    Now the Arzel\`a-Ascoli theorem implies that $\langle f_n \rangle$ has a subsequence that converges uniformly on $[a,b]$.
+\end{proof}
+
+Finally we state the following version of the Heine-Borel theorem in a function space, whose proof is similar to the Arzel\`a-Ascoli theorem.
+
+\begin{thm}[Heine-Borel theorem in $\mathcal{C}^0$]
+   \label{thm:HBC}
+   A subset $\mathcal{E} \subseteq \mathcal{C}^0(K)$ is compact if and only if it is closed, bounded, and equicontinuous.
+\end{thm}
+
+\begin{proof}
+  ($\Rightarrow$) Assume that $\mathcal{E}$ is compact.
+  By Corollary~I.13.10 $\mathcal{E}$ is closed and totally bounded.
+  This means that given $\varepsilon > 0$ there is a finite covering of $\mathcal{E}$ by $\frac{\varepsilon}{3}$-neighborhoods in $\mathcal{C}^0$, say $\mathcal{N}_{\varepsilon/3}(f_k)$, for $k = 1, 2, \dots, n$.
+  Each $f_k$ is uniformly continuous on $K$ since $K$ is compact, so there is a $\delta > 0$ such that
+  \[
+    |t-s| < \delta \implies |f_k(t) - f_k(s)| < \frac{\varepsilon}{3}.
+  \]
+
+  If $f \in \mathcal{E}$ then there is an index $k \in \{ 1, \dots, n \}$ such that $f \in \mathcal{N}_{\varepsilon/3}(f_k)$, and $|t-s| < \delta$ implies that
+  \[
+    |f(t) - f(s)| \leqslant |f(t) - f_k(t)| + |f_k(t) - f_k(s)| + |f_k(s) - f(s)| < \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon,
+  \]
+  Thus $\mathcal{E}$ is equicontinuous.
+
+  ($\Leftarrow$) Conversely, assume that $\mathcal{E}$ is closed, bounded, and equicontinuous.
+  If $\langle f_n \rangle$ is a sequence in $\mathcal{E}$ then by the Arzel\`a-Ascoli theorem, some subsequence $\langle f_{n_k} \rangle$ converges uniformly to a limit $f \in \mathcal{C}^0$.
+  Since $\mathcal{E}$ is closed, $f \in \mathcal{E}$.
+  This shows that $\mathcal{E}$ is indeed (sequentially) compact.
+\end{proof}
+
+Here we give two applications to the Arzel\`a-Ascoli theorem in functional analysis and ordinary differential equations.
+
+\begin{cor}
+  Consider the linear operator $T$ on $\mathcal{C}^0([0,1])$ defined by
+  \[
+    (Tf)(x) = \int_0^x f(t) \, \dd t, \qquad f \in \mathcal{C}^0([0,1]).
+  \]
+  Then $T$ maps the closed unit ball $\overline{\mathcal{N}_1(0)} = \{  f \in \mathcal{C}^0([a,b]) \colon \| f \| \leqslant 1 \}$ to a relatively compact set $F$ in $\mathcal{C}^0([0,1])$, that is, $\overline{F}$ is compact.
+\end{cor}
+
+\begin{proof}
+  Let $F = T(\overline{\mathcal{N}_1(0)})$ be the image of the closed unit ball.
+  For any $f \in \overline{\mathcal{N}_1(0)}$, we have
+  \[
+    | (Tf)(x) - (Tf)(y) | = \left| \int_x^y f(t) \, \dd t \right| \leqslant \| f \| \cdot |x-y| \leqslant |x-y|,
+  \]
+  hence $F$ is an equicontinuous family (by taking $\delta = \varepsilon$.)
+  Also $|Tf(x)| \leqslant x \leqslant 1$ for any $x \in [0,1]$, hence $F$ is a bounded set.
+  These then imply that $\overline{F}$ is closed, bounded, and equicontinuous.
+  Therefore $\overline{F}$ is compact by Theorem~\ref{thm:HBC}.
+\end{proof}
+
+\begin{thm}[Peano's theorem]
+  Let $f$ be a continuous function from a closed neighborhood $U$ of $(0, x_0) \in \mathbb{R} \times \mathbb{R}^m$ to $\mathbb{R}^m$.
+  Then there exists an $\varepsilon > 0$ such that the initial value problem
+  \[
+    \frac{\dd x}{\dd t} = f\left( t, x(t) \right), \qquad x(0) = x_0
+  \]
+  has a solution $x = x(t)$ on $t \in [0, \varepsilon]$.
+\end{thm}
+
+\begin{proof}
+  Without loss of generality we may assume that $U$ is of the form $[-\delta, \delta] \times \overline{\mathbb{R}^m_r(x_0)}$.
+  Let $M$ be a bound for $f$ on $U$.
+  Take $\varepsilon := \min \{ \delta, \frac{r}{M} \}$.
+  Define a sequence $\langle x_n(t) \rangle$ on $[0, \varepsilon]$ as follows:
+  \[
+    x_n(t) :=
+    \begin{cases}
+      x_0, & t \in [0, \frac{\varepsilon}{n}], \\
+      x_0 + \int_0^{t-\frac{\varepsilon}{n}} \, f(s, x_n(s)) \, \dd s, & t \in (\frac{\varepsilon}{n}, \varepsilon].
+    \end{cases}
+  \]
+  Observe that these formulae determine the function $x_n$ on $[0, \varepsilon]$ since its values on $\displaystyle \left( \frac{k\varepsilon}{n}, \frac{(k+1)\varepsilon}{n} \right]$ are determine by its values on $\left[ 0, \frac{k\varepsilon}{n} \right]$ for $1 \leqslant k \leqslant n-1$ and its values on $\left[ 0, \frac{\varepsilon}{n} \right]$ are given.
+  The sequence $\langle x_n(t) \rangle$ is equicontinuous on $[0,\varepsilon]$.
+  Hence by the Arzel\`a-Ascoli theorem some subsequence $\langle x_{n_k}(t) \rangle$ of $\langle x_n(t) \rangle$ converges to a function $x(t)$.
+  Then $x(t)$ satisfies an integral equation which is equivalent to the given differential equation on $[0,\varepsilon]$.
+\end{proof}
+
+We mention here a result for uniform convergence without using equicontinuity.
+Make sure that the hypotheses are met before employing the following theorem.
+
+\begin{thm}[Dini]
+  Let $K$ be a compact metric space and $\langle f_n \rangle \subseteq \mathcal{C}^0(K)$ be a sequence of continuous functions on $K$.
+  Suppose that
+  \begin{enumerate}[(i)]
+    \item $\langle f_n \rangle$ is a pointwise monotone sequence on $K$; that is, either $f_n(x) \geqslant f_{n+1}(x)$ for all $x \in K$ and for all $n \in \mathbb{N}$, or $f_n(x) \leqslant f_{n+1}(x)$ for all $x \in K$ and for all $n \in \mathbb{N}$
+    \item $f_n \to f$ pointwise on $K$
+    \item $f$ is a continuous function on $K$
+  \end{enumerate}
+  Then $f_n \rightrightarrows f$ on $K$ as $n \to \infty$.
+\end{thm}
+
+\begin{proof}
+  By symmetry and translation $g_n = f_n - f$, we may assume that $f_n \searrow 0$ on $K$ as $n \to \infty$.
+
+  Let $\varepsilon > 0$ be given.
+  For each $x \in K$, choose an integer $N_x \in \mathbb{N}$ such that
+  \[
+    k \geqslant N_x \implies 0 \leqslant |f_k(x)| < \frac{\varepsilon}{2}.
+  \]
+  Since $f_{N_x}$ is continuous on $K$, there is an $r_x > 0$ such that
+  \[
+    d(t,x) < r_x \implies |f_{N_x}(t) - f_{N_x}(x)| < \frac{\varepsilon}{2}.
+  \]
+
+  Clearly the collection $\{ K_{r_x}(x) \colon x \in K \}$ forms an open covering of $K$.
+  Since $K$ is compact, there are finitely many points $x_1, \dots, x_M \in K$ such that
+  \[
+    K \subseteq \bigcup_{j=1}^M K_{r_i}(x_i), \qquad r_i = r_{x_i}.
+  \]
+
+  Let $N = \max \{ N_{x_1}, \dots, N_{x_M} \}$.
+  For any $k \geqslant N$ and $x \in K$, there is an index $j \in \{1, \dots, M\}$ such that
+  $x \in K_{r_j}(x_j)$, therefore
+  \[
+    0 \leqslant f_k(x) \leqslant f_N(x) \leqslant f_{N_{x_j}}(x) \leqslant |f_{N_{x_j}}(x) - f_{N_{x_j}}(x_j)| + f_{N_{x_j}}(x_j) < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
+  \]
+  So we conclude that $f_n \rightrightarrows 0$ on $K$ as $n \to \infty$.
+\end{proof}
+\end{document}

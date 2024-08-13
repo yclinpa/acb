@@ -1,0 +1,162 @@
+\chapter{Continuous Real Functions}
+\label{chap:continuous}
+
+The behavior of a continuous function defined on an interval $[a,b]$ is at the root of all calculus theory.
+Using solely the Least Upper Bound Property of the real numbers we rigorously derive the basic properties of such functions.
+
+\begin{defn}
+  A function $f: [a,b] \to \mathbb{R}$ is \textsf{continuous} if for each $x \in [a,b]$ and each $\varepsilon>0$ there is a $\delta>0$ such that
+  \[
+    t \in [a,b] \text{ and } |t-x| < \delta \implies |f(t)-f(x)| < \varepsilon.
+  \]
+\end{defn}
+
+Continuous functions are found everywhere in analysis and topology.
+We prove three of the most important properties derived from continuity.
+
+\begin{thm}
+  \label{thm:cont-bound}
+  The values of a continuous function $f$ defined on a bounded closed interval $[a,b]$ form a bounded subset of $\mathbb{R}$.
+  That is, there exist $m,M\in\mathbb{R}$ such that for all $x \in [a,b]$ we have $m \leqslant f(x) \leqslant M$.
+\end{thm}
+
+\begin{proof}
+  For $x \in [a,b]$, let $V_x$ be the value set of $f(t)$ as $t$ varies from $a$ to $x$, that is,
+  \[
+    V_x = \{ \alpha \in \mathbb{R} \colon \text{ for some $t \in [a,x]$ we have $\alpha = f(t)$ } \}.
+  \]
+  Set
+  \[
+    X = \{ x \in [a,b] \colon \text{ $V_x$ is a bounded subset of $\mathbb{R}$ } \}.
+  \]
+  Our goal is to show that $b \in X$.
+  Clearly $a \in X$ and $b$ is an upper bound for $X$.
+  Since $X$ is nonempty and bounded above, there exists in $\mathbb{R}$ a least upper bound $c \leqslant b$ for $X$.
+  First we take $\varepsilon=1$ in the definition of continuity at $a$ we see that $c > a$
+  (Think about it.)
+  Taking $\varepsilon = 1$ in the definition of continuity at $c$, there exists a $\delta>0$ such that $x\in[a,b]$ and $|x-c|<\delta$ implies that $|f(x)-f(c)|<1$.
+  Since $c$ is the least upper bound for $X$, there exists $x_0\in X$ in the interval $[c-\delta,c]$ (otherwise $c-\delta$ would be a smaller upper bound for $X$.)
+  Now as $t$ varies from $a$ to $c$, the value $f(t)$ varies first in the bounded set $V_{x_0}$ and then in the bounded set $J=(f(c)-1,f(c)+1)$.
+  The union of two bounded sets is a bounded set and it follows that $V_c$ is bounded, so $c\in X$.
+  Besides, if $c<b$ then $f(t)$ continues to vary in the bounded set $J$ for $t>c$, contrary to the fact that $c$ is an upper bound for $X$.
+  Thus, $b = c \in X$, and the values of $f$ form a bounded subset of $\mathbb{R}$.
+\end{proof}
+
+\begin{thm}
+  \label{thm:EVT}
+  A continuous function $f$ defined on a bounded closed interval $[a,b]$ takes on absolute minimum and absolute maximum values: For some $x_0,x_1\in[a,b]$ and for all $x\in[a,b]$ we have
+  \[
+    f(x_0) \leqslant f(x) \leqslant f(x_1).
+  \]
+\end{thm}
+
+\begin{proof}
+  Let $M = \sup f(t)$ as $t$ varies in $[a,b]$.
+  By Theorem~\ref{thm:cont-bound} $M$ exists.
+  Consider the set $X = \{ x \in [a,b] \colon \text{ $\sup V_x < M$} \}$ where, as above, $V_x$ is the set of values of $f(t)$ as $t$ varies on $[a,x]$.
+
+  \noindent\underline{Case 1.} $f(a) = M$.  Then $f$ takes on a maximum at $a$ and the theorem is proved.
+
+  \noindent\underline{Case 2.} $f(a) < M$.  Then $X \ne \varnothing$ and we can consider the least upper bound for $X$, say $c$.
+  If $f(c) < M$, we choose $\varepsilon > 0$ with $\varepsilon < M - f(c)$.
+  By continuity of $f$ at $c$, there exists a $\delta > 0$ such that $|t - c| < \delta$ implies $|f(t) - f(c)| < \varepsilon$.
+  Thus, $\sup V_c < M$.
+  If $c < b$ this implies that there exist points $t$ to the right of $c$ at which $\sup V_t < M$, contrary to the fact that $c$ is an upper bound of such points.
+  Therefore $c = b$, which implies that $M < M$, a contradiction.
+  Having arrived at a contradiction from the supposition that $f(c) < M$, we duly conclude that $f(c) = M$, so $f$ assumes a maximum at $c$.
+
+  The situation with minima is similar and we omit the details here.
+\end{proof}
+
+\begin{thm}[Intermediate value theorem]
+  \label{thm:IVT}
+  A continuous function defined on a bounded closed interval $[a,b]$ takes on (or ``achieves,'' ``assumes,'' or ``attains'') all intermediate values: That is, if $f(a) = \alpha$, $f(b) = \beta$, and $\gamma$ is given, $\alpha \leqslant \gamma \leqslant \beta$, then there is some $c \in [a,b]$ such that $f(c) = \gamma$.
+  The same conclusion holds if $\beta \leqslant \gamma \leqslant \alpha$.
+\end{thm}  
+
+The theorem is pictorially obvious.
+A continuous function has a graph that is a curve without break points.
+Such a graph cannot jump from one height to another.
+It must pass through all intermediate heights.
+
+\begin{proof}
+  Set $X = \{ x \in [a,b] \colon \text{ $\sup V_x \leqslant \gamma$} \}$ and $c = \sup X$.
+  Now $c$ exists because $X$ is nonempty (it contains $a$) and it is bounded above (by $b$.)
+  We claim that $f(c) = \gamma$.
+
+  To prove it we just eliminate the other two possibilities which are $f(c) < \gamma$ and $f(c) > \gamma$, by showing that each leads to a contradiction.
+  Suppose that $f(c) < \gamma$ and take $\varepsilon = \gamma - f(c)$.
+  Continuity of $f$ at $c$ gives $\delta > 0$ such that $|t - c| < \delta$ implies $|f(t) - f(c)| < \varepsilon$.  That is,
+  \[
+    t \in (c-\delta, c+\delta) \implies f(t) < \gamma,
+  \]
+  so $c + \delta/2 \in X$, contrary to $c$ being an upper bound of $X$.
+
+
+  Suppose now that $f(c) > \gamma$ and take $\varepsilon = f(c) - \gamma$.
+  Continuity of $f$ at $c$ gives $\delta > 0$ such that $|t - c| < \delta$ implies $|f(t) - f(c)| < \varepsilon$.  That is,
+  \[
+    t \in (c-\delta, c+\delta) \implies f(t) > \gamma,
+  \]
+  so $c - \delta/2$ is an upper bound of $X$, contrary to $c$ being the least upper bound for $X$.
+
+  Since $f(c)$ is neither $< \gamma$ nor $> \gamma$ we get $f(c) = \gamma$.
+\end{proof}
+
+The following is one of the most important results about continuous functions: their properties can be \textit{upgraded} over a bounded closed interval.
+
+  \begin{thm}
+    \label{thm:unif-cont}
+   Let $f$ be a continuous real function on a bounded closed interval $[a,b]$.
+   Then $f$ is uniformly continuous on $[a,b]$.
+  \end{thm}
+
+  \begin{proof} 
+    Let $\varepsilon > 0$ be given.  Define
+  \begin{align*}
+    \mathcal A(\delta) &= \{ u \in [a,b] \colon \text{ if $x,t \in [a,u]$ and $|x-t| < \delta$ then $|f(x) - f(t)| < \varepsilon$} \}, \\
+    \mathcal A &= \bigcup_{\delta>0} \mathcal A(\delta).
+  \end{align*}
+  Note that $\mathcal A(\delta) \subseteq \mathcal A(\delta')$ if $\delta \leqslant \delta'$.
+  Clearly $a \in \mathcal A$ and $\mathcal A$ is bounded above by $b$.  Hence $c = \sup \mathcal A$ exists and $a \leqslant c \leqslant b$.
+
+  By continuity of $f$ at $a$, there is a $\delta > 0$ such that $t \in [a, a+2\delta)$ implies that $|f(t) - f(a)| < \varepsilon/2$.
+  Thus whenever $x,t \in [a,a+\delta]$ we have $|f(x)-f(t)| \leqslant |f(x)-f(a)| + |f(a)-f(t)| < \varepsilon$.  This implies $a + \delta \in \mathcal A(\delta) \subseteq \mathcal A$ and $c \geqslant a + \delta > a$.
+
+  Let us assume that $c < b$ and try to get a contradiction.
+  By continuity of $f$ at $c$, there is a $\delta_1 > 0$ such that $(c-\delta_1, c+\delta_1) \subseteq [a,b]$ and whenever $|x-c| < \delta_1$, we have $|f(x) - f(c)| < \varepsilon/2$.
+  This implies that whenever $x,t \in (c-\delta_1, c+\delta_1)$, $|f(x)-f(t)| < \varepsilon$.
+  Since $c = \sup \mathcal A$, there is a $u \in \mathcal A$ such that $u > c-\delta_1$; say $u \in \mathcal A(\delta_2)$ for some $\delta_2 > 0$.
+  Take $\delta_3 = \min \{ 2\delta_1, \delta_2, u - (c - \delta_1) \} > 0$.
+  This choice of $\delta_3$ guarantees that, whenever $x,t \in [a,c+\delta_1)$ and $|x-t| < \delta_3$, either both of them lie in $[a,u]$ or both of them lie in $(c-\delta_1, c+\delta_1)$.
+  Because $\mathcal A(\delta_2) \subseteq \mathcal A(\delta_3)$, both cases make sure that $|f(x)-f(t)| < \varepsilon$ whenever $x,t \in [a, c+\frac{\delta_2}{2}]$, which shows that $c+\frac{\delta_2}{2} \in \mathcal A(\delta_3) \subseteq \mathcal A$, that contradicts to the fact that $c$ is an upper bound for $\mathcal A$.
+
+  Since $c < b$ is impossible, we see that $c=b$ and an argument similar to the previous paragraph shows that $b = c \in \mathcal A$.
+  Now $b \in \mathcal A$ guarantees that there is a $\delta > 0$ such that $b \in \mathcal A(\delta)$; that is, whenever $x,t \in [a,b]$ and $|x-t| < \delta$, it implies that $|f(x)-f(t)| < \varepsilon$.
+  Since $\varepsilon$ is arbitrary, we conclude that $f$ is uniformly continuous on $[a,b]$.
+  \end{proof}
+
+  \textit{Remark.} The above proof of Theorem~\ref{thm:unif-cont} uses the least upper bound property only.  Below we give another proof which is easier to comprehend.  To start, we call a theorem that is introduced in a later topic (Theorem 6, Topic 10).
+
+  \noindent\textbf{Bolzano-Weierstrass theorem.}
+  \textit{Every bounded infinite real sequence has a convergent subsequence.}
+
+  We proceed to prove Theorem~\ref{thm:unif-cont}.  Assume the contrary.
+  If $f$ is not uniformly continuous on $[a,b]$, there is an $\varepsilon>0$ satisfying: for any $n \in \mathbb{N}$, there are two points $x_n, y_n \in [a,b]$ such that $|x_n - y_n| < \frac1n$ but $|f(x_n) - f(y_n)| \geqslant \varepsilon$.  Since $\langle x_n \rangle$ is a bounded sequence, there is a subsequence $\langle x_{n_i} \rangle$ of $\langle x_n \rangle$ that converges to $c \in [a,b]$, by the Bolzano-Weierstrass theorem.  Notice that
+  \[
+    x_{n_i} - \frac1{n_i} < y_{n_i} < x_{n_i} + \frac1{n_i}
+  \]
+  for all $i$, we conclude that $\langle y_{n_i} \rangle$ converges to $c$ too, by the squeeze theorem.
+  By our hypothesis $f$ is continuous at $c \in [a,b]$, hence by the sequential characterization of limit of function we have
+  \[
+    \lim_{i\to\infty} f(x_{n_i}) = f(c) = \lim_{i\to\infty} f(y_{n_i}),
+  \]
+  which gives $\displaystyle \lim_{i \to \infty} \left( f(x_{n_i}) - f(y_{n_i}) \right) = f(c) - f(c) = 0$.  But this limit contradicts to our construction, in which $|f(x_{n_i}) - f(y_{n_i})| \geqslant \varepsilon$ for every $i$.  Therefore Theorem~\ref{thm:unif-cont} is again proved.
+
+  \medskip
+  Let us summarize these results into one theorem as follows.
+
+  \begin{thm}[Fundamental theorem of continuous functions]
+    Every continuous real valued function of a real variable $x \in [a,b]$ is bounded, achieves minimum, intermediate, and maximum values, and is uniformly continuous.
+  \end{thm}
+

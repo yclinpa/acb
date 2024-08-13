@@ -1,0 +1,184 @@
+\chapter{The Real Number System}
+\label{chap:real-number}
+
+\section{Construction of the Real Number System}
+We first construct the number systems: $\mathbb N \to \mathbb Z \to \mathbb Q$.
+Assume the usual arithmetic rules and ordering on $\mathbb Q$.
+
+\begin{thm}
+  No positive number $r \in \mathbb Q$ has square equal to $2$; i.e., $\sqrt{2} \notin \mathbb Q$.
+\end{thm}
+
+This fact was shown in high school and we will omit it here.
+
+\begin{defn}
+  A \textsf{cut} in $\mathbb Q$ is a pair of subsets $A, B$ of $\mathbb Q$ such that
+  \begin{enumerate}[(a)]
+    \item $A \cup B = \mathbb Q$, $A \ne \varnothing$, $B \ne \varnothing$, $A \cap B = \varnothing$ ($A$ and $B$ form a partition of $\mathbb Q$.)
+    \item If $a \in A$ and $b \in B$ then $a < b$.
+    \item $A$ contains no largest element.
+  \end{enumerate}
+\end{defn}
+
+$A$ is the left-hand part of the cut and $B$ is the right-hand part.
+We denote the cut as $x = A \mid B$. 
+
+\begin{example}
+  Let $A = \{ r \in \mathbb Q \colon r \leqslant 0 \text{ or } r^2 < 2 \}$ and $B = \mathbb Q \setminus A$.  We show that $A$ does not have the largest element and hence $A \mid B$ is a legitimate cut.
+
+  Suppose $p \in A$ and $p > 0$.  By definition $p \in \mathbb{Q}$ and $p^2 < 2$.
+  Consider $q = \dfrac{2p+2}{p+2} \in \mathbb{Q}$.  Below we show that $q \in A$ and $p < q$.
+
+  To check whether $q \in A$ or not, we compute
+  \begin{equation*}
+    q^2 - 2 = \left( \frac{2p+2}{p+2} \right)^2 - 2 = \frac{(2p+2)^2-2(p+2)^2}{(p+2)^2} = \frac{2p^2 - 4}{(p+2)^2} < 0,
+  \end{equation*}
+  therefore $q \in A$.  On the other hand,
+  \begin{equation*}
+    q - p = \frac{2p+2}{p+2} - p = \frac{2p+2 - p(p+2)}{p+2} = \frac{2-p^2}{p+2} > 0,
+  \end{equation*}
+  as desired.
+\end{example}
+
+\begin{defn}
+  A \textsf{real number} is a cut in $\mathbb Q$.
+  The collection of all real numbers is denoted by $\mathbb R$.
+\end{defn}
+
+There is a natural way to embed $\mathbb Q$ into $\mathbb R$.
+For any $c \in \mathbb Q$, let $A$ be the set of all rationals that are less than $c$ while $B$ be the rest of $\mathbb Q$.
+We denote this cut by $c^*$.
+Obviously $c \mapsto c^*$ gives an embedding of $\mathbb Q$ into $\mathbb R$.
+Also such a cut is convenient to call it a \textsf{rational cut}: it is a cut where the $B$-part has the smallest element.
+
+\begin{defn}
+  Let $x = A \mid B$ and $y = C \mid D$ be cuts.
+  If $A \subseteq C$ then $x$ is \textsf{less than or equal to} $y$ and we write $x \leqslant y$.
+  If $A \subseteq C$ but $A \neq C$ then $x$ is \textsf{less than} $y$ and we write $x < y$.
+\end{defn}
+
+The property that distinguishes $\mathbb R$ from $\mathbb Q$ and is at the bottom of every significant theorem about $\mathbb R$ involves upper bounds and least upper bounds or, equivalently, lower bounds and greatest lower bounds.
+
+\begin{defn}
+  A real number $M \in \mathbb R$ is called an \textsf{upper bound} for a set $S \subseteq \mathbb R$ if each $s \in S$ satisfies $s \leqslant M$.
+\end{defn}
+
+We also say that the set $S$ is \textsf{bounded above} by $M$.
+Note that every real number is automatically an upper bound for the empty set $\varnothing$.
+An upper bound for $S$ that is less than all other upper bounds for $S$ is the \textsf{least upper bound} for $S$, which is denoted by $\operatorname{sup} S$, if it exists.
+
+\begin{thm}
+  \label{thm:lubp}
+  The set $\mathbb R$, constructed by means of Dedekind cuts, is \textsf{complete} in the sense that is satisfies the
+  \begin{quote}
+    \textsf{Least Upper Bound Property}: If $S$ is a nonempty subset of $\mathbb R$ and is bounded above then in $\mathbb R$ there exists a least upper bound for $S$.
+  \end{quote}
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal C \subseteq \mathbb R$ be any nonempty collection of cuts which is bounded above, say by the cut $X \mid Y$.  Define
+  \[
+    C = \{ a \in \mathbb Q \colon \text{ for some cut $A \mid B \in \mathcal C$ we have $a \in A$ } \}
+  \]
+  and $D = \mathbb Q \setminus C$.
+  It is easy to see that $z = C \mid D$ is a cut, and $C \subseteq X$.
+  Clearly, it is an upper bound for $\mathcal C$ since for every cut $A \mid B \in \mathcal C$ we have $A \subseteq C$.
+  On the other hand, let $z' = C' \mid D'$ be any upper bound for $\mathcal C$.
+  By assumption $A \mid B \leqslant C' \mid D'$ for all $A \mid B \in \mathcal C$.
+  From definition $A \subseteq C'$ for every $A \mid B \in \mathcal C$, hence $C \subseteq C'$.
+  Therefore $z = C \mid D \leqslant C' \mid D' = z'$, which shows that $z$ is the least upper bound for $\mathcal C$.
+\end{proof}
+
+Now we need to establish arithmetics on $\mathbb R$, the cuts in $\mathbb Q$.
+Let cuts $x = A \mid B$ and $y = C \mid D$ be given.
+We define their sum $x + y = E \mid F$ as follows: let
+\begin{align*}
+  E &= \{ r \in \mathbb Q \colon r = a + c \text{ for some $a \in A$ and $c \in C$} \}, \\
+  F &= \mathbb Q \setminus E.
+\end{align*}
+It is easy to see that $E \mid F$ is a cut in $\mathbb Q$ and that it does not depend on the order in which $x$ and $y$ appear.
+That is, cut addition is well defined and $x + y = y + x$.
+The zero cut, which is the identity for addition, is $0^*$ and $0^* + x = x$ for all $\mathbb R$.
+It is a little bit tricky to define the additive inverse $-x = C \mid D$ for $x = A \mid B$: let
+\begin{align*}
+  C &= \{ r \in \mathbb Q \colon r = -b \text{ for some $b \in B$ which is not the least element of $B$} \}, \\
+  D &= \mathbb Q \setminus C.
+\end{align*}
+One checks that this is the correct additive inverse for $A \mid B$, i.e., $x + (-x) = 0^*$.
+Corrspondingly, the difference of cuts is $x - y = x + (-y)$.
+Also we need to check the associativity: $(x+y)+z = x+(y+z)$ for cuts $x,y,z$.
+After $0^*$ is defined, it is conventional to call a real number $x$ \textsf{positive} (resp.\ \textsf{negative}) if $x > 0^*$ (resp.\ $x < 0^*$).
+This is needed when we try to define the multiplication on $\mathbb R$.
+
+\noindent\textbf{Exercise.} Define the multiplication on $\mathbb R$.  Name the multiplicative indentity.  Find the multiplicative inverse of a non-zero number $x \in \mathbb R$.
+
+The ordering on $\mathbb R$ enjoys \textsf{transitivity}, \textsf{trichotomy}, and \textsf{translation}.
+The ultimate result is stated as follows.
+\begin{thm}
+  The set $\mathbb R$ of all cuts in $\mathbb Q$ is a complete ordered field that contains $\mathbb Q$ as an ordered subfield.
+\end{thm}
+
+The \textsf{magnitude} or absolute value of $x \in \mathbb R$ is
+\[
+  |x| = \begin{cases}
+    x, & \text{if $x \geqslant 0$}, \\
+    -x, & \text{if $x < 0$}.
+  \end{cases}
+\]
+
+Thus, $-|x| \leqslant x \leqslant |x|$.
+A basic, constantly used fact about magnitude is the following.
+
+\begin{thm}[Triangle inequality]
+  For all $x,y \in \mathbb R$ we have $|x+y| \leqslant |x| + |y|$.
+\end{thm}
+
+Finally, can we enlarge $\mathbb R$ by taking the cuts in $\mathbb R$?
+Let us say that $\mathcal A \mid \mathcal B$ is a cut in $\mathbb R$, that is, $\mathcal A$ and $\mathcal B$ are disjoint, nonempty subsets of $\mathbb R$ such that $a < b$ whenever $a \in \mathcal A$ and $b \in \mathcal B$, and $\mathcal A$ contains no largest element.
+Clearly every element in $\mathcal B$ is an upper bound for $\mathcal A$.
+By Theorem~\ref{thm:lubp}, $y = \sup \mathcal A$ exists in $\mathbb R$ and $a \leqslant y \leqslant b$ for each $a \in \mathcal A$ and $b \in \mathcal B$.
+By trichotomy,
+\[
+  \mathcal A \mid \mathcal B = \{ x \in \mathbb R \colon x < y \} \mid \{ x \in \mathbb R \colon x \geqslant y \}.
+\]
+In other words, $\mathbb R$ has no gaps.  Every cut in $\mathbb R$ occurs exactly at a real number.
+
+Finally, we say a few words about infinity.
+$\pm \infty$ are not real numbers, since neither $\mathbb Q \mid \varnothing$ nor $\varnothing \mid \mathbb Q$ are cuts.
+Although some mathematicians think of $\mathbb R$ together with $-\infty$ and $\infty$ as an ``extended real number system,'' which is usually denoted by $\overline{\mathbb{R}}$, it is simpler to leave well enough alone and just deal with $\mathbb R$ itself.  Nevertheless, it is convenient to write expressions like ``$x \to \infty$'' to indicate that a real variable $x$ grows larger and larger without bound.
+When a nonempty subset $S$ is not bounded above (resp.\ not bounded below) we say that $\sup S = +\infty$ (resp.\ $\inf S = -\infty$).
+
+We name a few further properties about $\mathbb{R}$ and $\mathbb{Q}$.
+
+\begin{thm}
+  Every interval $(a,b)$, no matter how small, contains both rational and irrational numbers.
+  In fact it contains infinitely many rationals and infinitely many irrationals.
+\end{thm}
+
+\begin{proof}
+  Think of $a,b$ as cuts $a = A \mid A'$, $b = B \mid B'$.  The relation $a < b$ implies that $B \setminus A$ is a nonempty set of rational numbers; choose a rational $r \in B \setminus A$.  Since $B$ has no largest element, there is another rational $s$ with $a < r < s < b$.
+  Now for each $t \in [0,1]$, $r + t (s-r)$ is always a rational between $a$ and $b$.
+
+  For the irrationals, one uses the fact that $\sqrt{2}$ is an irrational and perform a similar trick.
+\end{proof}
+
+A somewhat obscure and trivial fact about $\mathbb{R}$ is its \textsf{Archimedean property}: for each $x \in \mathbb{R}$ there is an integer $n$ that is greater than $x$.
+In other words, there exist arbitrarily large integers.
+The Archimedean property is true for $\mathbb{Q}$ since $p/q \leqslant |p|$.
+It follows that it is true for $\mathbb{R}$.
+Given $x = A \mid B$, just choose a rational number $r \in B$ and an integer $n > r$, then $n > x$.
+An equivalent way to state the Archimedean property is that there exist arbitrarily small reciprocals of integers.
+
+Finally let us note a nearly trivial principle that turns out to be invaluable in deriving inequalities and equalities in $\mathbb{R}$.
+
+\begin{thm}[$\varepsilon$-principle]
+If $a, b$ are real numbers and if for each $\varepsilon > 0$ we have $a \leqslant b + \varepsilon$ then $a \leqslant b$.  If $x,y$ are real numbers and for each $\varepsilon > 0$ we have $|x-y| \leqslant \varepsilon$ then $x=y$.
+\end{thm}
+
+\begin{proof}
+  Trichotomy implies that either $a \leqslant b$ or $a > b$.  In the latter case we can choose $\varepsilon$ with $0 < \varepsilon < a-b$ and get the absurdity
+  \[
+    \varepsilon < a - b \leqslant \varepsilon.
+  \]
+  Hence $a \leqslant b$.  Similarly, if $x \ne y$ then choosing $\varepsilon$ with $0 < \varepsilon < |x-y|$ gives the contradiction $\varepsilon < |x-y| \leqslant \varepsilon$.  Hence $x=y$.
+\end{proof}

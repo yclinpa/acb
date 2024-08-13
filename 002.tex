@@ -1,0 +1,270 @@
+\section{Cauchy sequences}
+\label{sec:Cauchy}
+
+There is a second sense in which $\mathbb R$ is complete.
+It involves the concept of convergent sequences.
+Let $a_1, a_2, a_3, \ldots = \langle a_n \rangle$, $n \in \mathbb N$, be a sequence of real numbers.
+
+\begin{defn}
+  The sequence $\langle a_n \rangle$ \textsf{converges to a limit} $b \in \mathbb R$ as $n \to \infty$ provided that for each $\varepsilon > 0$ there exists an integer $N \in \mathbb N$ such that for all $n \geqslant N$ we have
+  \[
+    |a_n - b| < \varepsilon \qquad (\text{or } b - \varepsilon < a_n < b + \varepsilon.)
+  \]
+\end{defn}
+In symbols we may write
+\[
+  \forall\,\,\varepsilon > 0 \,\, \exists\,\, N \in \mathbb N \text{ such that } n \geqslant N \implies |a_n - b| < \varepsilon.
+\]
+
+If a limit $b$ exists it is not hard to see that it is unique, and we write
+\[
+  \lim_{n\to\infty} a_n = b \qquad \text{or} \qquad a_n \to b.
+\]
+
+There are a few basic mentioned in the elementary calculus.
+We summarize as follows.
+
+
+  \begin{prop}
+    \label{prop:basicpropertyoflimit}
+    The following properties hold.
+    \begin{enumerate}[$(1)$]
+      \item (Uniqueness) If $\displaystyle \lim_{n\to\infty} a_n = L$ and $\displaystyle \lim_{n\to\infty} a_n = M$, then $L=M$.
+      \item If a sequence $\langle a_n \rangle$ converges, then any of its subsequence converges to the same limit.
+      \item (Arithmetics) If $a_n \to A$ and $b_n \to B$, then $a_n \odot b_n \to A \odot B$, where $\odot \in \{ +, -, \times, \div \}$.  That $B \ne 0$ is required for $\odot = \div$.
+      \item (Squeeze theorem) Let $\langle x_n \rangle$, $\langle a_n \rangle$, $\langle b_n \rangle$ be three number sequences such that $a_n \leqslant x_n \leqslant b_n$ for all sufficiently large $n$.  If $a_n \to L$ and $b_n \to L$, then $x_n \to L$ as well.
+      \item (Comparison theorem) Let $\langle a_n \rangle$ and $\langle b_n \rangle$ be two convergent sequences such that $a_n \leqslant b_n$ for all sufficiently large $n$.  Then $\displaystyle \lim_{n\to\infty} a_n \leqslant \lim_{n\to\infty} b_n$.
+    \end{enumerate}
+  \end{prop}
+
+Below are a few basic limits.
+\begin{thm}
+  \begin{enumerate}[$(1)$]
+    \item $\displaystyle\lim_{n\to\infty} \frac{1}{n} = 0$.
+    \item For any $a > 0$, $\displaystyle \lim_{n\to\infty} a^{1/n} = 1$.
+    \item $\displaystyle \lim_{n\to\infty} n^{1/n} = 1$.
+    \item For any $p > 0$ and $\alpha \in \mathbb{R}$, $\displaystyle \lim_{n\to\infty} \frac{n^\alpha}{(1+p)^n} = 0$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  \begin{enumerate}[(1)]
+    \item For any $\varepsilon > 0$, there is an integer $N \in \mathbb{N}$ such that $N \varepsilon > 1$, by the Archimedean property.
+      Hence for any $n \geqslant N$, we have
+      \[
+	0 < \frac{1}{n} \leqslant \frac{1}{N} < \varepsilon,
+      \]
+      as required.
+    \item There is nothing more to do for $a = 1$.
+      Let us first assume that $a > 1$.
+      Define a sequence $\langle x_n \rangle$ by $x_n = a^{1/n} - 1$, that is, $a = (1 + x_n)^n$ for each $n \in \mathbb{N}$.
+      Using the binomial theorem, we see that
+      \begin{align*}
+	a &= (1 + x_n)^n \geqslant 1 + n x_n > n x_n, \\
+	0 &< x_n < \frac{a}{n} \to 0 \qquad \text{as $n \to \infty$},
+      \end{align*}
+      therefore $\displaystyle \lim_{n \to \infty} a^{1/n} = \lim_{n \to \infty} (1 + x_n) = 1 + 0 = 1$.
+
+      For $0 < a < 1$, we use the arithmetic property for limit to see that
+      \[
+	\lim_{n \to \infty} a^{1/n} = \lim_{n\to\infty} \frac{1}{(1/a)^{1/n}} = \frac{1}{1} = 1,
+      \]
+      since $1/a > 1$.  
+      So this case is also done.
+
+    \item Define a positive sequence $\langle y_n \rangle$ by $y_n = n^{1/n} - 1$, that is, $1 + y_n = n^{1/n}$ for each $n \in \mathbb{N}$.  Using the binomial theorem again, we see that for $n \geqslant 2$,
+      \begin{align*}
+	n &= (1 + y_n)^n \geqslant 1 + n y_n + \frac{n(n-1)}{2} y_n^2 > \frac{n(n-1)}{2} y_n^2, \\
+	0 &< y_n^2 < \frac{2}{n-1} \to 0 \qquad \text{as $n \to \infty$}.
+\end{align*}
+	Since $\langle y_n^2 \rangle \to 0$, so does $\langle y_n \rangle$.
+
+      \item The statement is clear when $\alpha \leqslant 0$. 
+	For the case $\alpha > 0$, first find an integer $k \in \mathbb{N}$ that exceeds $\alpha$.
+	Then for $n > k$, we have
+	\begin{align*}
+	  \frac{n^\alpha}{(1+p)^n} &\leqslant \frac{n^k}{\binom{n}{k+1} p^{k+1}} \to 0 \qquad
+	  \text{as $n \to \infty$},
+	\end{align*}
+	since the denominator of the last fraction is a polynomial of degree $k+1$ in $n$.
+  \end{enumerate}
+\end{proof}
+
+Note that the limit $b$ may be extraneous to the sequence $\langle a_n \rangle$.
+A related concept is the following.
+
+\begin{defn}
+  A sequence $\langle a_n \rangle$ is called a \textsf{Cauchy sequence} (or obeys a Cauchy condition) if for each $\varepsilon > 0$ there is an integer $N \in \mathbb N$ such that for all $n, k \geqslant N$ we have
+  \[
+    |a_n - a_k| < \varepsilon.
+  \]
+\end{defn}
+
+It is an easy exercise to show that a convergent sequence obeys a Cauchy condition.
+The converse of the fact is a fundamental property of $\mathbb{R}$, as stated below.
+
+\begin{thm}
+  $\mathbb{R}$ is \textsf{complete} with respect to Cauchy sequences in the sense that if $\langle a_n \rangle$ is a sequence of real numbers which obeys a Cauchy condition then it converges to a limit in $\mathbb{R}$.
+\end{thm}
+
+\begin{proof}
+  First we show that $\langle a_n \rangle$ is bounded.
+  Taking $\varepsilon = 1$ in the Cauchy condition implies that there is an $N \in \mathbb{N}$ such that for all $n, k \geqslant N$ we have $|a_n - a_k| < 1$.
+  Take $K$ large enough that $-K \leqslant a_1, \dots, a_N \leqslant K$.
+  Set $M = K + 1$.  Then for all $n$ we have
+  \[
+    -M < a_n < M,
+  \]
+  which shows that the sequence $\langle a_n \rangle$ is bounded.
+
+  Define a set $X$ as 
+  \[
+    X = \{ x \in \mathbb{R} \colon \exists\,\, \text{infinitely many $n$ such that } a_n \geqslant x \}.
+  \]
+  $-M \in X$ since for all $n$ we have $a_n > -M$, which $M \notin X$ since no $x_n \geqslant M$.  Thus $X$ is a nonempty subset of $\mathbb{R}$ which is bounded above by $M$.  The least upper bound property applies to $X$ and we have $b = \sup X$ with $-M \leqslant b \leqslant M$.
+
+  We claim that $\langle a_n \rangle$ converges to $b$ as $n \to \infty$.
+  Given $\varepsilon > 0$ we must show that there is an $N$ such that for all $n \geqslant N$ we have $|a_n - b| < \varepsilon$.
+  Since $\langle a_n \rangle$ is a Cauchy sequence and $\varepsilon/2$ is positive there does exist an $N$ such that if $n, k \geqslant N$ then
+  \[
+    |a_n - a_k| < \frac{\varepsilon}{2}.
+  \]
+  Since $b - \varepsilon/2$ is less than $b$ it is not an upper bound for $X$, so there is an $x \in X$ with $b - \varepsilon/2 \leqslant x$.
+  For infinitely many $n$ we have $a_n \geqslant x$.
+  Since $b + \varepsilon/2 > b$ it does not belong to $X$, and therefore for only finitely many $n$ do we have $a_n > b + \varepsilon/2$.
+  Thus, for infinitely many we have
+  \[
+    b - \frac{\varepsilon}{2} \leqslant x \leqslant a_n \leqslant b + \frac{\varepsilon}{2}.
+  \]
+  Since there are infinitely many of these $n$ there are infinitely many that are at least $N$.  Pick one, say $a_{n_0}$ with $n_0 \geqslant N$ and $b - \frac{\varepsilon}{2} \leqslant a_{n_0} \leqslant b + \frac{\varepsilon}{2}$.  Then for all $n \geqslant N$ we have
+  \[
+    |a_n - b| \leqslant |a_n - a_{n_0}| + |a_{n_0} - b| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon,
+  \]
+  which completes the verification that $\langle a_n \rangle$ converges to $b$.
+\end{proof}
+
+Let us summarize as follows.
+\begin{thm}
+  A real sequence $\langle a_n \rangle$ converges if and only if it is a Cauchy sequence.
+\end{thm}
+
+Not every real sequence converges.  However, the following are available for every real sequence.
+
+\begin{defn}
+  Let $\langle a_n \rangle$ be a real sequence.  Define the \textsf{limit supremum} and the \textsf{limit infinum} for $\langle a_n \rangle$ as follows.
+  \begin{align*}
+    \limsup_{n\to\infty} a_n &= \lim_{n\to\infty} \left( \sup_{k\geqslant n} a_k \right); \\
+    \liminf_{n\to\infty} a_n &= \lim_{n\to\infty} \left( \inf_{k\geqslant n} a_k \right).
+  \end{align*}
+\end{defn}
+
+Since $\displaystyle \sup_{k \geqslant n} a_k$ is decreasing as $n$ gets larger and larger, $\displaystyle\limsup_{n\to\infty} a_n$ always exists in $\overline{\mathbb{R}}$; same for $\displaystyle\liminf_{n\to\infty} a_n$.
+We state important properties about limit supremum; the analogues hold for limit infinum.
+
+\begin{thm}
+  \label{thm:limsup}
+  Let $\langle a_n \rangle$ be a real sequence and $\displaystyle S = \limsup_{n\to\infty} a_n$.
+  \begin{enumerate}[$(1)$]
+    \item If $S = +\infty$, then $\langle a_n \rangle$ is not bounded above.
+    \item If $S = -\infty$, then $\displaystyle \lim_{n\to\infty} a_n = -\infty$.
+    \item If $S \in \mathbb{R}$, then for each $\varepsilon > 0$,
+      \begin{enumerate}[$(i)$]
+	\item there is an $N \in \mathbb{N}$ such that for every $n \geqslant N$ we have $a_n < S + \varepsilon$; 
+	\item there are infinitely many terms $a_n$ with $a_n > S - \varepsilon$.
+      \end{enumerate}
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+Set $A_n = \displaystyle \sup_{k \geqslant n} a_k$; as noted before, $\langle A_n \rangle$ is a decreasing sequence in $\overline{\mathbb{R}}$.  Let us discuss the three cases separately.
+  \begin{enumerate}[(1)]
+    \item If $S = +\infty$, then $A_n$ must be $+\infty$ for all $n$ since $\langle A_n \rangle$ is decreasing.  In particular $\sup \{ a_k \colon k \geqslant 1 \} = A_1 = +\infty$, which is equivalent of saying that $\langle a_n \rangle$ is not bounded above.
+    \item Assume $S = -\infty$.  For every $M \in \mathbb{R}$ there is an integer $N \in ~\mathbb{N}$ such that $A_n \leqslant M$ for all $n \geqslant N$.  Since $a_k \leqslant A_n$ for any $k \geqslant n$, the same can be said to $a_n$.  This shows that $a_n \to -\infty$ as $n \to \infty$.
+    \item Now assume $S \in \mathbb{R}$ and a positive number $\varepsilon > 0$ is given.  There is an integer $n \in \mathbb{N}$ such that $S - \varepsilon < A_n < S + \varepsilon$ for all $n \geqslant N$.  Firstly that $a_n \leqslant A_N < S + \varepsilon$ for all $n \geqslant N$ shows (i).  As for part (ii), note that for each $n \geqslant N$ there is some $k \geqslant n$ such that $a_k > S - \varepsilon$ since the latter is smaller than the least upper bound $A_n$ of the set $\{ a_k \colon k \geqslant n \}$.  This means that we can always find some term that is larger than $S - \varepsilon$ beyond any point, hence part (ii) is shown.
+  \end{enumerate}
+\end{proof}
+
+Finally we list a few properties for upper and lower limits.
+
+\begin{prop}
+  Let $\langle x_n \rangle$ and $\langle y_n \rangle$ be two real sequences.
+  \begin{enumerate}[$(1)$]
+    \item Let $\displaystyle S = \limsup_{n \to \infty} x_n$.  Then there is a subsequence $\langle x_{n_i} \rangle$ of $\langle x_n \rangle$ such that $x_{n_i} \to S$ as $i \to \infty$.
+
+    \item If $T$ is a subsequential limit of $\langle x_n \rangle$, then $\displaystyle T \leqslant \limsup_{n \to \infty} x_n$.
+
+    \item We have
+      \[
+	\limsup_{n \to \infty} (x_n + y_n) \leqslant \left( \limsup_{n \to \infty} x_n \right) + \left( \limsup_{n \to \infty} y_n \right),
+      \]
+      except the case where the right-hand side is $\infty + (-\infty)$, whose result is undefined.
+
+      Furthermore, there are examples where the strict inequality $<$ actually happen.
+
+    \item If $\displaystyle \lim_{n\to\infty} y_n$ exists in $[-\infty, \infty]$, then
+      \[
+	\limsup_{n \to \infty} (x_n + y_n) = \left( \limsup_{n \to \infty} x_n \right) + \left( \lim_{n \to \infty} y_n \right),
+      \]
+      except the case where the right-hand side is $\infty + (-\infty)$, whose result is undefined.
+      
+    \item $\displaystyle \lim_{n \to \infty} x_n$ exists in $[-\infty, \infty]$ if and only if $\displaystyle \limsup_{n \to \infty} x_n = \liminf_{n \to \infty} x_n$.
+
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}
+  \begin{enumerate}[(1)]
+    \item There are three cases to consider: $S= \infty$, $S = - \infty$, or $S \in \mathbb{R}$.
+
+      If $S = \infty$, by Theorem~\ref{thm:limsup} (1) we know that $\langle x_n \rangle$ is not bounded above.  Hence we may find an increasing sequence $n_1 < n_2 < n_3 < \cdots$ of positive integers such that $x_{n_i} \geqslant i$ for all $i \in \mathbb{N}$.  It is clear that this subsequence works, i.e., $x_{n_i} \to \infty$ as $i \to \infty$.
+
+      If $S = -\infty$, then by Theorem~\ref{thm:limsup} (2) we know that $\displaystyle \lim_{n \to \infty} x_n = -\infty$.  Obviously the statement holds because a sequence is a subsequence of itself.
+
+      Now we assume that $S \in \mathbb{R}$.  For convenience we set $n_0 = 0$.  By Theorem~\ref{thm:limsup} (3), for each $i \in \mathbb{N}$, there is an integer $n_i \in \mathbb{N}$ such that $n_i > n_{i-1}$ and $S - \frac{1}{i} < x_{n_i} < S + \frac{1}{i}$ (considering $\varepsilon = \frac{1}{i}$).  By the squeeze theorem we see that $\displaystyle \lim_{i \to \infty} x_{n_i} = S$.
+
+    \item Let $\langle x_{n_i} \rangle$ be a subsequence of $\langle x_n \rangle$ such that $x_{n_i} \to T$ as $i \to \infty$.  Since for each $i \in \mathbb{N}$,
+      \[
+	x_{n_i} \leqslant \alpha_{n_i} = \sup \{ x_k \colon k \geqslant n_i \},
+      \]
+      hence by the limit comparison theorem
+      \[
+	T = \lim_{n \to \infty} x_{n_i} \leqslant \lim_{i \to \infty} \alpha_{n_i} = S.
+      \]
+
+    \item Define for each $n \in \mathbb{N}$,
+      \[
+	\alpha_n = \sup \{ x_k \colon k \geqslant n \}, \qquad
+	\beta_n  = \sup \{ y_k \colon k \geqslant n \}.
+      \]
+      Then for any $k \geqslant n$, we have
+      \[
+	x_k + y_k \leqslant \alpha_n + \beta_n.
+      \]
+      This implies that
+      \[
+	\sup \{ x_k + y_k \colon k \geqslant n \} \leqslant \alpha_n + \beta_n.
+      \]
+      Hence by the limit comparison theorem,
+      \[
+	\limsup_{n \to \infty} (x_n + y_n) \leqslant \lim_{n \to \infty} \alpha_n + \lim_{n \to \infty} \beta_n = \limsup_{n \to \infty} x_n + \limsup_{n \to \infty} y_n.
+      \]
+      The exceptional case of $\infty + (-\infty)$ (or $(-\infty) + \infty$) on the right-hand side can be seen easily.
+
+    \item We follow the proof of (3) and the notations in it.  Note that if at least one of the limits $\displaystyle \limsup_{n\to\infty} x_n$ and $\displaystyle \lim_{n\to\infty} y_n$ is infinite, the result is clear.  Therefore we assume that $\displaystyle \limsup_{n\to\infty} x_n = A$ and $\displaystyle \lim_{n\to\infty} y_n = B$ are finite, and we are proving the reverse inequality of (3).
+
+      For any $\varepsilon > 0$, there are infinitely many $n$'s such that $x_n \geqslant A - \dfrac{\varepsilon}{2}$.  On the other hand, there is an integer $N \in \mathbb{N}$ such that $y_n \geqslant B - \dfrac{\varepsilon}{2}$ for all $n \geqslant N$.  Therefore there are infinitely many $n$'s such that $x_n + y_n \geqslant A + B - \varepsilon$.  This implies that
+      \[
+	\limsup_{n\to\infty} (x_n + y_n) \geqslant A + B - \varepsilon.
+      \]
+      Since $\varepsilon > 0$ is arbitrary, we conclude that
+      \[
+	\limsup_{n\to\infty} (x_n + y_n) \geqslant A + B = \limsup_{n\to\infty} x_n + \lim_{n\to\infty} y_n.
+      \]
+
+    \item If any of the three numbers is $\infty$ or $-\infty$, then Theorem~\ref{thm:limsup} (2) takes care the argument.
+
+      Now assume $\displaystyle S = \lim_{n\to\infty} x_n$ is a real numbers.  Then part (1) of this Proposition shows that $\displaystyle \limsup_{n\to\infty} x_n = \liminf_{n\to\infty} x_n = S$ by Proposition~\ref{prop:basicpropertyoflimit} (2).
+
+      Conversely, assume that $\displaystyle S = \limsup_{n\to\infty} x_n = \liminf_{n\to\infty} x_n$.  By Theorem~\ref{thm:limsup} (3)(i), for any $\varepsilon > 0$, there is an integer $N \in \mathbb{N}$ such that $S - \varepsilon < x_n < S + \varepsilon$ whenever $n \geqslant N$.  This is precisely the definition of $\displaystyle \lim_{n\to\infty} x_n = S$.
+  \end{enumerate}
+\end{proof}

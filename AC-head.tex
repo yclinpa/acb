@@ -1,0 +1,63 @@
+\documentclass[12pt,openany]{book}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, latexsym, amssymb, amsthm}
+\usepackage{junicode}
+\usepackage{unicode-math}
+\setmathfont{Libertinus Math}
+\usepackage{enumerate}
+\usepackage{emptypage}
+\usepackage{dutchcal}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+%%%%% Header stuff %%%%%
+\setlength{\headheight}{15pt}
+\usepackage{fancyhdr}
+\fancyfoot{}
+\fancyhead[L]{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\pagestyle{fancy}
+%%%%% End Header   %%%%%
+\setlength{\parskip}{0.5ex}
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{prop}[thm]{Propsition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{property}{Property}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{example}[thm]{Example}
+%%%%%
+\newcommand{\op}[1]{\operatorname{#1}}
+\newcommand{\eu}{\mathrm e}
+\newcommand{\dd}{\mathrm d}
+
+\title{Rudimentary Advanced Calculus}
+\author{Yen-chi Roger Lin}
+\date{August 2024}
+
+\begin{document}
+  \frontmatter
+  \maketitle
+
+  \setcounter{page}{1}
+  \tableofcontents
+
+  \mainmatter
+  \input{001}
+  \input{002}
+  \input{003}
+  \input{006}
+  \input{004}
+  \input{007}
+  \input{009}
+  \input{010}
+  \input{012}
+  \input{011}
+  \input{013}
+  \input{014}
+  \input{015}
+  \input{016}
+  \input{017}
+  \input{018}
+\end{document}

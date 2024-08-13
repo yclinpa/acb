@@ -1,0 +1,803 @@
+\chapter{Differentiation on $\mathbb{R}$} 
+\label{chap:diff}
+
+It is time to shift our focus from spaces and functions to calculus.
+In this semester we deal with one-variable calculus mainly.
+As usual, let us start with the definition of differentiation.
+
+\section{Basics of differentiation}
+\label{sec:diff-def}
+
+\begin{defn}
+  Let $I$ be an open interval in $\mathbb{R}$ and $a \in I$.
+  A function $f: I \to \mathbb{R}$ is said to be \textsf{differentiable} at $a$ when the limit
+  \begin{equation}
+    \label{eq:diff1}
+    \lim_{x \to a} \frac{ f(x) - f(a) }{ x - a } 
+  \end{equation}
+  exists.  In this case that limit is called the \textsf{derivative} of $f$ at $a$ and is denoted by $f'(a)$.
+
+  A function $f : (a,b) \to \mathbb{R}$ is \textsf{differentiable} in $(a,b)$ if it is differentiable at every point of $(a,b)$.
+\end{defn}
+
+By a change of variable $x = a + h$, (\ref{eq:diff1}) can also be written as
+\begin{equation}
+  \label{eq:diff2}
+  \lim_{h \to 0} \frac{f(a+h)-f(a)}{h}.
+\end{equation}
+Let us start with a useful lemma.
+
+\begin{thm}[Carath\'eodory theorem]
+  \label{thm:caratheodory}
+  Let $I$ be an open interval in $\mathbb{R}$ and $a \in I$.
+  A function $f : I \to \mathbb{R}$ is differentiable at $a$ if and only if there is a function $F : I \to \mathbb{R}$ that is continuous at $a$ and
+  \[
+    f(x) = f(a) + F(x) \cdot (x-a), \qquad \forall \, x \in I.
+  \]
+\end{thm}
+
+\begin{proof}
+  Define, for $x \in I$,
+  \[
+    F(x) = 
+    \begin{cases}
+      \dfrac{f(x) - f(a)}{x-a}, & \text{when $x \ne a$}, \\
+      c, & \text{when $x = a$},
+    \end{cases}
+  \]
+  where $c$ is some constant.
+  If $f'(a)$ exists, we let $c = f'(a)$ and this implies that $F$ is continuous at $a$.
+  Conversely, if $F$ is continuous at $a$, then
+  \[
+    c = F(a) = \lim_{x \to a} F(x) = \lim_{x \to a} \frac{ f(x) - f(a) }{ x - a },
+  \]
+  which shows that $f$ is differentiable at $a$ with $f'(a) = c$.
+\end{proof}
+
+\noindent \textit{Remark.} $F$ may be called the function of \textit{slopes of secant lines} with respect to $a$.
+
+With Theorem~\ref{thm:caratheodory}, it is easier to prove some standard calculus facts.
+
+\begin{thm}
+  \begin{enumerate}[(1)]
+    \item Differentiability implies continuity.
+
+    \item If $f$ and $g$ are differentiable at $x$ and $\lambda$ is a scalar, then $f+g$ and $\lambda f$ are both differentiable at $x$, with the following derivative formulae:
+      \begin{align*}
+	(f + g)'(x) &= f'(x) + g'(x), \\
+	(\lambda f)'(x) &= \lambda \, f'(x).
+      \end{align*}
+      With these formulae, the set of real-valued functions that are differentiable at $x$ has the structure of a vector space over $\mathbb{R}$.
+
+    \item (Product rule, a.k.a.~Leibniz formula)
+      If $f$ and $g$ are differentiable at $x$ then so is their product $f \cdot g$, the derivative being
+      \[
+	(f \cdot g)'(x) = f'(x) g(x) + f(x) g'(x).
+      \]
+
+    \item (Quotient rule) If $f$ and $g$ are differentiable at $x$ and $g(x) \ne 0$ then their ratio $f/g$ is differentiable at $x$, the derivative being
+      \[
+	\left( \frac{f}{g} \right)'(x) = \frac{f'(x) g(x) - f(x) g'(x)}{(g(x))^2}.
+      \]
+      
+    \item The derivative of a constant is zero, i.e., $c' = 0$.
+
+    \item (Chain rule) If $f$ is differentiable at $x$ and $g$ is differentiable at $y = f(x)$, then their composite $g \circ f$ is differentiable at $x$, the derivative being
+      \[
+	(g \circ f)'(x) = g'(f(x)) f'(x).
+      \]
+  \end{enumerate}
+\end{thm}
+
+Their proofs are standard.  Here we only prove a few among them using Theorem~\ref{thm:caratheodory}.
+
+\begin{proof}
+  \begin{enumerate}[(1)]
+    \item Let $f$ be differentiable at $x$.  Then there exists a function $F$ continuous at $x$ such that 
+      \begin{equation}
+	\label{eq:cara1}
+	f(t) = f(x) + F(t) (t-x).
+      \end{equation}
+      Taking the limit as $t \to x$ at the right-hand side of (\ref{eq:cara1}), we see that
+      \[
+	\lim_{t \to x} (f(x) + F(t) (t-x)) = f(x) + F(x) (x-x) = f(x).
+      \]
+      This shows that $f$ is continuous at $x$.
+
+      \addtocounter{enumi}{1}
+    \item By Theorem~\ref{thm:caratheodory} there are functions $F$ and $G$ that are continuous at $x$ and
+      \begin{align*}
+	f(t) &= f(x) + F(t) (t-x), \\
+	g(t) &= g(x) + G(t) (t-x).
+      \end{align*}
+      Multiplying both equations above yields
+      \[
+	f(t) g(t) = f(x) g(x) + \bigl(F(t)g(x) + f(x)G(t) + F(t)G(t)(t-x)\bigr) (t-x).
+      \]
+      Clearly $F(t) g(x) + f(x) G(t) + F(t) G(t) (t-x)$ is a function that is continuous at $t = x$, with
+      \begin{align*}
+	F(x) g(x) + f(x) G(x) + F(x) G(x) (x-x) &= F(x) g(x) + f(x) G(x) \\
+	&= f'(x) g(x) + f(x) g'(x).
+      \end{align*}
+      Hence by Theorem~\ref{thm:caratheodory}, $f \cdot g$ is differentiable at $x$ with the derivative $f'(x) g(x) + f(x) g'(x)$. 
+
+      \addtocounter{enumi}{2}
+    \item There are functions $F$ that is continuous at $x$ and $G$ that is continuous at $y = f(x)$ such that
+      \begin{align*}
+	f(t) &= f(x) + F(t) (t-x), \\
+	g(s) &= g(y) + G(s) (s-y).
+      \end{align*}
+      Now use $s = f(t)$ and $y = f(x)$ to get
+      \begin{align*}
+	g(f(t)) &= g(f(x)) + G(f(t)) (f(t) - f(x)) \\
+	&= g(f(x)) + G(f(t)) F(t) (t-x).
+      \end{align*}
+      By (1) $f$ is continuous at $x$, so are $G(f(t))$ and $G(f(t)) F(t)$.
+      Therefore by Theorem~\ref{thm:caratheodory}, $g \circ f$ is differentiable at $x$, with the derivative
+      \[
+	(g \circ f)'(x) = G(f(x)) F(x) = g'(f(x)) f'(x).
+      \]
+  \end{enumerate}
+\end{proof}
+
+With these facts in hand, we have lots of functions whose derivatives are easily calculated.
+
+\begin{cor}
+  \begin{enumerate}[(1)]
+    \item The derivative of a polynomial $a_0 + a_1 x + \cdots + a_n x^n$ exists at every $x \in \mathbb{R}$ and equals $a_1 + 2a_2 x + \cdots + n a_n x^{n-1}$.
+    \item The quotient $\dfrac{P(x)}{Q(x)}$ between two polynomials $P(x)$ and $Q(x)$ iss differentiable at every $x = a \in \mathbb{R}$ except for those $a$ with $Q(a) = 0$.
+  \end{enumerate}
+\end{cor}
+
+\section{Mean value theorem}
+\label{sec:MVT}
+
+Now we formulate one of the most useful tools about differentiation, which is called the mean value theorem.
+But we will state a more general statement.
+
+\begin{thm}[Cauchy's mean value theorem]
+  \label{thm:cmvt}
+  Let $f, g$ be two real-valued functions defined on a closed interval $[a,b]$.
+  Suppose that both $f$ and $g$ are continuous on $[a,b]$ and differentiable in $(a,b)$.
+  Then there exists a point $c \in (a,b)$ such that
+  \[
+    g'(c) \cdot (f(b) - f(a)) = f'(c) \cdot (g(b) - g(a)).
+  \]
+\end{thm}
+
+If we take $g(x) = x$, then the above theorem returns to its original form.
+\begin{cor}[(Ordinary) Mean value theorem]
+  \label{thm:mvt}
+  Let $f$ be a real-valued function defined on a closed interval $[a,b]$.
+  If $f$ is continuous on $[a,b]$ and differentiable in $(a,b)$,
+  then there exists a point $c \in (a,b)$ such that
+  \[
+    f(b) - f(a) = f'(c) \cdot (b-a).
+  \]
+\end{cor}
+
+The proof of the mean value theorem is based upon a useful observation, whose implication seems to be a corollary of the mean value theorem.
+However this view should be avoided because it creates a circular argument.
+
+\begin{lem}[Rolle's theorem]
+  \label{thm:rolle}
+  Let $f$ be a real-valued function which is continuous on $[a,b]$ and differentiable in $(a,b)$.
+  If $f(a) = f(b)$, then there is a point $c \in (a,b)$ such that $f'(c) = 0$.
+\end{lem}
+
+\begin{proof}
+  If $f$ is a constant function on $[a,b]$, then $f'$ vanishes in $(a,b)$ and the conclusion holds.
+  Hence we may assume that $f$ is not a constant function on $[a,b]$.
+
+  By the extreme value theorem, $f$ achieves its maximum $M$ and minimum $m$ on $[a,b]$.  Since $f$ is not a constant function, we must have $m < M$.
+  However it is assumed that $f(a) = f(b)$, therefore $f$ achieves a local extremum at some \textit{interior} point $c \in (a,b)$.
+  Let us show that $f'(c) = 0$.
+  Since $f$ is differentiable at $c$,
+  \[
+    f'(c) = \lim_{x \to c\pm} \frac{ f(x) - f(c) }{x - c}.
+  \]
+  As $x$ approaches to $c$ from the both sides, the numerator in the limit $f(x) - f(c)$ has the same sign while the denominator has the opposite signs.
+  By the limit comparison theorem we must have $0 \leqslant f'(c) \leqslant 0$, that implies $f'(c) = 0$.  This is what is asked to show.
+\end{proof}
+
+\begin{proof}[Proof of Cauchy's mean value theorem]
+  Consider the following auxiliary function:
+  \[
+    h(x) = f(x) \cdot (g(b) - g(a)) - g(x) \cdot (f(b) - f(a)), \quad x \in [a,b].
+  \]
+  The function $h$ is also continuous on $[a,b]$ and differentiable in $(a,b)$ since it is a linear combination of $f$ and $g$.
+  Moreover,
+  \[
+    h(a) = f(a) g(b) - g(a) f(b) = h(b),
+  \]
+  therefore $h$ satisfies the hypothesis of the Rolle's theorem.
+  From that we conclude that there is a point $c \in (a,b)$ such that $h'(c) = 0$.  If we write out $h'(c)$, we get
+  \[
+    0 = h'(c) = f'(c) (g(b) - g(a)) - g'(c) (f(b) - f(a)),
+  \]
+  and the proof is finished.
+\end{proof}
+
+\noindent\textbf{Example.}
+Let us regard a plane curve parametrized by $(f(t), g(t))$, where $f, g$ are real-valued functions which are continuous on $[a,b]$ and differentiable in $(a,b)$.
+If $(f'(t), g'(t)) \ne 0$ for any $t \in (a,b)$, then by the Cauchy's mean value theorem we see that there is a moment $c \in (a,b)$ such that
+\[
+  (f'(c), g'(c)) \parallel (f(b), g(b)) - (f(a), g(a)).
+\]
+This says that the tangent vector $(f'(c), g'(c))$ is parallel to the secant vector that connects both endpoints $(f(a),g(a))$ and $(f(b), g(b))$.
+This can be specialized to an ordinary situation when we simply take $f(x) = x$ and $g$ is just some differentiable function on $[a,b]$.
+
+\medskip
+From the mean value theorem, signs of derivatives could tell the trend of a function.  The proof is straightforward and omitted here.
+
+\begin{cor}[First derivative test]
+  Let $f$ be a real-valued function which is continuous on $[a,b]$ and differentiable in $(a,b)$.
+  \begin{enumerate}[(i)]
+    \item If $f'(x) > 0$ (resp.\ $f'(x) \geqslant 0$) for any $x \in (a,b)$, then $f$ is strictly increasing (resp.\ increasing) on $[a,b]$.
+    \item If $f'(x) < 0$ (resp.\ $f'(x) \leqslant 0$) for any $x \in (a,b)$, then $f$ is strictly decreasing (resp.\ decreasing) on $[a,b]$.
+
+  \end{enumerate}
+\end{cor}
+
+\noindent\textit{Remark.} It should be noted that if a function $f: I \to \mathbb{R}$ is strictly increasing and differentiable on an open interval $I \subseteq \mathbb{R}$, it can only be inferred that $f'(x) \geqslant 0$ for any $x \in I$; the equality might hold at some point.
+A typical example is $f(x) = x^3$ defined on $\mathbb{R}$, whose derivative vanishes at $x = 0$.
+
+Another corollary is about Lipschitz continuity.
+
+\begin{cor}
+  If a function $f: I \to \mathbb{R}$ has bounded derivatives on an intervarl $I \subseteq \mathbb{R}$, then $f$ is \textsf{Lipschitz continuous} on $I$; that is, there is a constant $C \geqslant 0$ such that
+  \[
+    |f(x) - f(y)| \leqslant C |x-y|, \qquad \forall\, x, y \in I.
+  \]
+\end{cor}
+
+\begin{proof}
+  We simply take $C = \sup \{ |f'(t)| \colon t \in I \}$, and apply the mean value theorem then take the absolute values: there is some $\xi$ between $x$ and $y$ such that
+  \[
+    |f(x) - f(y)| = |f'(\xi)| \cdot |x-y| \leqslant C |x-y|.
+  \]
+\end{proof}
+
+Finally we prove a useful tool when dealing with limits.
+
+\begin{thm}[L'Hospital's rule for $\dfrac{0}{0}$\footnote{We only deal with L'Hospital's rule for $\frac00$ here. For the proof of L'Hospital's rule for $\frac\infty\infty$, see Walter Rudin, \textit{Principles of Mathematical Analysis}, $3^\text{rd}$ edition, pp.109-110.}]
+  Let $f$ and $g$ be differentiable defined on an interval $(a,b)$.
+  Suppose that
+  \begin{itemize}
+    \item $f(x) \to 0$, $g(x) \to 0$ as $x \to b-$;
+    \item $g(x) \ne 0$ and $g'(x) \ne 0$ for any $x$ in some neighborhood of $b$; and
+    \item $\displaystyle \lim_{x \to b-} \frac{ f'(x) }{ g'(x) } = L \in \mathbb{R}$.
+  \end{itemize}
+  Then $\displaystyle \lim_{x \to b-} \frac{f(x)}{g(x)} = L$ as well.
+\end{thm}
+
+\begin{proof}
+  Choose a point $c \in (a,b)$ such that $g(x) \ne 0$ and $g'(x) \ne 0$ for any $x \in [c,b)$.
+  Extend the domains of $f$ and $g$ to $[c,b]$ by defining $f(b) = g(b) = 0$.
+  Under the hypothesis $f$ and $g$ are continuous on $[c,b]$ and differentiable in $(c,b)$.
+  For any $\varepsilon > 0$, there is a $\delta > 0$ such that $\left| \dfrac{f'(t)}{g'(t)} - L \right| < \varepsilon$ whenever $t \in (b-\delta, b) \subseteq (c,b)$.
+  Thus, whenever $x \in (b-\delta, b)$, there is a $\xi \in (x,b)$ such that
+  \[
+    \frac{f(x)}{g(x)} = \frac{ f(x) - f(b) }{ g(x) - g(b) } = \frac{ f'(\xi) }{ g'(\xi) }
+  \]
+  by Cauchy's mean value theorem.  Hence whenever $b - \delta < x < b$, we have
+  \[
+    \left| \frac{f(x)}{g(x)} - L \right| = \left| \frac{ f'(\xi) }{ g'(\xi) } - L \right| < \varepsilon.
+  \]
+  Since $\varepsilon$ is arbitrary, we conclude that $\displaystyle \lim_{x \to b-} \frac{f(x)}{g(x)} = L$ as well.
+
+  For the case $b = +\infty$, we use a change of variable $y = \dfrac1x$; as $x \to \infty$, $y \to 0+$.
+  Define two functions
+  \[
+    F(y) = 
+    \begin{cases}
+      f(1/y), & \text{if $y > 0$}; \\
+      0     , & \text{if $y = 0$};
+    \end{cases}
+    \qquad
+    G(y) = 
+    \begin{cases}
+      g(1/y), & \text{if $y > 0$}; \\
+      0     , & \text{if $y = 0$};
+    \end{cases}
+  \]
+  Then for $y > 0$, $F'(y) = -f'(y)/y^2$ and $G'(y) = -g'(y)/y^2$.
+  It is not hard to realize that l'Hospital's rule applies to $F, G$ at $y \to 0+$ implies that to $f,g$ at $x \to +\infty$.
+\end{proof}
+
+\noindent\textit{Remark.} Although we prove the case for limits from the left, the same works for limits from the right.
+Also noted is that the process of l'Hospital's rule usually goes \textit{backward}, as the following example shows.
+Since
+\[
+  \lim_{x \to 0} \frac{ 2 \eu^{2x} }{1} = 2,
+\]
+hence by l'Hospital's rule we have
+\[
+  \lim_{x \to 0} \frac{ \eu^{2x} - 1 }{ x } \stackrel{\textrm{H}}{=} \lim_{x \to 0} \frac{ 2 \eu^{2x} }{ 1 } = 2.
+\]
+
+There are pathological examples about differentiation.
+First we encounter a differentiable function whose derivative is not continuous.
+Consider the function $f: \mathbb{R} \to \mathbb{R}$ defined as
+\[
+  f(x) = 
+  \begin{cases}
+    x^2 \sin \dfrac{1}{x}, & \text{if $x \ne 0$}; \\
+    0,                     & \text{if $x = 0$}.
+  \end{cases}
+\]
+The function $f$ is certainly differentiable at every $x \ne 0$, with derivative
+\[
+  f'(x) = 2x \sin \dfrac1x - \cos \dfrac1x, \qquad x \ne 0.
+\]
+Nevertheless, $f$ is also differentiable at $x = 0$, as we verify the difference-quotient:
+\[
+  \lim_{x\to 0} \frac{ f(x) - f(0) }{ x }
+  = \lim_{x\to 0} \frac{x^2 \sin \frac1x}{x} 
+  = \lim_{x\to 0} x \sin \frac1x = 0.
+\]
+(The last equality follows from the squeeze theorem.)
+
+Note that $f'(x)$ does not converge to $0$ as $x \to 0$, as the term $\cos \dfrac1x$ oscillates between $\pm1$.
+Hence its derivative $f'$ is discontinuous at $x = 0$. 
+Analogously, the function $\displaystyle x^\alpha \sin^\beta \dfrac1x$ behaves differently if suitable constants $\alpha$ and $\beta$ are specified.
+
+Although the derivative of a differentiable function may or may not be continuous, its discontinuity may never \textit{jump}, as the following theorem shows.
+
+\begin{thm}
+  If $f$ is differentiable on an open interval $I$ in $\mathbb{R}$ then its derivative function $f'$ has the intermediate value property. That is, suppose $[a,b]  \subseteq I$ with $f'(a) = \alpha$ and $f'(b) = \beta$; then for any $\gamma$ between $\alpha$ and $\beta$, there is a point $c \in (a,b)$ such that $f'(c) = \gamma$.
+\end{thm}
+
+\noindent\textit{Remark.} If $f'$ is already continuous, we may apply the intermediate value theorem for continuous functions directly.
+However we now supply a proof that does not depend on the continuity of $f'$.
+
+\begin{proof}
+  Without loss of generality, we may assume that $\alpha > \gamma > \beta$; otherwise consider $-f$ instead of $f$.
+  By considering $f(x) - \gamma x$, we may further assume that $\alpha > \gamma = 0 > \beta$. 
+
+  Now we have
+  \[
+    0 < \alpha = f'(a) = \lim_{x \to a+} \frac{ f(x) - f(a) }{ x - a }.
+  \]
+  For $\varepsilon = \alpha/2 > 0$, there is a $\delta > 0$ such that whenever $x \in (a, a+\delta)$, we have
+  \[
+    \left| \frac{f(x) - f(a)}{x - a} - \alpha \right| < \varepsilon = \frac{\alpha}{2}.
+  \]
+  After moving terms around, we see that for any $x \in (a, a + \delta)$,
+  \[
+    \frac{f(x) - f(a)}{x-a} > \frac{\alpha}{2} \implies
+    f(x) > f(a) + \frac{\alpha}{2} (x-a) > f(a).
+  \]
+  \textit{This shows that $f(a)$ cannot be the maximum for $f$ in $[a,b]$.}
+  Similarly, $f(b)$ cannot be the maximum for $f$ in $[a,b]$ either.
+  Since from the extreme value theorem the maximum of $f$ in $[a,b]$ must occur somewhere, it must occur at some \textit{interior} point $c \in (a,b)$.
+  Since $f$ is differentiable at $c$, we must have $f'(c) = 0 = \gamma$.
+\end{proof}
+
+To state the following corollary, we need the following definitions.
+Let $x$ be an interior point of an interval $I \subseteq \mathbb{R}$.
+Then we define, for a function $f$ on $I$ whose following notations make sense,
+\[
+  f'(x-) = \lim_{t \to x-} f'(t); \qquad
+  f'(x+) = \lim_{t \to x+} f'(t).
+\]
+That is, $f'(x\pm)$ are the one-sided limits of $f'$ at $x$.
+One should not confuse them with \textit{one-sided derivatives}, whose definitions and notations are
+\[
+  f'_-(x) = \lim_{t \to x-} \frac{ f(t) - f(x) }{ t - x }; \qquad
+  f'_+(x) = \lim_{t \to x+} \frac{ f(t) - f(x) }{ t - x }.
+\]
+\begin{cor}
+  The derivative of a differentiable function never has a jump discontinuity in the sense that $f'(x-)$ and $f'(x+)$ both exist but $f'(x-) \ne f'(x+)$.
+\end{cor}
+
+\section{Higher derivatives, Taylor approximation}
+\label{sec:higher-diff}
+
+If a function $f$ is differentiable in an interval $I$, its derivative $f'$ may be viewed as a function in $I$, called the \textit{derivative function}.
+Hence it is reasonable to ask whether the function $f'$ can be differentiated or not.
+The derivative of $f'$, if it exists, is the \textsf{second derivative} of $f$,
+\[
+  f''(x) = (f')'(x) = \lim_{t \to x} \frac{ f'(t) - f'(x) }{ t - x }.
+\]
+
+Higher derivatives are defined inductively and written $f^{(r)} = ( f^{(r-1)} )'$ for $r \in \mathbb{N}$, where $f^{(0)} = f$ and $f^{(1)} = f'$.
+If $f^{(r)}(x)$ exists then $f$ is \textsf{$r^\text{th}$-order differentiable} at $x$.
+If $f^{(r)}(x)$ exists for each $x \in (a,b)$ then $f$ is \textsf{$r^\text{th}$-order differentiable}.
+If $f^{(r)}(x)$ exists for all $r \in \mathbb{N} \cup \{0\}$ and all $x$ then $f$ is called \textsf{infinitely differentiable} or \textsf{smooth}.
+The \textsf{zeroth derivative} of $f$ is $f$ itself, $f^{(0)}(x) = f(x)$.
+Clearly, if $f$ is $r^{\text{th}}$-order differentiable with $r \geqslant 1$ then $f^{(r-1)}$ is continuous.
+
+If $f$ is differentiable and its derivative function $f'(x)$ is a continuous function of $x$, then $f$ is called \textsf{continuously differentiable} and we say that $f$ is \textsf{of class $\mathcal{C}^1$}.
+Likewise, if $f$ is $r^{\text{th}}$-order differentiable and $f^{(r)}(x)$ is a continuous function of $x$ then $f$ is \textsf{continuously $r^{\text{th}}$ differentiable} and we say that $f$ is \textsf{of class $\mathcal{C}^r$}.
+If $f$ is smooth then by the proceeding discussion it is of class $\mathcal{C}^r$ for all finite $r$ and we say that $f$ is \textsf{of class $\mathcal{C}^\infty$}.
+To round out the notation we say that a continuous function is of class $\mathcal{C}^0$.
+
+Thinking of $\mathcal{C}^r$ as the set of functions of class $\mathcal{C}^r$, we have the regularity hierarchy
+\[
+  \mathcal{C}^0 \supseteq \mathcal{C}^1 \supseteq \cdots \supseteq \bigcap_{r \in \mathbb{N}} \mathcal{C}^r = \mathcal{C}^\infty.
+\]
+Each inclusion $\mathcal{C}^r \supseteq \mathcal{C}^{r+1}$ is proper, i.e. there are functions of class $\mathcal{C}^r$ which are not of class $\mathcal{C}^{r+1}$.
+For example, the function $f(x) = |x|$ is of class $\mathcal{C}^0$ but not of class $\mathcal{C}^1$.
+
+The $r^{\text{th}}$-order \textsf{Taylor polynomial} of an $r^{\text{th}}$-order differentiable function $f$ at $a$ is\footnote{In the theory of power series, we usually define $0^0 = 1$, which occurs at the constant term.}
+\begin{equation}
+  \label{eq:taylor1}
+  P_r(x) = f(a) + f'(a) (x-a) + \frac{f''(a)}{2!} (x-a)^2 + \cdots + \frac{f^{(r)}(a)}{r!} (x-a)^r = \sum_{k=0}^r \frac{ f^{(k)}(a) }{k!} (x-a)^k.
+\end{equation}
+
+By a change of variable $x = a + h$, (\ref{eq:taylor1}) can also be written as
+\begin{equation}
+  \label{eq:taylor2}
+  P_r(a+h) = f(a) + f'(a) h + \frac{f''(a)}{2!} h^2 + \cdots + \frac{f^{(r)}(a)}{r!} h^r = \sum_{k=0}^r \frac{ f^{(k)}(a) }{k!} h^k.
+\end{equation}
+The coefficients $\dfrac{f^{(k)}(a)}{k!}$ are constants, and the variable is $x$ (or $h$).
+Differentiation of $P_r$ with respect to $x$ at $x = a$ gives
+\[
+  P_r^{(k)}(a) = f^{(k)}(a), \qquad k = 0, 1, \dots, r.
+\]
+In fact, $P_r$ is the unique polynomial of degree at most $r$ with these properties.
+
+\begin{thm}[Taylor theorem]
+  Let $I$ be an open interval in $\mathbb{R}$.
+  Assume that $f: I \to \mathbb{R}$ is $r^{\text{th}}$-order differentiable at $a \in I$.  Then
+  \begin{enumerate}[(i)]
+    \item $P_r$ approximates $f$ to order $r$ at $a$ in the sense that the Taylor \textsf{$r^{\text{th}}$-order remainder}
+      \[
+        R_r(h) := f(a+h) - P_r(a+h)
+      \]
+      is $r^{\text{th}}$-order flat at $h = 0$; i.e., $R_r(h) / h^r \to 0$ as $h \to 0$.
+
+      In particular, the Taylor polynomial $P_r(x)$ is the only polynomial of degree at most $r$ with the $r^{\text{th}}$-order flat property.
+
+    \item If, in addition, $f$ is $(r+1)^{\text{st}}$-order differentiable in $I$ then for some $\theta$ between $a$ and $a+h$ such that
+      \begin{equation}
+	\label{eq:r-remainder}
+	R_r(h) = \frac{ f^{(r+1)}(\theta) }{ (r+1)! } h^{r+1}.
+      \end{equation}
+  \end{enumerate}
+\end{thm}
+
+\noindent\textit{Remark.} (\ref{eq:r-remainder}) is the \textsf{Lagrange form} of the remainder.
+If $|f^{(r+1)}(\theta)| \leqslant M$ for all $\theta \in I$ then
+\[
+  |R_r(h)| \leqslant \frac{ M h^{r+1} }{(r+1)!},
+\]
+an estimate that is valid uniformly with respect to $a$ and $a+h$ in $I$, whereas (i) is only an infinitesimal pointwise estimate.
+Of course (ii) requires stronger hypotheses than (i).
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item The first $r$ derivatives of $R_r(h)$ exist and equal $0$ at $h = 0$.
+      If $h > 0$ then the repeated application of the mean value theorem give
+      \begin{align*}
+	R_r(h) &= R_r(h) - 0 = R'(\theta_1) h = (R'(\theta_1)-0) h = R''(\theta_2) \theta_1 h \\
+	&= \cdots = R^{(r-1)}(\theta_{r-1}) \theta_{r-2} \cdots \theta_1 h,
+      \end{align*}
+      where $0 < \theta_{r-1} < \cdots < \theta_2 < \theta_1 < h$.
+      Thus
+      \[
+	\left| \frac{R_r(h)}{h^r} \right|
+	= \left| \frac{ R^{(r-1)}(\theta_{r-1}) \theta_{r-2} \cdots \theta_1 h }{ h^r } \right|
+	\leqslant \left| \frac{ R^{(r-1)}(\theta_{r-1}) }{h} \right|
+	\leqslant \left| \frac{ R^{(r-1)}(\theta_{r-1}) - 0 }{\theta_{r-1}}
+	\right| \to 0,
+      \]
+      as $h \to 0$, with the last limit equals $0$ since $R^{(r-1)}$ is differentiable at $0$.
+
+      On the other hand, if $h < 0$ the same is true for $h < \theta_1 < \cdots < \theta_{r-1} < 0$.
+      
+    \item Let $h \geqslant 0$ and consider two functions in $h$:
+      \[
+	F(h) = f(a+h) - \sum_{k=0}^r \frac{ f^{(k)}(a) }{k!} h^k, \quad
+	\text{and} \quad
+	G(h) = h^{r+1}.
+      \]
+      Both $F$ and $G$ are $\mathcal{C}^r$ on $[0,h]$ and have the $(r+1)^{\text{st}}$-order derivatives in $(0,h)$.
+      Also note that for all $k=0,1,\dots,r$ we have $F^{(k)}(0) = 0 = G^{(k)}(0)$ and $G^{(k)}(h) \ne 0$ for $h \ne 0$. 
+      By repeatedly applying the generalized mean value theorem, we see that
+      \[
+	\frac{F(h)}{G(h)} = \frac{F(h)-F(0)}{G(h)-G(0)} = \frac{F'(h_1)}{G'(h_1)} = \cdots = \frac{F^{(r)}(h_r)}{G^{(r)}(h_r)} = \frac{F^{(r+1)}(h_{r+1})}{G^{(r+1)}(h_{r+1})}
+      \]
+      for some $0 < h_{r+1} < h_r < \cdots < h_1 < h$.
+      Finally we note that, with $\theta = a + h_{r+1}$,
+      \[
+	F^{(r+1)}(h_{r+1}) = f^{(r+1)}(\theta) \quad \text{and} \quad
+	G^{(r+1)}(h_{r+1}) = (r+1)!,
+      \]
+      and conclude that
+      \[
+	R_r(h) = f(a+h) - P_r(h) = F(h) = \frac{F^{(r+1)}(h_{r+1})}{G^{(r+1)}(h_{r+1})} G(h) = \frac{f^{(r+1)}(\theta)}{(r+1)!} h^{r+1}.
+      \]
+      The same can be said for $h \leqslant 0$.
+  \end{enumerate}
+\end{proof}
+
+Let us come back to the meaning of differentiation.
+Recall that $f$ is differentiable at $a$ provided that the limit
+\begin{equation}
+  \label{eq:diff}
+  f'(a) = \lim_{x \to a} \frac{ f(x) - f(a) }{ x - a }
+\end{equation}
+exists.  In fact, (\ref{eq:diff}) can be rewritten as 
+\[
+  \lim_{x \to a} \frac{ f(x) - (f(a) + f'(a)\cdot(x-a)) }{x - a} = 0.
+\]
+It is immediately recognized that $f(a) + f'(a)\cdot(x-a)$ is the first-order Taylor polynomial of $f$ at $a$.
+Hence we may use the notation
+\[
+  f(x) \approx f(a) + f'(a) \cdot (x-a), \qquad \text{when $x$ is near $a$}.
+\]
+That is, the value $f(x)$ when $x$ is near $a$ can be approximated by the linear function $f(a) + f'(a) \cdot (x-a)$.
+If we denote its error by $\varepsilon(h) = \varepsilon(x-a)$, then by (i) of Taylor theorem,
+\[
+  \lim_{h \to 0} \frac{ \varepsilon(h) }{ h } = 0.
+\]
+Another way to address this phenomenon is that the function $f(a) + f'(a) \cdot (x-a)$ is the \textit{best} linear function that passes through the point $(a, f(a))$ and approximates $f(x)$.
+
+Of course when $f$ has higher-order derivatives, it can be better approximated by higher-order Taylor polynomials, with its error well-controlled.
+
+\section{Inverse function theorem}
+\label{sec:IFT}
+
+A strictly monotone continuous function $f : (a,b) \to \mathbb{R}$ bijects $(a,b)$ onto some interval $(c,d)$ where $c = f(a+)$ and $d = f(b-)$ in the increasing case.
+(We permit $c$ or $d$ to be infinite.)
+It is a homeomorphism $(a,b) \to (c,d)$ and its inverse $f^{-1} : (c,d) \to (a,b)$ is also a homeomorphism.
+
+Does differentiability of $f$ imply differentiability of $f^{-1}$?
+If $f'$ never vanishes the answer is ``yes.''
+Keep in mind, however, the function $f(x) = x^3$.
+It shows that differentiability of $f^{-1}$ fails when $f'(x) = 0$.
+For the inverse function is $y \mapsto y^{1/3}$, which is not differentiable at $y = 0$.
+
+\begin{thm}[Inverse function theorem in $\mathbb{R}^1$]
+  Let $I$ be an open interval in $\mathbb{R}$ and $f : I \to \mathbb{R}$ is one-to-one and continuous.
+  If $b = f(a)$ for some $a \in I$ and if $f'(a)$ exists and is nonzero, then $f^{-1}$ is differentiable at $b$ and
+  \[
+    (f^{-1})'(b) = \frac{1}{f'(a)} = \frac{1}{f'(f^{-1}(b))}.
+  \]
+\end{thm}
+
+\begin{proof}
+  Since $f$ is one-to-one and continuous on an open interval $I \subseteq \mathbb{R}$,
+  $J = f(I)$ is also an interval, $f$ is strictly monotone, and $f^{-1} : J \to I$ is a bijection.
+  The continuity of $f^{-1}$ can be verified by checking the sequential convergence preservation condition.
+
+  Now we prove that $f^{-1}$ is differentiable at $b = f(a)$, where $f'(a) \ne 0$.
+  By the Carath\'eodory theorem, there is a function $F: I \to \mathbb{R}$ which is continuous at $a$, $F(a) = f'(a)$, and for any $x \in I$,
+  \begin{equation}
+    \label{eq:cara-diff}
+    f(x) = f(a) + F(x) \cdot (x-a).
+  \end{equation}
+  Note that $F(x) \ne 0$ in some neighborhood of $a$ because $F$ is continuous at $a$ and $F(a) \ne 0$.
+  Now write $g = f^{-1}$, $x = g(y)$, $a = g(b)$, and move terms around in (\ref{eq:cara-diff}) to get
+  \begin{equation}
+    \label{eq:cara-diff2}
+    g(y) = g(b) + \frac{1}{F(g(y))} (y - b).
+  \end{equation}
+  Since $g$ is continuous in $y$ and $F$ is continuous and nonzero at $a = g(b)$, $\dfrac{1}{F \circ g}$ is also continuous at $b$.
+  Therefore by the Carath\'eodory theorem again (but in the reverse direction,) $g = f^{-1}$ is differentiable at $b$ with
+  \[
+    (f^{-1})'(b) = g'(b) = \frac{1}{F(g(b))} = \frac{1}{F(a)} = \frac{1}{f'(a)} = \frac{1}{f'(f^{-1}(b))}.
+  \]
+\end{proof}
+
+\noindent\textbf{Example.} Now we deal with fractional power of a variable.
+Let $n$ be a positive integer, and consider the function $y = f(x) = x^n$ for $x > 0$.
+The function $f$ is one-to-one and continuous in $(0, \infty)$, with derivative $f'(x) = n x^{n-1}$ that never vanishes.
+Therefore the inverse function theorem applies, with
+\[
+\frac{\dd x}{\dd y} = \frac{1}{f'(x)} = \frac{1}{n x^{n-1}} = \frac{1}{n} \cdot y^{\frac{1}{n}-1}
+\]
+for $x = y^{1/n}$, $y > 0$.
+Then by the chain rule,
+\[
+  (x^{m/n})' = ( (x^{1/n})^m )' = m x^{\frac{m-1}{n}} \cdot (x^{1/n})'
+  = m x^{\frac{m-1}{n}} \cdot \frac{1}{n} x^{\frac{1}{n}-1} 
+  = \frac{m}{n} x^{\frac{m}{n} - 1},
+\]
+for $x > 0$.
+These differentiation formulae are consistent with those in integer powers.
+
+\section{More on convex functions}
+\label{sec:convex-diff}
+
+Let $I$ be an interval in $\mathbb{R}$.
+Recall that a function $f: I \to \mathbb{R}$ is called a \textsf{convex function} if for any $x, y \in I$ with $x < y$ and for any $0 \leqslant \lambda \leqslant 1$, the following inequality holds:
+\begin{equation}
+  \label{eq:convex}
+  f \bigl( (1-\lambda) x + \lambda y \bigr) \leqslant (1-\lambda) f(x) + \lambda f(y).
+\end{equation}
+We have shown, as a corollary, that for any $a, x, b \in I$ with $a < x < b$, the following inequalities hold for a convex function $f: I \to \mathbb{R}$:
+\begin{equation}
+  \label{eq:convex-diff}
+  \frac{ f(x) - f(a) }{ x - a } \leqslant \frac{ f(b) - f(a) }{ b - a } \leqslant \frac{ f(b) - f(x) }{ b - x }.
+\end{equation}
+
+Although it is not in the definition, we have shown that a convex function $f$ in $I$ is always continuous.
+We can prove further properties for convex functions based on (\ref{eq:convex-diff}).
+
+\begin{thm}
+  \label{thm:convex-onesided}
+  Let $f$ be a convex real function on an open interval $I$.
+  Then for each $x \in I$ both one-sided derivatives $f'_{\pm}$ exist at $x$.
+  Furthermore,
+  \[
+    f'_+(a) \leqslant f'_-(b)
+  \]
+  for any $a, b \in I$ with $a < b$.
+\end{thm}
+
+\begin{proof}
+  Firstly we note that the function
+  \[
+    x \mapsto \frac{ f(b) - f(x) }{ b - x }, \qquad x < b \text{ in $I$},
+  \]
+  is an increasing function in $x$, by looking at the latter inequality of (\ref{eq:convex-diff}).
+  Likewise, the function
+  \[
+    x \mapsto \frac{ f(x) - f(a) }{ x - a }, \qquad a < x \text{ in $I$},
+  \]
+  is also an increasing function in $x$, by looking at the former inequality of (\ref{eq:convex-diff}).
+
+  Let us rewrite the inequalities (\ref{eq:convex-diff}) as
+  \begin{align}
+    \frac{ f(t) - f(x) }{ t - x } &\leqslant \frac{ f(b) - f(x) }{ b - x }, \qquad t < x < b \text{ in $I$}; \label{eq:cs1} \\
+    \frac{ f(x) - f(a) }{ x - a } &\leqslant \frac{ f(t) - f(x) }{ t - x }, \qquad a < x < t \text{ in $I$}. \label{eq:cs2}
+  \end{align}
+
+  Let us take $t \to x-$ in (\ref{eq:cs1}).
+  Since the fraction increases as $t$ increases and is bounded from above by the right-hand fraction, we see that
+  \[
+    f'_-(x) = \lim_{t \to x-} \frac{ f(t) - f(x) }{ t - x }
+  \]
+  exists by the least upper bound property.
+  A similar argument applied to (\ref{eq:cs2}) as $t \to x+$ shows that
+  \[
+    f'_+(x) = \lim_{t \to x+} \frac{ f(t) - f(x) }{ t - x }
+  \]
+  exists as well.
+  Moreover, for $a, b \in I$ and $a < b$, we have
+  \[
+    f'_+(a) \leqslant \frac{ f(b) - f(a) }{ b - a } \leqslant f'_-(b),
+  \]
+  which is established by the monotone processes above.
+  The proof is completed.
+\end{proof}
+
+A related result on differentiable convex functions can also be obtained.
+\begin{thm}
+  Suppose that $f$ is differentiable on an open interval $I$.
+  Then $f$ is convex in $I$ if and only if $f'$ is increasing on $I$.
+\end{thm}
+
+\begin{proof}
+  If $f$ is differentiable and convex in $I$, then $f'$ is increasing by (ii) of Theorem~\ref{thm:convex-onesided}.
+
+  Conversely, suppose that $f$ is differentiable in $I$ and $f'$ is increasing in $I$.  Let $a, b \in I$ and $0 \leqslant \lambda \leqslant 1$.  Our goal is to prove the inequalities (\ref{eq:convex}).
+  The cases $\lambda \in \{ 0, 1 \}$ hold trivially.
+  For $0 < \lambda < 1$, let $x = (1 - \lambda) a + \lambda b$.
+  Then $a < x < b$.
+  By the mean value theorem, there are points $\xi \in (a,x)$ and $\eta \in (x,b)$ such that
+  \begin{equation}
+    \label{eq:secant}
+    \frac{ f(x) - f(a) }{ x - a } = f'(\xi) \leqslant f'(\eta) = \frac{ f(b) - f(x) }{ b - x }.
+  \end{equation}
+  Using $x = (1 - \lambda) a + \lambda b$, (\ref{eq:secant}) becomes
+  \begin{align*}
+    & & \frac{ f(x) - f(a) }{ \lambda (b-a) } &\leqslant \frac{ f(b) - f(x) }{ (1 - \lambda) (b-a) } \\
+    & \iff & (1 - \lambda) (f(x) - f(a)) &\leqslant \lambda (f(b) - f(x)) \\
+    &  \iff & f( (1-\lambda)a + \lambda b ) = f(x) & \leqslant (1-\lambda) f(a) + \lambda f(b).
+  \end{align*}
+  Since $a, b$, and $\lambda$ are arbitrary, we conclude that $f$ is convex in $I$.
+\end{proof}
+
+From Theorem 3 we arrive the second derivative test, which is very useful when drawing graphs of differentiable functions.
+
+\begin{cor}[Second derivative test]
+  Suppose that $f$ is twice differentiable on an open interval $I$.
+  Then $f$ is convex in $I$ if and only if $f''(x) \geqslant 0$ for any $x \in I$.
+\end{cor}
+
+\begin{proof}
+  A differentiable function is convex if and only if its derivative function is increasing.
+  If it is also twice differentiable, then $f'$ is increasing if and only if $f'' \geqslant 0$.
+\end{proof}
+
+A function $f$ is said to have a \textsf{proper maximum} (resp.\ \textsf{proper minimum}) at $x_0$ if and only if there is a $\delta > 0$ such that $f(x) < f(x_0)$ (resp.\ $f(x) > f(x_0)$) for all $0 < |x - x_0| < \delta$.
+As far as proper extrema are concerned, convex functions behave like strictly increasing functions.
+
+\begin{thm}
+  \begin{enumerate}[(i)]
+    \item If $f$ is convex on a nonempty, open interval $(a,b)$, then $f$ has no proper maximum in $(a,b)$.
+    \item If $f$ is convex on $[0,\infty)$ and has a proper minimum, then $f(x) \to \infty$ as $x \to \infty$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item Suppose $f$ achieves a proper maximum at $x_0$.
+      Then there are points $y, z \in (a,b)$ such that $y < x_0 < z$ and $f(y) < f(x_0) > f(z)$.
+      But in the case the point $(x_0, f(x_0))$ lies strictly above the secant segment joining the points $(y, f(y))$ and $(z, f(z))$ on the graph of the function $f$.  Hence $f$ cannot be convex in $(a,b)$.
+
+    \item Let $f$ achieves a proper minimum at $x_1 \geqslant 0$.
+      Then there is a point $t > x_1$ such that $f(t) > f(x_1)$.
+      By convexity, for any $x > t$ the following inequality holds:
+      \[
+	f(x) \geqslant f(t) + \frac{ f(t) - f(x_1) }{ t - x_1 } (x - t) =: L(x).
+      \]
+      Since $L(x) \to \infty$ as $x \to \infty$, $f(x) \to \infty$ as $x \to \infty$ as well by the comparison theorem.
+  \end{enumerate}
+\end{proof}
+
+\section{A peculiar smooth function}
+\label{sec:smooth-not-analytic}
+
+We assume familiarity of the exponential function $(\eu^x)' = \eu^x$ for this subsection.
+Consider the following function:
+\begin{equation}
+  \label{eq:vanish-e}
+  \mathfrak{e}(x) = 
+  \begin{cases}
+    \eu^{-1/x}, & \text{if $x > 0$}; \\
+    0         , & \text{if $x \leqslant 0$}.
+  \end{cases}
+\end{equation}
+Obviously $\mathfrak{e}$ is smooth in $\mathbb{R} \setminus \{ 0 \}$.
+Below we are going to show that $\mathfrak{e}$ is smooth at $0$ as well.
+The following lemma is needed.
+
+\begin{lem}
+  \label{lem:diff-e}
+  Let $n$ be a positive integer.
+  Then
+  \[
+    \lim_{x \to 0+} \frac{ \mathfrak{e}(x) }{ x^n } = 0.
+  \]
+\end{lem}
+
+\begin{proof}
+  We first make a change of variable $y = 1/x$.
+  Then
+  \[
+    \lim_{x \to 0+} \frac{ \mathfrak{e}(x) }{ x^n } = \lim_{y \to +\infty} \frac{ \eu^{-y} }{ (1/y)^n } = \lim_{y \to +\infty} \frac{ y^n }{ \eu^y }.
+  \]
+  Applying l'Hospital's rule $n$ times yields
+  \[
+    \lim_{y \to +\infty} \frac{ y^n }{ \eu^y } = \lim_{y \to +\infty} \frac{n!}{ \eu^y } = 0.
+  \]
+  Therefore $\displaystyle \lim_{x \to 0+} \frac{ \mathfrak{e}(x) }{ x^n } = 0$ as well.
+\end{proof}
+
+Now we reach the ultimate goal.
+\begin{thm}
+  \label{thm:weird-e}
+  The function $\mathfrak{e}$ defined by $(\ref{eq:vanish-e})$ is smooth at $0$; in fact, $\mathfrak{e}^{(n)}(0) = 0$ for any $n \in \mathbb{N}$.
+\end{thm}
+
+\begin{proof}
+  Let us first work out the first derivative function of $\mathfrak{e}$ in $(0, \infty)$:
+  \[
+    \mathfrak{e}'(x) = \frac{ \eu^{-1/x} }{x^2}, \qquad x > 0.
+  \]
+  And it is differentiable at $x=0$ because
+  \[
+    \lim_{x \to 0+} \frac{ \mathfrak{e}(x) - \mathfrak{e}(0) }{ x - 0 }
+    = \lim_{x \to 0+} \frac{ \eu^{-1/x} }{ x } = 0 = \mathfrak{e}'(0).
+  \]
+  by Lemma~\ref{lem:diff-e} (the other side $x \to 0-$ is trivial).
+  
+  By mathematical induction, we see that
+  \[
+    \mathfrak{e}^{(n)}(x) = 
+    \begin{cases}
+      \dfrac{ p_n(x) \eu^{-1/x} }{ x^{2n} }, & \text{if $x > 0$}, \\
+      0                                    , & \text{if $x \leqslant 0$},
+    \end{cases}
+  \]
+  for some polynomial $p_n(x)$ of degree at most $n$.
+  Therefore by Lemma 6 $\mathfrak{e}^{(n)}$ is differentiable at $x = 0$ and we can process the next derivative.  Then mathematical induction on $n$ goes through.
+\end{proof}
+
+With Theorem~\ref{thm:weird-e}, we see that the $r^{\text{th}}$-order Taylor polynomial of $\mathfrak{e}$ at $0$ is $0$ for any $r \in \mathbb{N}$, but $\mathfrak{e}$ itself is not identically zero in any neighborhood of $0$.
+We will return to this point in the section on power series.

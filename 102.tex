@@ -1,0 +1,302 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{February 26, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 2: Convergence of sequences of functions}
+\end{center}
+
+We are already used to the notion of real sequences and real series, in which every term is a real number.
+What if we replace numbers by functions?
+From here the concept of function sequences and function series is born.
+Whenever there are denumerable such objects, a question about convergence or divergence arises naturally.
+So what do we mean by convergence of a sequence of functions?
+There is an obvious candidate which we describe now.
+For simplicity, we restrict the domains of these functions to be subsets of the real numbers.
+
+\begin{defn}
+  Let $E$ be a nonempty subset of $\mathbb{R}$, and $f_n : E \to \mathbb{R}$ be a real function defined on $E$ for each $n \in \mathbb{N}$ (or $\mathbb{Z}_{\geqslant 0}$).
+  If for each $x \in E$, the real sequence $\langle f_n(x)\rangle$ converges to a real limit as $n \to \infty$, then we say that the sequence $\langle f_n \rangle$ of functions \textsf{converges pointwise} on $E$ as $n \to \infty$.
+
+  In such a case, we denote the limit of $\langle f_n(x) \rangle$ as $n \to \infty$ by $f(x)$ (since this limit can be thought as a function of $x$ as well) for each $x \in E$.  We write
+  \[
+    \lim_{n\to\infty} f_n(x) = f(x)
+  \]
+  or $f_n \rightarrow f$ as $n \to \infty$ on $E$.
+\end{defn}
+
+In Greek, it reads
+\[
+  (\forall x \in E)(\forall \varepsilon > 0)(\exists N \in \mathbb{N})(n \geqslant N \implies |f_n(x) - f(x)| < \varepsilon).
+\]
+Note that the integer $N$ depends on both $x$ and $\varepsilon$.
+
+Note that the limit refers to $n \to \infty$, not to $x \to \infty$.
+The same definition applies to functions from one metric space to another.
+
+The notion of pointwise convergence seems natural, but it may not preserve nice properties.
+What we mean here is the following question: if each function $f_n$ has property $P$ and $f_n \to f$, does the limit function $f$ also have the property $P$?
+Let us look at some examples.
+
+\noindent\textbf{Example 1.} Consider the functions $f_n(x) = x^n$ for each $n \in \mathbb{N}$.  Then for $x \in [0,1]$, the sequence $\langle f_n \rangle$ converges to a function $f: [0,1] \to \mathbb{R}$ as follows.
+\[
+  f_n(x) \to f(x) = 
+  \begin{cases}
+    0, & \text{if $0 \leqslant x < 1$}; \\
+    1, & \text{if $x = 1$}.
+  \end{cases}
+\]
+Although each $f_n$ is continuous on $[0,1]$, the limit function $f$ fails to be continuous at $x = 1 \in [0,1]$.
+
+\noindent\textbf{Example 2.} Consider the following sequence of functions defined on $[0,1]$: (their graphs are shown in class)
+\[
+  f_n(x) =
+  \begin{cases}
+    n^2 x, & \text{if $0 \leqslant x \leqslant \frac1n$,} \\
+    2n - n^2 x & \text{if $\frac1n \leqslant x \leqslant \frac2n$,} \\
+    0, & \text{if $\frac2n \leqslant x \leqslant 1$.}
+  \end{cases}
+\]
+One checks that
+\[
+  \int_0^1 f_n(x) \, \dd x = 1 \quad \forall\, n \geqslant 2,
+\]
+but $\displaystyle f(x) =  \lim_{n \to \infty} f_n(x) = 0$ for any $x \in [0,1]$, hence $\int_0^1 f(x) \, \dd x = 0$.
+This example shows that pointwise convergence does not preserve integrals.
+
+\medskip
+
+After seeing these examples, one may wonder what extra requirement(s) is needed to preserve certain nice analytic properties?
+Fortunately there is one stronger condition.
+Please compare the two notions of convergence.
+
+\begin{defn}
+  Let $E$ be a nonempty subset of $\mathbb{R}$, and $\langle f_n \rangle$ be a sequence of real functions defined on $E$.
+  We say that the sequence $\langle f_n \rangle$ \textsf{converges} to a limit function $f$, \textsf{uniformly} on $E$, if for any $\varepsilon > 0$, there is an integer $N \in \mathbb{N}$ such that for any $x \in E$,
+  \[
+    |f_n(x) - f(x)| < \varepsilon \qquad \text{whenever $n \geqslant N$.}
+  \]
+  In notation, we will write $f_n \rightrightarrows f$ on $E$ as $n \to \infty$.
+\end{defn}
+
+Let us write in Greek again.
+Uniform convergence over $E$ should be written as
+\[
+  (\forall \varepsilon > 0)(\exists N \in \mathbb{N})(\forall x \in E)(n \geqslant N \implies |f_n(x) - f(x)| < \varepsilon).
+\]
+Note that the integer $N$ depends on $\varepsilon$ only and is chosen \textit{before} any point $x \in E$ appears; another way to say this is that the same $N$ works for all $x \in E$.
+This tiny distinction makes a lot difference later on.
+
+Allow us to deviate the discussion towards a more abstract setting for a moment.
+Again $E$ is a nonempty subset of $\mathbb{R}$.
+Let $\mathcal{C}_b(E)$ denote the space of bounded real functions defined on $E$.
+We may introduce a norm structure on $\mathcal{C}_b(E)$ by setting
+\[
+  \| f \| = \sup \{ |f(x)| \colon x \in E \}, \qquad f \in \mathcal{C}_b(E).
+\]
+It is straightforward to verify that, for any $f, g \in \mathcal{C}_b(E)$ and $\lambda \in \mathbb{R}$, the following equalities and inequalities hold:
+\begin{align*}
+  \| f \| &\geqslant 0; \qquad\qquad \| f \| = 0 \text{ if and only if } f = 0; \\
+  \| \lambda f \| &= |\lambda| \cdot \| f \|; \\
+  \| f + g \| &\leqslant \| f \| + \| g \|.
+\end{align*}
+Hence $(\mathcal{C}_b(E), \| \cdot \|)$ is a \textit{normed} space.
+Once a norm is introduced, a metric can be defined from the norm by declaring
+\[
+  d(f, g) := \| f - g \|, \qquad f, g \in \mathcal{C}_b(E).
+\]
+Then $(\mathcal{C}_b(E), d)$ becomes a metric space.
+
+Now, what does convergence look like in the metric space $X = (\mathcal{C}_b(E), d)$?
+Suppose $f_n \to f$ as $n \to \infty$ in $X$.
+From the definition of limit, it means that for any $\varepsilon > 0$, there is an integer $N \in \mathbb{N}$ such that $d(f_n, f) < \varepsilon$ whenever $n \geqslant N$.  By the definitions of $d$ and $\| \cdot \|$, we have
+\[
+  d(f_n, f) < \varepsilon \iff \| f_n - f \| < \varepsilon,
+\]
+and for any $x \in E$ we get
+\[
+  |f_n(x) - f(x)| \leqslant \| f_n - f \| < \varepsilon.
+\]
+This is exactly the formulation of uniform convergence.
+
+\medskip
+\noindent\textbf{Exercise.} Show that $(\mathcal{C}_b(E), d)$ is a \textit{complete} metric space.
+
+Like numbers, we may talk about series of functions: $\sum_k f_k(x)$.
+The convergence of such series is also defined via its partial sum sequence as follows.  For each $n \in \mathbb{N}$, define
+\[
+  s_n(x) := \sum_{k = k_0}^n f_k(x).
+\]
+Then $\sum_k f_k(x)$ is said to converge to $f(x)$ if $s_n \to f$ as $n \to \infty$.
+Also when $\sum_k |f_k(x)|$ converges we say that $\sum_k f_k(x)$ converges absolutely as well.
+There is a simple criterion for series of functions to converge uniformly.
+
+\begin{thm}[Weierstrass $M$-test]
+  Let $\langle f_k \rangle \in \mathcal{C}_b(E)$.
+  Suppose that, for each $k$, there is a real number $M_k \in \mathbb{R}$ such that $|f_k(x)| \leqslant M_k$ for all $x \in E$.
+  If $\sum_k M_k$ converges then the series $\sum_k f_k(x)$ converges uniformly and absolutely on $E$.
+\end{thm}
+
+\begin{proof}
+  Note first that $\sum_k M_k$ is a convergent series of non-negative real numbers.
+  For each $\varepsilon > 0$ there is an $N \in \mathbb{N}$ such that
+  \[
+    \sum_{k=m}^n M_k < \varepsilon
+  \]
+  whenever $n \geqslant m \geqslant N$ due to the Cauchy criterion.
+  Then for any $x \in E$,
+  \[
+    \sum_{k=m}^n |f_k(x)| \leqslant \sum_{k=m}^n M_k < \varepsilon
+  \]
+  whenever $n \geqslant m \geqslant N$.  This is exactly the conclusion of our statement.
+\end{proof}
+
+\noindent\textbf{Example.} Since $|\sin x| \leqslant 1$ for any $x \in \mathbb{R}$, the series
+\[
+  \sum_{k=1}^\infty \frac{\sin kx}{k^2}
+\]
+converges uniformly and absolutely on $\mathbb{R}$ by the Weierstrass $M$-test, for we may take $M_k = \frac1{k^2}$ and $\sum_k \frac{1}{k^2}$ converges by the $p$-test ($p = 2 > 1$).
+
+\medskip
+It is time to start the parade of theorems concerning uniform convergence and analytic properties.
+Let us start with continuity.
+
+\begin{thm}
+  \label{thm:unif-cont}
+  Let $E$ be a nonempty subset of $\mathbb{R}$, and suppose that $f_n \rightrightarrows f$ on $E$.
+  If each $f_n$ is continuous at $x_0 \in E$, so is $f$.
+\end{thm}
+
+\begin{proof}
+  The statement requires no proof when $x_0$ is an isolated point of $E$, so we may assume that $x_0$ is a limit point of $E$.
+  From uniform convergence, for any $\varepsilon > 0$ there is an integer $N \in \mathbb{N}$ such that for any $x \in E$,
+  \begin{equation}
+    \label{eq:unif-3}
+    |f_n(x) - f(x)| < \frac{\varepsilon}{3}
+  \end{equation}
+  whenever $n \geqslant N$.
+  
+  Since $f_N$ is continuous at $x_0 \in E$, for this $\varepsilon > 0$ there is a $\delta > 0$ such that
+  \begin{equation}
+    \label{eq:cont-N}
+    |f_N(x) - f_N(x_0)| < \frac{\varepsilon}{3}
+  \end{equation}
+  whenever $x \in E$ and $|x - x_0| < \delta$.  Combining (\ref{eq:unif-3}) and (\ref{eq:cont-N}) yields
+  \[
+    |f(x) - f(x_0)| \leqslant |f(x) - f_N(x)| + |f_N(x) - f_N(x_0)| + |f_N(x_0) - f(x_0)| < \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon
+  \]
+  whenever $x \in E$ and $|x - x_0|<\delta$.  This shows the continuity of $f$ at $x_0 \in E$.
+\end{proof}
+
+The series version goes like the following, which requires no further proof.
+
+\begin{cor}
+  Let $E$ be a nonempty subset of $\mathbb{R}$, and suppose that the series $\displaystyle \sum_k f_k(x) \rightrightarrows F(x)$ on $E$.  If each $f_k$ is continuous at $x_0 \in E$, so is $F$.
+\end{cor}
+
+\noindent\textbf{Remark.} Theorem~\ref{thm:unif-cont} says that the order of two limiting processes can be swapped under uniform convergence, that is,
+\[
+  \lim_{x \to x_0} \left( \lim_{n \to \infty} f_n(x) \right) = \lim_{n \to \infty} \left( \lim_{x \to x_0} f_n(x) \right).
+\]
+
+\medskip
+\noindent\textbf{Remark.} Take $E = [a,b]$ to be a bounded closed interval in $\mathbb{R}$, and let $\mathcal{C}^0([a,b])$ be the space of continuous real functions on $[a,b]$.
+By the bounded value theorem, $\mathcal{C}^0([a,b])$ is a subspace of $\mathcal{C}_b([a,b])$.
+Then Theorem~\ref{thm:unif-cont} can be stated in the following way.
+
+\begin{cor}
+  The subspace $(\mathcal{C}^0([a,b]), d)$ is a closed subspace of $\mathcal{C}_b([a,b])$, and is also a complete metric space.
+\end{cor}
+
+Our next result concerns about Riemann integrable functions.
+
+\begin{thm}
+  \label{thm:unif-int}
+  Let $\langle f_n \rangle$ be a sequence of Riemann integrable functions over $[a,b]$.  If $f_n \rightrightarrows f$ on $[a,b]$, then $f$ is integrable over $[a,b]$ with
+  \[
+    \int_a^b f(x) \, \dd x = \lim_{n \to \infty} \int_a^b f_n(x) \, \dd x.
+  \]
+\end{thm}
+
+\begin{proof}
+  We first note that $f$ is a bounded function on $[a,b]$ because the space $\mathcal{C}_b([a,b])$ is complete.
+  Since $f_n \rightrightarrows f$ on $[a,b]$, for any $\varepsilon > 0$ there is an integer $N \in \mathbb{N}$ such that $$|f_n(x) - f(x)| < \dfrac{\varepsilon}{3(b-a)}$$ for any $x \in [a,b]$ and $n \geqslant N$.
+  Therefore for any partition $\mathcal{P} = \{ a = x_0 < x_1 < \cdots < x_n = b \}$ for $[a,b]$ and $n \geqslant N$, we have (the notations are self-explained)
+  \begin{align}
+    |U(f_n, \mathcal{P}) - U(f,\mathcal{P})| &= \left| \sum_{i=1}^n \left( M_i(f_n) - M_i(f)  \right) \Delta x_i \right| \notag \\
+    &\leqslant \sum_{i=1}^n |M_i(f_n) - M_i(f)| \Delta x_i \notag \\
+    &\leqslant \sum_{i=1}^n \frac{\varepsilon}{3(b-a)} \Delta x_i = \frac{\varepsilon}{3}. \label{eq:upper} 
+  \end{align}
+  A similar argument shows that
+  \begin{equation}
+    \label{eq:lower}
+    |L(f_n, \mathcal{P}) - L(f, \mathcal{P})| \leqslant	\frac{\varepsilon}{3}.
+  \end{equation}
+  
+  By assumption $f_N$ is Riemann integrable over $[a,b]$.  By the Cauchy criterion there is a partition $\mathcal{P}_\varepsilon$ for $[a,b]$ such that
+  \begin{equation}
+    \label{eq:integrable}
+    U(f_N, \mathcal{P}_\varepsilon) - L(f_N, \mathcal{P}_\varepsilon) < \frac{\varepsilon}{3}.
+  \end{equation}
+  Combining all the inequalities (\ref{eq:upper}), (\ref{eq:lower}), (\ref{eq:integrable}) yields
+  \[
+    U(f, \mathcal{P}_\varepsilon) - L(f, \mathcal{P}_\varepsilon) < \varepsilon,
+  \]
+  thus $f$ is integrable over $[a,b]$.
+
+  Once we have shown that $f$ is integrable over $[a,b]$, we can simply take the infimum of (\ref{eq:upper}) (or the supremum of (\ref{eq:lower})) over all partitions $\mathcal{P}$ for $[a,b]$ to obtain
+  \[
+    \left| \int_a^b f_n(x) \, \dd x - \int_a^b f(x) \, \dd x \right| \leqslant \frac{\varepsilon}{3}
+  \]
+  whenever $n \geqslant N$.  Since $\varepsilon$ is arbitrary, we conclude that
+  \[
+    \int_a^b \left( \lim_{n \to \infty} f_n(x) \right) \dd x = \int_a^b f(x) \, \dd x = \lim_{n \to \infty} \int_a^b f_n(x) \, \dd x.
+  \]
+  The proof is now complete.
+\end{proof}
+
+\begin{cor}[Term-by-term integration]
+  A uniformly convergent series of integrable functions $\sum_k f_k$ can be integrated term by term in the sense that
+  \[
+    \int_a^b \sum_{k=0}^\infty f_k(x) \, \dd x = \sum_{k=0}^\infty \int_a^b f_k(x) \, \dd x.
+  \]
+\end{cor}
+
+Lastly we come to the combination of uniform convergence and differentiation.
+Note that the assumption is a little bit different: uniform convergence is assumed on the \textit{derivatives} rather than the functions themselves.
+Here we present and prove an easier version.
+Theorem~\ref{thm:unif-diff} is still valid even if we merely require that each $f_n$ is differentiable rather than continuously differentiable (cf.~Pugh, pp.\ 219--220).
+
+\begin{thm}
+  \label{thm:unif-diff}
+  Suppose that $\langle f_n \rangle$ is a sequence of $\mathcal{C}^1$-functions on $[a,b]$.
+  If the following two conditions are met:
+  \begin{enumerate}[(i)]
+    \item $f_n(x_0) \to \alpha \in \mathbb{R}$ as $n \to \infty$ for some $x_0 \in [a,b]$
+    \item $f_n' \rightrightarrows g$ on $[a,b]$
+  \end{enumerate}
+  then $\langle f_n \rangle$ converges to some differentiable function $f$ uniformly on $[a,b]$, with $f' = g$.
+\end{thm}
+
+\begin{proof}
+  Since each $f_n$ is continuously differentiable on $[a,b]$, we may use the fundamental theorem of calculus to write
+  \begin{equation}
+    \label{eq:unif-FTC}
+    f_n(x) = f_n(x_0) + \int_{x_0}^x f_n(t) \, \dd t, \qquad x \in [a,b].
+  \end{equation}
+  Because $f_n' \rightrightarrows g$ on $[a,b]$, Theorem~\ref{thm:unif-int} is applied when we take $n \to \infty$ for (\ref{eq:unif-FTC}) to get
+  \[
+    \lim_{n \to \infty} f_n(x) = \alpha + \int_{x_0}^x g(t) \, \dd t.
+  \]
+  Hence the function $\displaystyle f(x) = \alpha + \int_{x_0}^x g(t) \, \dd t$ defined on $[a,b]$ is the function we are looking for.
+  The uniform convergence $f_n \rightrightarrows f$ on $[a,b]$ can be verified directly, using that $[a,b]$ is an interval of finite length.
+\end{proof}
+
+\begin{cor}[Term-by-term differentiation]
+  A uniformly convergent series of (continuously) differentiable functions can be differentiated term by term, provided that the derivative series converges uniformly, with
+  \[
+    \left( \sum_{k=0}^\infty f_k(x) \right)' = \sum_{k=0}^\infty f_k'(x).
+  \]
+\end{cor}
+\end{document}

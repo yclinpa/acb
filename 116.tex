@@ -1,0 +1,195 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{May 23, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 16: The Lebesgue integrals and convergence theorems}
+\end{center}
+
+We are now in position to define Lebesgue integrals after we develop the theory of (Lebesgue) measurable sets and measurable functions in $\mathbb{R}^n$.  The approach we have chosen is based on the notion that the integral of a nonnegative function $f$ should represent the volume of the region under the graph of $f$\footnote{This approach is taken in Chapter 5 of the textbook by Wheeden and Zygmund, as well as in Section~6.6 of the textbook by Pugh.}.
+
+\begin{defn}
+  Let \textit{nonnegative function} $f$, $0 \leqslant f \leqslant +\infty$, be defined on a measurable set $E$ of $\mathbb{R}^n$.  The \textsf{graph} of $f$ and the \textsf{region} under $f$ over $E$ are defined as
+  \begin{align*}
+    \Gamma(f,E) &:= \{ (x, f(x)) \in \mathbb{R}^{n+1} \colon x \in E, \, f(x) < +\infty \}, \\
+    R(f,E) &:= \{ (x,y) \in \mathbb{R}^{n+1} \colon x \in E, \, 0 \leqslant y < f(x) \text{ if $f(x) < +\infty$, } 0 \leqslant y < +\infty \text{ if $f(x) = +\infty$.} \}.
+  \end{align*}
+
+  If $R(f,E)$ is measurable (as a subset of $\mathbb{R}^{n+1}$), its measure $|R(f,E)|$ is called the \textsf{Lebesgue integral} of $f$ over $E$, and we write
+  \[
+    |R(f,E)| = \int_E f(x) \, \dd x = \int_E f \, \dd x = \int_E f.
+  \]
+
+  The function $f$ is called \textsf{Lebesgue integrable} on $E$ when $\int_E f$ is finite.
+\end{defn}
+
+\begin{thm}
+  \label{thm:lebesgue-integral}
+  Let $f$ be a nonnegative measurable function defined on a measurable set $E$.  Then $\int_E f$ exists.
+\end{thm}
+
+\begin{proof}
+We start with a simple observation about \textit{prisms}, i.e., the region under a \textit{constant} function over $E \subseteq \mathbb{R}^n$.
+Let $0 \leqslant a \leqslant +\infty$, and define $E_a = \{ (x,y) \colon x \in E, \, 0 \leqslant y \leqslant a \}$ for finite $a$ and $E_\infty = \{ x \in E, \, 0 \leqslant y < +\infty \}$.  If $E$ is measurable (as a subset of $\mathbb{R}^n$), then $E_a$ is measurable (as a subset of $\mathbb{R}^{n+1}$) and $|E_a|_{(n+1)} = a |E|_n$.
+
+Also note that if $f$ is a nonnegative measurable function on $E$, $0 \leqslant |E| \leqslant +\infty$, then its graph $\Gamma(f,E)$ is a zero set.  Here is the reason: given $\varepsilon > 0$ and $k = 0, 1, \dots$, let $E_k = \{ k\varepsilon \leqslant f < (k+1) \varepsilon \}$.  The $E_k$'s are disjoint and measurable, and their union is the subset of $E$ where $f$ is finite.  Hence $\Gamma(f,E) = \cup_k \Gamma(f,E_k)$.  Since $|\Gamma(f,E_k)|_e \leqslant \varepsilon |E_k|_e$ by the previous paragraph, we obtain
+\[
+  |\Gamma(f,E)|_e \leqslant \sum_k |\Gamma(f,E_k)|_e \leqslant \varepsilon \sum_k |E_k| \leqslant \varepsilon |E|.
+\]
+This shows that $\Gamma(f,E)$ is a zero set when $|E|$ is finite.  If $|E| = +\infty$, write $E$ as the countable union of disjoint measurable sets with finite measure, and the result is again follows.
+
+Finally, let $f$ be nonnegative and measurable on $E$.  There exist simple measurable functions $f_k \nearrow f$.  Therefore $R(f_k, E) \cup \Gamma(f_k, E) \nearrow R(f,E)$.  Since $\Gamma(f,E)$ is a zero set, it is enough to show that each $R(f_k,E)$ is measurable.  Fix $k$ and suppose that the distinct values of $f_k$ are $a_1, \dots, a_N$, taken on measurable sets $E_1, \dots, E_N$, respectively.  Then $R(f_k,E) = \cup_{j=1}^N E_{a_j}$.  Therefore, $R(f_k,E)$ is measurable, and the proof is complete.
+\end{proof}
+
+\noindent\textit{Remark.} The converse of Theorem~\ref{thm:lebesgue-integral} is also true, but its proof is more involved.
+
+\begin{cor}
+  \label{cor:lebesgue-int}
+  If $f$ is a nonnegative measurable function, taking values $a_1, \dots, a_N$ on disjoint sets $E_1, \dots, E_N$, respectively, and if $E = \cup_j E_j$, then
+  \[
+    \int_E f = \sum_{j=1}^N a_j |E_j|.
+  \]
+\end{cor}
+
+Below are basic properties of Lebesgue integrals, most of whose proofs are omitted here.
+
+\begin{prop}
+  \label{prop:lebesgue-property}
+  \begin{enumerate}[(i)]
+    \item If $f$ and $g$ are measurable and if $0 \leqslant g \leqslant f$, then $\int_E g \leqslant \int_E f$.  In particular, $\int_E (\inf f) \leqslant \int_E f$.
+
+    \item If $f$ is nonnegative and measurable on $E$ and if $\int_E f$ is finite, then $f < +\infty$ almost everywhere on $E$.
+
+    \item Let $E_1$ and $E_2$ be measurable and $E_1 \subseteq E_2$.  If $f$ is nonnegative and measurable on $E_2$, then $\int_{E_1} f \leqslant \int_{E_2} f$.
+
+    \item Let $f$ be nonnegative and measurable on $E$.  Then $\int_E f = 0$ if and only if $f = 0$ a.e.\ in $E$.
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}
+  We only prove (iv) here.  If $f = 0$ a.e.\ in $E$, then $\int_E f = 0$ by Corollary~\ref{cor:lebesgue-int}.  Conversely, suppose that $f$ is nonnegative and measure on $E$ and that $\int_E f = 0$.  For $\alpha > 0$, by Corollary~\ref{cor:lebesgue-int} we have
+  \[
+    \alpha \cdot |\{ f > \alpha \}| \leqslant \int_{\{f > \alpha\}} f \leqslant \int_E f = 0.
+  \]
+  Therefore $\{ f > \alpha \}$ is a zero set for any $\alpha > 0$.  Since $\{ f > 0 \} = \cup_{k=1}^\infty \{ f > 1/k \}$ is a countable union of zero sets, it is also a zero set.  This means that $f = 0$ a.e.\ in $E$.
+\end{proof}
+
+By considering measurable simple functions then taking limits, the following result is immediate.
+
+\begin{prop}
+  \label{prop:lebesgue-linear}
+  Let $f, g$ be nonnegative and measurable on $E$, and $c$ be any nonnegative constant.  The following identities holds.
+  \begin{enumerate}[(i)]
+    \item $\int_E cf = c \int_E f$.
+
+    \item $\int_E (f+g) = \int_E f + \int_E g$.
+  \end{enumerate}
+\end{prop}
+
+There are three big theorems involving convergence of Lebesgue integrals: the monotone convergence theorem, Fatou's lemma, and the dominated convergence theorem.  We are ready to state and prove the first one.
+
+\begin{thm}[Monotone convergence theorem for nonnegative functions]
+  If $\langle f_k \rangle$ is a sequence of nonnegative measurable functions such that $f_k \nearrow f$ on $E$, then
+  \[
+    \int_E f_k \to \int_E f \quad \text{as $k \to \infty$.}
+  \]
+\end{thm}
+
+\begin{proof}
+  We know that $f$, being the limit of an increasing sequence of measurable functions, is measurable.  Since $R(f_k, E) \cup \Gamma(f_k, E) \nearrow R(f,E)$ and $\Gamma(f,E)$ is a zero set, the result follows from Theorem~4 in Topic 14.
+\end{proof}
+
+Note that the monotone convergence theorem gives a sufficient condition for interchanging the operations of integration and passing to the limit: $\int_E \lim f_k = \lim \int_E f_k$.  However, the hypothesis on monotonicity is crucial.  Here is a counterexample:  Let $E$ be the interval $[0,1]$, and for $k = 1, 2, \dots$, let $f_k$ be defined as follows: when $0 \leqslant x \leqslant 1/k$, the graph of $f_k$ consists of the sides of the isoceles triangle with altitude $k$ and base $[0,1/k]$; when $1/k \leqslant x \leqslant 1$, $f_k(x) = 0$.  Clearly $f_k \to 0$ on $[0,1]$, but for all $k$ $\int_{[0,1]} f_k = 1/2$, which does not vanish as the integration of the limit function $\int_{[0,1]} 0 = 0$.
+
+Nevertheless, the following theorem holds for arbitrary sequence of nonnegative measurable functions.
+
+\begin{thm}[Fatou's lemma]
+  \label{thm:fatou}
+  If $\langle f_k \rangle$ is a sequence of nonnegative measurable functions on $E$, then
+  \[
+    \int_E \left( \liminf_{k \to \infty} f_k \right) \leqslant \liminf_{k \to \infty} \int_E f_k.
+  \]
+\end{thm}
+
+\begin{proof}
+  First note that the integral on the left exists since its integrand is nonnegative and measurable.  Next, let $g_k = \inf_{n \geqslant k} f_n$ for each $k$.  Then $g_k \nearrow \liminf f_k$ and $0 \leqslant g_k \leqslant f_k$.  Therefore,
+  \[
+    \int_E g_k \to \int_E \left( \liminf_k f_k \right), \qquad
+    \int_E g_k \leqslant \int_E f_k,
+  \]
+  so that
+  \[
+    \int_E \left( \liminf_k f_k \right) = \lim_k \int_E g_k \leqslant \liminf_k \int_E f_k.
+  \]
+\end{proof}
+
+\begin{thm}[Dominated convergence theorem for nonnegative functions]
+  Let $\langle f_k \rangle$ be a sequence of nonnegative measurable functions on $E$ such that $f_k \to f$ a.e.\ in $E$.  If there exists a measurable function $\phi$ such that $f_k \leqslant \phi$ a.e.\ in $E$ for all $k$ and if $\int_E \phi$ is finite, then
+  \[
+    \int_E f_k \to \int_E f.
+  \]
+\end{thm}
+
+\begin{proof}
+  By Fatou's lemma,
+  \[
+    \int_E f = \int_E \liminf f_k \leqslant \liminf \int_E f_k,
+  \]
+  and the theorem will follow if we show that
+  \[
+    \int_E f \geqslant \limsup \int_E f_k.
+  \]
+  
+  To prove this inequality, apply Fatou's lemma to the nonnegative functions $\phi - f_k$, obtaining
+  \[
+    \int_E \liminf (\phi - f_k) \leqslant \liminf \int_E (\phi - f_k).
+  \]
+  Since $f_k \to f$ a.e., the integrand on the left equals $\phi - f$ a.e., so that the integral on the left is $\int_E \phi - \int_E f$ by Proposition~\ref{prop:lebesgue-linear}.  The right-hand integral equals
+  \[
+    \liminf \left( \int_E \phi - \int_E f_k \right) = \int_E \phi - \limsup \int_E f_k.
+  \]
+  Combining formulas and cancelling $\int_E \phi$, we obtain the inequality $\int_E f \geqslant \limsup \int_E f_k$, as required.
+\end{proof}
+
+The following is a special case of the dominated convergence theorem, which is quite useful when $E$ has finite measure.
+
+\begin{cor}[Bounded convergence theorem]
+  \label{cor:bounded-convergence-theorem}
+  Let $\langle f_k \rangle$ be a sequence of measurable functions on $E$ such that $f_k \to f$ a.e.\ in $E$.  If $|E| < +\infty$ and there is a finite constant $M$ such that $|f_k| \leqslant M$ a.e.\ in $E$, then $\int_E f_k \to \int_E f$.
+\end{cor}
+
+Finally let us mention the relation between the Riemann (Darboux) integrals and the Lebesgue integrals (in $\mathbb{R}^1$).
+
+\begin{thm}
+  \label{thm:riemann-lebesgue-integral}
+  Let $f$ be a bounded function which is Riemann integrable on $[a,b]$.  Then $f$ is Lebesgue integrable on $[a,b]$ and
+  \[
+    \int_{[a,b]} f = (R) \int_a^b f.
+  \]
+\end{thm}
+
+\begin{proof}
+  Let $\langle \mathcal{P}_k \rangle$ be a sequence of partitions of $[a,b]$ with norms tending to zero.  For each $k$, define two simple functions as follows: if $x_0^{(k)} < x_1^{(k)} < \cdots$ are the partitioning points of $\mathcal{P}_k$, let $\ell_k(x)$ and $u_k(x)$ be defined in each semi-open interval $I_i^{(k)} = \left[x_{i-1}^{(k)}, x_i^{(k)}\right)$ as the lower and upper bounds of $f$ on $I_i^{(k)}$, respectively.  Then $\ell_k$ and $u_k$ are uniformly bounded and measurable in $[a,b)$, and if $L_k$ and $U_k$ denote the lower and upper Riemann sums of $f$ corresponding to $\mathcal{P}_k$, we have
+  \[
+    \int_{[a,b]} \ell_k = L_k, \quad \int_{[a,b]} u_k = U_k.
+  \]
+  Note also that $\ell_k \leqslant f \leqslant u_k$ and, if we assume that $\mathcal{P}_{k+1}$ is a refinement of $\mathcal{P}_k$, that $\ell_k \nearrow$ and $u_k \searrow$.  Let $\ell = \lim_{k \to \infty} \ell_k$ and $u = \lim_{k \to \infty} u_k$.  Then $\ell$ and $u$ are measurable, $\ell \leqslant f \leqslant u$, and, by the bounded convergence theorem (Corollary~\ref{cor:bounded-convergence-theorem}), $L_k \to \int_{[a,b]} \ell$ and $U_k \to \int_{[a,b]} u$.  But since $f$ is Riemann integrable, $L_k$ and $U_k$ both converge to $(R) \int_a^b f$.  Therefore,
+  \[
+    (R) \int_a^b f = \int_{[a,b]} \ell = \int_{[a,b]} u.
+  \]
+  Since $u - \ell \geqslant 0$, this implies that $\ell = f = u$ a.e.\ in $[a,b]$.  Therefore $f$ is measurable and $(R) \int_a^b f = \int_{[a,b]} f$, which completes the proof.
+\end{proof}
+
+\noindent\textbf{Example.} Consider the following function $h : [0,1] \to \mathbb{R}$ defined by
+\[
+  h(x) = 
+  \begin{cases}
+    1, & \text{if $x \in \mathbb{Q}$}, \\
+    0, & \text{if $x \in \mathbb{R} \setminus \mathbb{Q}$}.
+  \end{cases}
+\]
+For any (finite) partition $\mathcal{P}$ of $[0,1]$, every subinterval must contains a rational number and an irrational number.  Hence the upper sum $U(h, \mathcal{P})$ is always 1, while the lower sum $L(h,\mathcal{P})$ is always $0$.  This implies that the upper integral of $h$ over $[0,1]$ is 1 but its lower integral is 0.  Since they do not agree, $h$ is not Riemann integrable over $[0,1]$.
+
+On the other hand, $h = 0$ a.e.\ in $[0,1]$, since $\mathbb{Q} \cap [0,1]$ is countable, hence a zero set.  Therefore $h$ is Lebesgue integrable on $[0,1]$, with $\int_{[0,1]} h = 0$.  Together with Theorem~\ref{thm:riemann-lebesgue-integral}, Lebesgue integrals can be regarded as an extension to Riemann integrals.
+\end{document}

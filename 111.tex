@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{April 25, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 11: The Lagrange multiplier method} 
+\end{center}
+
+In a practical world, extremum problems under constraints occur more
+often.  The following theorem establishes the validity of the
+so-called \textit{Lagrange multiplier method}.
+
+\begin{thm}[Lagrange multiplier method]
+  \label{thm:lagrange}
+  Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a continuously differentiable
+  function in an open set $\Omega \subseteq \mathbb{R}^n$.  Let $g = (g_1,
+  \dots, g_m) : \Omega \rightarrow \mathbb{R}^m$ be continuously differentiable,
+  and assume that $m < n$.  Let $X_0$ be the subset of $\Omega$ where $g$
+  vanishes, that is,
+  \begin{equation*}
+    X_0 = \{ x \in \Omega \mid g(x) = 0 \}.
+  \end{equation*}
+  Suppose that $x_0 \in X_0$ and assume that there is a neighborhood
+  $N$ of $x_0$ such that $f$ achieves maximum or minimum at $x_0$ in
+  $N \cap X_0$.  Also assume that the determinant of the $m \times m$
+  matrix $\bigl( \DD_j g_i(x_0) \bigr)$ does not vanish.  Then there
+  exist $m$ real numbers $\lambda_1, \dots, \lambda_m$ such that the
+  following $n$ equations are satisfied:
+  \begin{equation}
+    \label{eq:lag-1}
+    \DD_r f(x_0) + \sum_{k=1}^m \lambda_k \DD_r g_k(x_0) = 0, \qquad
+    \forall \,\, r = 1, \dots n.
+  \end{equation}
+\end{thm}
+
+\noindent\textbf{Remark.} The $n$ equations in (\ref{eq:lag-1}) are equivalent to the
+following vector-valued equation:
+\begin{equation}
+  \label{eq:lag-2}
+  \nabla f(x_0) + \lambda_1 \nabla g_1(x_0) + \dots + \lambda_m \nabla
+  g_m(x_0) = 0.
+\end{equation}
+
+\begin{proof}
+Since the matrix $\bigl( \DD_j g_i (x_0) \bigr)$ is already
+invertible, there are $m$ real numbers $\lambda_1, \dots, \lambda_m$
+that solve the system of linear equations:
+\begin{equation}
+  \label{eq:lag-3}
+  \DD_r f(x_0) + \sum_{k = 1}^m \lambda_k \DD_r g_k(x_0) = 0, \qquad
+  r = 1, \dots, m.
+\end{equation}
+These are the first $m$ equations in (\ref{eq:lag-1}).  It remains to
+show that for this choice of $\lambda_1, \dots, \lambda_m$, the
+remaining $n-m$ equations in (\ref{eq:lag-1}) are also satisfied.
+
+Because of the assumption $m < n$, we will use the notation $x = (x',
+t) \in \mathbb{R}^n$, where $x' \in \mathbb{R}^m$, $t \in \mathbb{R}^{n-m}$ for the
+remainder of the proof; this also means that we assume $x' = (x_1,
+\dots, x_m)$, $t = (x_{m+1}, \dots, x_n)$, and $t_k = x_{m+k}$.  Our
+target point $x_0$ is expressed as $x_0 = (x_0', t_0)$.  By the
+implicit function theorem, there is an open set $U \subseteq \mathbb{R}^{n-m}$ and a differentiable function $h : U \rightarrow \mathbb{R}^m$ such
+that $\bigl(h(U), U\bigr) \subseteq N$, $h(t_0) = x_0'$ and $g\bigl( h(t), t
+\bigr) = 0$.  Define the following differentiable functions on $U$ as
+\begin{equation*}
+  F(t) = f\bigl( h(t), t \bigr), \qquad G_k(t) = g_k \bigl( h(t), t
+  \bigr), \quad k = 1, \dots, m.
+\end{equation*}
+Since $G_k$ vanishes identically on $U$, we have
+\begin{equation}
+  \label{eq:lag-G}
+  \begin{split}
+    0 = \DD_s G_k(t) = \sum_{j=1}^m \DD_j g_k( h(t), t ) \cdot \DD_s h_j (t) &+
+    \DD_{m+s} g_k ( h(t), t ), \\ 
+    &\forall \,\, 1 \leq s \leq n-m, \,\, 1 \leq k \leq m, \,\, t \in U.
+  \end{split}
+\end{equation} 
+Certainly (\ref{eq:lag-G}) holds at the point $t = t_0$.  On the other
+hand, since $f$ achieves maximum or minimum at $x_0$ in $(h(U), U)$,
+$t_0$ is a critical point of $F$, that is,
+\begin{equation}
+  \label{eq:lag-F}
+  0 = \DD_s F(t_0) = \sum_{j=1}^m \DD_j f( h(t_0), t_0 ) \cdot \DD_s h_j
+  (t_0) + \DD_{m+s} f ( h(t_0), t_0 ), \qquad \forall \,\, 1 \leq s \leq n
+  - m.
+\end{equation}
+Now we plug in $t_0$ for $t$ in (\ref{eq:lag-G}), multiply by
+$\lambda_k$, sum on $k$, and add the result to (\ref{eq:lag-F}), we
+find
+\begin{equation*}
+  0 = \sum_{j=1}^m \Bigl( \DD_j f(x_0) + \sum_{k=1}^m \lambda_k \DD_j
+  g_k(x_0) \Bigl) \cdot \DD_s h_j(t_0) + \DD_{m+s} f(x_0) + \sum_{k=1}^m
+  \lambda_k \DD_{m+s} g_k(x_0).
+\end{equation*}
+In the equation above, the sum in the bracket vanishes for every $j =
+1, \dots, m$ because of our choice of $\lambda_1, \dots, \lambda_m$
+(Equation~(\ref{eq:lag-3})).  Hence we are left with
+\begin{equation*}
+  \DD_{m+s} f(x_0) + \sum_{k=1}^m \lambda_k \DD_{m+s} g_k(x_0) = 0, \qquad
+  \forall \,\, 1 \leq s \leq n - m,
+\end{equation*}
+which is exactly what we need to show.  
+\end{proof}
+
+In attempting the solution of a particular extremum problems by
+Lagrange multiplier method, it is usually very easy to determine the system of
+equations (\ref{eq:lag-1}) but, in general, it is not a simple matter
+to actually {\em solve\/} the system.  Special devices can often be
+employed to obtain the extreme values of $f$ directly from
+(\ref{eq:lag-1}) without first finding the particular points where
+these extremes are taken on.  There will be a few exercises left for
+the interested readers.
+
+\medskip
+
+\noindent\textbf{Example.} (\textit{Least square method}.)
+Let $(x_1, y_1)$, $(x_2, y_2)$, \dots, $(x_n, y_n)$ be $n$ data points in $\mathbb{R}^2$ such that not all $x_i$'s are equal.  Our goal is to find a straight line $y = a + bx$ which approximates these data \textit{well}.  By this we mean to find constants $a, b$ which minimizes the sum of square vertical distances between the line and these points, i.e., to minimize the following functional
+\begin{equation}
+  \label{eq:ls}
+  F(a,b) = \sum_{i=1}^n \left( y_i - (a + b x_i) \right)^2, \qquad (a,b) \in \mathbb{R}^2.
+\end{equation}
+
+We know that $F(a,b)$ is always non-negative since it is a sum of squares.
+Also when $a, b \to \pm \infty$ the value $F(a,b)$ tends to infinity as well.
+Hence it must achieve a global minimum somewhere in $\mathbb{R}^2$ by the extreme value theorem.
+\end{document} 

@@ -1,0 +1,327 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{March 18, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 6: Review on linear algebra}
+\end{center}
+
+Before we dive into calculus on several variables, it is necessary to review some notions in linear algebra.
+After all, differentiation is an approximation of functions by linear mappings, as we shall see in later Topics.
+It will be taken for granted that our readers have certain degree of familiarity on basic concepts of (finite dimensional) linear algebra (over $\mathbb{R}$), such as vector space, linear transformation, matrix, determinant, dimension, rank, inner product (also known as dot product,) norm, and cross product.
+
+Let us fix our notations first.
+Let $\{ \eu_1, \eu_2, \dots, \eu_m \}$ be the standard basis for the Euclidean space $\mathbb{R}^m$, i.e., $\eu_j$ is the $n$-tuple all of whose components is 0 except at the $j^\text{th}$ entry, which is 1.
+Each element $v \in \mathbb{R}^m$ can be written as a linear combination of $\eu_1, \dots, \eu_m$, namely,
+\[
+  v = \sum_{i=1}^m c_i \eu_i = (c_1, c_2, \dots, c_m) = 
+  \begin{bmatrix}
+    c_1 \\ c_2 \\ \vdots \\ c_m
+  \end{bmatrix} \in \mathbb{R}^m.
+\]
+Note that we always write coordinates in a row, but treat that as a column vector.
+
+In general, let $V$ and $W$ be vector spaces over $\mathbb{R}$ of dimensions $n$ and $m$, respectively.
+Denote by $\mathcal{L}(V,W)$ the set of all \textit{linear transformations} from $V$ to $W$; when $V = W$, it is simply written as $\mathcal{L}(V)$.
+Any linear transformation $T: V \to W$ is determined by its action on a set of basis for $V$.
+To be more specific, let $\mathcal{B} = \{ v_1, \dots, v_n \}$ be a set of basis for $V$, and $\mathcal{B}' = \{ w_1, \dots, w_m \}$ be a set of basis for $W$.
+Suppose it is given that
+\[
+  T(v_j) = \sum_{i=1}^m a_{ij} w_i, \qquad j = 1, \dots, n.
+\]
+Then the action $T(v)$ of $T$ on a general vector $v \in \mathbb{R}^n$ can be found by linear extension, as shown below.  Let $v = \sum_j c_j v_j$.  Then we have
+\begin{align*}
+  T(v) &= T \left( \sum_j c_j v_j \right) = \sum_j c_j T(v_j) \\
+  &= \sum_j c_j \left( \sum_i a_{ij} w_i \right) \\
+  &= \sum_i \left( \sum_j a_{ij} c_j \right) w_i.
+\end{align*}
+This action can be realized by a (left) matrix multiplication.
+Under the basis $\mathcal{B}$ of $V$, the coordinates of $v$ is $(c_1, \cdots, c_n)$, while the coordinates of $T(v)$ under $\mathcal{B}'$ for $W$ is
+\[
+  \begin{bmatrix}
+    \sum_j a_{1j} c_j \\ \vdots \\ \sum_j a_{mj} c_j
+  \end{bmatrix} = 
+  \begin{bmatrix}
+    a_{11} c_1 + \cdots + a_{1n} c_n \\
+    \vdots \\ a_{m1} c_1 + \cdots + a_{mn} c_n
+  \end{bmatrix} =
+  \begin{bmatrix}
+    a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}
+  \end{bmatrix}
+  \begin{bmatrix}
+    c_1 \\ \vdots \\ c_n
+  \end{bmatrix}.
+\]
+The $a_{ij}$-entried matrix in the above line is usually denoted by $[T]_{\mathcal{B}'}^{\mathcal{B}}$.
+Then we could write
+\[
+  [T(v)]_{\mathcal{B}'} = [T]_{\mathcal{B}'}^{\mathcal{B}} [v]_{\mathcal{B}}.
+\]
+We sometimes drop the decorations $\mathcal{B}$ and $\mathcal{B}'$ when the bases are clear from the context.
+Just remember that a linear transformation can be represented by a (left) matrix multiplication, once the bases are chosen and vectors are written in column vectors.
+Also note that
+\[
+  [T(v)] = 
+  \begin{bmatrix}
+    a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}
+  \end{bmatrix}
+  \begin{bmatrix}
+    c_1 \\ \vdots \\ c_n
+  \end{bmatrix} =
+  c_1 \begin{bmatrix} a_{11} \\ \vdots \\ a_{m1} \end{bmatrix} +
+  c_2 \begin{bmatrix} a_{12} \\ \vdots \\ a_{m2} \end{bmatrix} + \cdots +
+  c_n \begin{bmatrix} a_{1n} \\ \vdots \\ a_{mn} \end{bmatrix}.
+\]
+That is, the left matrix multiplication of an $m \times n$ matrix $M$ to a column vector of order $n \times 1$ gives a \textit{linear combination} of the columns of $M$.
+In particular, the range of $M$ is the subspace spanned by the column vectors of $M$.
+
+Here is another reason why we should use column vectors and left matrix multiplications.
+\begin{thm}
+  Let $T : V \to W$ and $U : W \to X$ be linear transformations.
+  Then (after choosing bases for $V, W, X$)
+  \[
+    [U \circ T] = [U] \cdot [V],
+  \]
+  where $\circ$ is the composition of maps, and $\cdot$ is the matrix multiplication.
+\end{thm}
+
+\begin{proof}
+  Let $\{ v_i \}$, $\{ w_j \}$, $\{ x_k \}$ be bases for $V, W, X$, respectively.
+  Under them, we have
+  \[
+    T(v_i) = \sum_j a_{ji} w_j \quad \text{and} \quad
+    U(x_j) = \sum_k b_{kj} x_k.
+  \]
+  Then, for any vector $v = (c_1, \dots, c_n) = \sum_i c_i v_i \in V$, we have
+  \begin{align*}
+    (U \circ T)(v) &= U(T(v)) = U\left( T\left( \sum_i c_i v_i \right) \right) 
+    = U \left( \sum_j \left( \sum_i a_{ji} c_i \right) w_j \right) \\
+  &= \sum_k \left( \sum_j \sum_i b_{kj} a_{ji} c_i \right) x_k. \end{align*}
+    Hence $\displaystyle 
+      [(U\circ T)(v)] = 
+    \begin{bmatrix}
+      b_{kj} a_{ji}
+    \end{bmatrix}
+    \begin{bmatrix}
+      c_1 \\ \vdots \\ c_n
+    \end{bmatrix} = [b_{kj}] [a_{ji}] [c_i] = [U] \cdot [T] \cdot [v]$.
+\end{proof}
+
+Next is a result that can be called a \textit{representation}.
+Usually a linear functional is less concrete than a vector, so we use the inner product structure to convert one such.
+
+\begin{thm}
+  Let $T : \mathbb{R}^m \to \mathbb{R}^1$ be a linear functional.
+  Then there is a unique vector $y \in \mathbb{R}^m$ such that
+  \[
+    T(x) = x \cdot y
+  \]
+  for all $x \in \mathbb{R}^m$, where $\cdot$ is the standard Euclidean inner product in $\mathbb{R}^m$.
+\end{thm}
+
+\begin{proof}
+  The existence of such $y$ is easy: there are scalars $y_i \in \mathbb{R}$ such that
+  \[
+    T(\eu_i) = y_i, \qquad i = 1, 2, \dots, m.
+  \]
+  Then the vector $\displaystyle y = \sum_{i=1}^m y_i \eu_i = (y_1, \dots, y_m)$ does the trick: for each $x = (x_1, \dots, x_m) \in \mathbb{R}^m$,
+  \[
+    T(x) = T \left( \sum_{i=1}^m x_i \eu_i \right) = \sum_{i=1}^m x_i T(\eu_i) = \sum_{i=1}^m x_i y_i = x \cdot y.
+  \]
+  The uniqueness part is clear.
+\end{proof}
+
+We now introduce a vector space structure on the set $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$.
+For any functionals $f, g \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ and any scalar $\lambda \in \mathbb{R}$, we may define their \textit{sum} and \textit{scalar product} by
+\[
+  (f+g)(v) := f(v) + g(v), \quad (\lambda f)(v) := \lambda \cdot f(v), \quad v \in \mathbb{R}^n.
+\]
+It is straightforward to verify that with these operations $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ is indeed a vector space over $\mathbb{R}$.
+The dimension of this space is $mn$, as we verify that this space is spanned by the ``vectors'' $T_{ij}$, $1 \leqslant i \leqslant n$, $1 \leqslant j 	\leqslant m$ which are defined by
+\[
+  T_{ij}(\eu_k) = \delta_{ik} \eu'_j, \quad k = 1, 2, \dots, n,
+\]
+where $\delta_{ik}$ is the Kronecker symbol\footnote{The Kronecker symbol $\delta_{ik}$ gives the value $0$ whenever $i \ne k$, but $1$ when $i=k$.}.
+If we use the standard bases for $\mathbb{R}^n$ and $\mathbb{R}^m$, then the matrix $[T_{ij}]$ is the 0-1 matrix whose entries are all $0$ except that its $(i,j)^{\text{th}}$ entry is $1$.
+Putting it in another way, $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ is isomorphic to the space of matrices $\mathcal{M}_{m\times n}(\mathbb{R})$ after choosing bases.
+
+We can go step further to make $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ a \textit{normed space}.
+For this we introduce a norm on $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ as follows.
+
+\begin{defn}
+  Let $T$ be a linear transformation from $\mathbb{R}^n$ to $\mathbb{R}^m$.
+  The \textsf{operator norm} of $T$ is defined by
+  \[
+    \| T \| = \sup \left\{ \frac{ |T(v)| }{ |v| } \colon v \in \mathbb{R}^n, \, v \ne 0 \right\}.
+  \]
+\end{defn}
+
+Note that for any $\lambda \in \mathbb{R}$, $\lambda > 0$ and $v \ne 0$, we have
+\[
+  \frac{ |T(\lambda v)| }{ |\lambda v| } = \frac{ |\lambda| \, |T(v)| }{ |\lambda| \, |v| } = \frac{ |T(v)| }{ |v| },
+\]
+which means that the function $\displaystyle \frac{ |T(v)| }{ |v| }$ is constant on any open ray emitting from the origin.
+As a consequence,
+\[
+  \| T \| = \sup \left\{ \frac{ |T(v)| }{ |v| } \colon v \in \mathbb{R}^n, \, v \ne 0 \right\} = \sup \{ |T(v)| \colon v \in \mathbb{R}^n, \, |v| = 1 \}.
+\]
+Note that
+\begin{equation}
+  \label{eq:6-norm-bound}
+  | T(v) | \leqslant \| T \| |v| \qquad \text{for any $v \in V$ when $\| T \| < \infty.$}
+\end{equation}
+We can also talk about $\| M \|$ when $M$ is an $m \times n$ matrix; just treat $M$ as a linear transformation from $\mathbb{R}^n$ to $\mathbb{R}^n$ defined by left multiplication.
+
+\textit{A priori}, $\| T \| \in [0, \infty]$.
+The following result relates the continuity of $T$ with finiteness of $\| T \|$.
+
+\begin{thm}
+  \label{thm:finite-norm}
+  Let $T : V \to W$ be a linear transformation from a normed space $V$ to another normed space $W$.
+  The following are equivalent.
+  \begin{enumerate}[(i)]
+    \item $\| T \|$ is finite.
+    \item $T$ is uniformly continuous.
+    \item $T$ is continuous.
+    \item $T$ is continuous at the origin.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  (i) $\implies$ (ii): Let $M = \| T \| < \infty$.
+  For any $v, v' \in V$, the linearity of $T$ implies that
+  \[
+    | T(v) - T(v') | = | T (v-v') | \leqslant \| T \| |v - v'|.
+  \]
+  Thus $T$ is Lipschitz continuous and uniformly continuous.
+
+  That (ii) $\implies$ (iii) $\implies$ (iv) are clear.
+
+  (iv) $\implies$ (i): Take $\varepsilon = 1$.
+  There is a $\delta > 0$ such that whenever $u \in V$ and $|u| < \delta$ then $|T(u)| < 1$.
+  For any nonzero $v \in V$, set $u = \lambda v$ where $\lambda = \dfrac{\delta}{2 |v|}$.
+  Then $|u| = \dfrac{\delta}{2} < \delta$, and we have
+  \[
+    \frac{ |T(v)| }{ |v| } = \frac{ |T(u)| }{ |u| } < \frac{1}{|u|} = \frac{2}{\delta}.
+  \]
+  This implies that $\| T \| < \dfrac{2}{\delta} < \infty$ and verifies (i).
+\end{proof}
+
+\begin{cor}
+  For any $T \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$, we have $\| T \|$ is finite.
+\end{cor}
+
+\begin{proof}
+  Observe that $T$ is continuous since its components are all linear polynomials in coordinates.
+  Now apply Theorem~\ref{thm:finite-norm}.
+\end{proof}
+
+Indeed, we can give a quantitative answer to $\| T \|$ for $T \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$, as the following result shows.
+
+\begin{thm}
+  Let $T \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$.
+  Then $\| T \|$ equals the square root of the largest eigenvalue of $T^\TT T$.
+\end{thm}
+
+\begin{proof}
+  For $v \in \mathbb{R}^n$, we have
+  \[
+    | T(v) |^2 = \langle T(v), T(v) \rangle = (T(v))^\TT T(v) = v^\TT (T^\TT T(v)) = \langle T^\TT T(v), v \rangle.
+  \]
+  Since $T^\TT T$ is a real symmetric matrix, it can be diagonalized by an orthogonal matrix $P$, i.e.,
+  \begin{equation}
+    \label{eq:6-diagonalization}
+    T^\TT T = P D P^{-1}, \quad D = \op{diag}(\lambda_1, \lambda_2, \dots, \lambda_n), \,
+    P^\TT P = I.
+  \end{equation}
+  Conventionally we will list the diagonal entries of $D$ by their decreasing orders, i.e., $\lambda_1 \geqslant \lambda_2 \geqslant \cdots \geqslant \lambda_n$.
+  Note that $P^\TT P = I$ means the columns $v_1, v_2, \dots, v_n$ of $P$ form an \textit{orthonormal} basis for $\mathbb{R}^n$.  From (\ref{eq:6-diagonalization}) each $v_i$ is an eigenvector of $T^\TT T$ with eigenvalue $\lambda_i$.
+  Furthermore, since for any $v \in \mathbb{R}^n$,
+  \[
+    \langle T^\TT T(v), v \rangle = | T(v) |^2 \geqslant 0,
+  \]
+  it means that $T^\TT T$ is positive semidefinite.
+  This implies that every eigenvalue $\lambda_i$ of $D$ is non-negative.
+
+  For any $v \in \mathbb{R}^n$, $v$ can be written as a linear combinations of columns of $P$ as
+  \[
+    v = c_1 v_1 + \cdots + c_n v_n.
+  \]
+  This gives
+  \[
+    |v|^2 = \langle v, v \rangle = \left\langle \sum c_i v_i, \sum c_j v_j \right\rangle = \sum c_i^2.
+  \]
+  Note that each $v_i$ is an eigenvector of $T^\TT T$ with eigenvalue $\lambda_i$.
+  Hence
+  \begin{align*}
+    |T(v)|^2 &= \langle T^\TT T(v), v \rangle 
+    = \left\langle T^\TT T( \sum c_i v_i ), \sum c_j v_j \right\rangle \\
+    &= \left\langle \sum \lambda_i c_i v_i, \sum c_j v_j \right\rangle \\
+    &= \sum \lambda_i c_i^2 \\
+    &\leqslant \lambda_1 \sum c_i^2 = \lambda_1 |v|^2.
+  \end{align*}
+  This shows that $\| T \| \leqslant \sqrt{\lambda_1}$.
+  Lastly, the above inequality becomes an equality when $v=v_1$.
+  Hence $\| T \| = \sqrt{\lambda_1}$.
+\end{proof}
+
+The proofs of the following three facts are one-liners from (\ref{eq:6-norm-bound}) and are left to the readers.
+
+\begin{thm}
+  \begin{enumerate}[(i)]
+    \item If $A, B \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ and $\lambda \in \mathbb{R}$, then
+      \[
+	\| A + B \| \leqslant \| A \| + \| B \| \quad \text{and} \quad \| \lambda A \| = |\lambda| \cdot \| A \|.
+      \]
+
+    \item If $A \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ and $B \in \mathcal{L}(\mathbb{R}^m, \mathbb{R}^\ell)$, then $\| BA \| \leqslant \|B\|\|A\|$.  \hfill$\square$
+  \end{enumerate}
+\end{thm}
+
+Sometimes it is not necessary to acquire the exact value for an operator norm.
+The following result is crude but convenient.
+
+\begin{prop}
+  Let $M = [m_{ij}] \in \mathcal{M}_{m \times n}(\mathbb{R})$, i.e., an $m \times n$ real matrix.
+  Then
+  \[
+    \max_{i,j} |m_{ij}| \leqslant \| M \| \leqslant \sum_{i,j} |m_{ij}|.
+  \]
+\end{prop}
+
+\begin{proof}
+  Take $v = \eu_j$.
+  Then $M(\eu_j)$ is the $j^\text{th}$ column vector of $M$, whose length is no less than every $|m_{ij}|$.
+  Therefore $|m_{ij}| \leqslant \| M \|$ for all $i,j$.
+
+  On the other hand, if $v = \sum c_j \eu_j$ has unit length, the $|c_j| \leqslant 1$ for all $j$.
+  Hence
+  \[
+    |M(v)| = \left| \left( \sum m_{1j} c_j, \sum m_{2j} c_j, \dots \right) \right| 
+    \leqslant \sum_{i,j} |m_{ij} c_j| \leqslant \sum_{i,j} |m_{ij}|.
+  \]
+  And the result follows.
+\end{proof}
+
+Finally we state the related results for determinant and inverse.
+Since the determinant of a square matrix is a polynomial of its entries,
+we have the following result; its proof is immediate.
+
+\begin{thm}
+  Let $A$ be a square matrix.
+  Then for any $\varepsilon > 0$, there is a $\delta > 0$ such that
+  \[
+    | \det B - \det A | < \varepsilon \quad \text{whenever $\| B - A \| < \delta$.}
+  \] \hfill$\square$
+\end{thm}
+
+In particular, if a square matrix is invertible, all of its nearby matrices are invertible.
+Using the cofactors we also obtain the following result.
+
+\begin{thm}
+  Let $\iota$ be the mapping that takes an invertible square matrix to its inverse.
+  Then $\iota$ is continuous in the subset of all invertible square matrices under the operator norm.
+  \qed
+\end{thm}
+\end{document}

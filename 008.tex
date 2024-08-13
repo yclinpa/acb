@@ -1,0 +1,204 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{October 16, 2023}
+\input{23cac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 8: The topology of a metric space}
+\end{center}
+
+In real analysis we extract the essential properties on which others develop.
+Although there are more general notions about (point set) topology, here we mainly deal with those that arise from metric spaces.
+We start with a few definitions (cf.\ Rudin, Chapter 2, Definition 2.18).
+
+\begin{defn}
+  Let $(M, d)$ be a metric space.
+  All points and sets mentioned below are understood to be elements and subsets of $M$.
+  \begin{enumerate}[(a)]
+    \item A \textsf{neighborhood} of a point $p$ is a set $B_r(p)$ consisting of all points $q$ such that $d(p,q) < r$ ($r > 0$).
+      $B_r(p)$ is also called an \textsf{open ball} with center $p$ and radius $r$.
+
+    \item A point $p$ is a \textsf{limit point} of $S$ if \textit{every} neighborhood of $p$ contains a point $q \ne p$ such that $q \in S$.
+
+    \item If $p \in S$ but $p$ is not a limit point of $S$, then $p$ is called an \textsf{isolated point} of $S$.
+
+    \item $S$ is \textsf{closed} if every limit point of $S$ belongs to $S$.
+
+    \item A point $p$ is an \textsf{interior point} of $S$ if there is a neighborhood $N$ of $p$ such that $N \subseteq S$.  The collection of all interior points of $S$ is called the \textsf{interior} of $S$, and is denoted by $\mathring{S}$ or $\operatorname{int} S$.
+
+    \item $S$ is \textsf{open} if every point of $S$ is an interior point of $S$.
+
+    \item $S$ is \textsf{clopen} if $S$ is both closed and open.
+
+    \item The \textsf{complement} of $S$ is the subset $S^c$ of all points that do not belong to $S$.
+
+    \item A point $q$ is an \textsf{exterior point} of $S$ if there is a neighborhood $U$ of $q$ such that $U \subseteq S^c$, i.e., $U \cap S = \varnothing$.
+
+    \item A point $b$ is called a \textsf{boundary point} of $S$ if it is neither an interior point nor an exterior point of $S$.
+      The collection of all boundary points of $S$ is called the \textsf{boundary} of $S$, and is denoted by $\partial S$.
+  \end{enumerate}
+\end{defn}
+
+With all these definitions, the most prominent ones are probably neighborhoods and limit points.
+Especially, a point $p$ is {\em not} a limit point of a subset $S \subseteq M$ if and only if there is an $r > 0$ such that $B_r(p) \cap S \subseteq S$.
+Two points are made here.  Firstly some books regard a neighborhood of a point $p$ is simply an open set $U$ that contains the point $p$.  But in this case we can find a smaller open ball $B_r(p)$ that is contained in $U$. 
+Secondly our textbook (authored by Pugh) define a limit of a set to be a limit point or an isolated point of that set.
+Since most literature does not agree with Professor Pugh, we simply leave him alone.  Nevertheless you should be careful when reading Pugh's texts.  (This is not an attack against him.)
+
+Now we come to several properties that follow from these definitions.
+First we need to explain the notion of an ``open ball.''
+
+\begin{prop}
+  An open ball in a metric space $M$ is always an open set.
+\end{prop}
+
+\begin{proof}
+  Let $B_r(p)$ be an open ball, where $p \in M$ and $r > 0$.
+  We need to show that every point $x \in B_r(p)$ is an interior point of $B_r(p)$.
+  Let $x \in B_r(p)$; by definition we have $d(x,p) < r$.
+  Take $\rho = r - d(x,p) > 0$.  We claim that $B_\rho(x) \subseteq B_r(p)$.
+
+  Let $y$ be an arbitrary point of $B_\rho(x)$; by definition we have $d(x,y) < \rho$.
+  Then by the triangle inequality,
+  \[
+    d(y,p) \leqslant d(y,x) + d(x,p) < \rho + d(x,p) = (r - d(x,p)) + d(x,p) = r,
+  \]
+  that is, $y \in B_r(p)$.
+  Since $y$ is arbitrary, we conclude that $B_\rho(x) \subseteq B_r(p)$.
+\end{proof}
+
+Since every point $x$ in an open set is its interior point, there is an open ball centered at $x$ that falls in the open set completely.
+We use this property to show statements about unions and intersection of open sets.
+
+\begin{prop}
+  \label{open-union-intersection}
+  Let $M$ be a metric space.
+  \begin{enumerate}[$(a)$]
+    \item Let $\{ U_\alpha \colon \alpha \in A \}$ be an arbitrary collection of open sets in $M$ ($A$ is just some index set.)
+      Then their union $U = \displaystyle \bigcup_{\alpha \in A} U_\alpha$ is open in $M$.
+
+    \item Let $U_1, U_2, \dots, U_N$ be a {\em finite} collection of open sets in $M$.
+      Then their intersection $V = \displaystyle \bigcap_{i=1}^N U_i$ is open in $M$.
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}
+  \begin{enumerate}[(a)]
+    \item Let $p$ be an arbitrary point of $U$.  Then there is some index $\alpha \in A$ such that $p \in U_\alpha$.
+      Since $U_\alpha$ is open, there is an $r > 0$ such that $B_r(p) \subseteq U_\alpha \subseteq U$.
+      This shows that $p$ is also an interior point of $U$.
+      Since $p$ is arbitrary, we conclude that $U$ is open in $M$.
+
+    \item Let $q$ be an arbitrary point of $V$.  Then $q \in U_i$ for each $i = 1, 2, \dots, N$.
+      For each $i$, there is an $r(i) > 0$ such that $B_{r(i)}(q) \subseteq U_i$.
+      Taking $r = \min \{ r(1), r(2), \dots, r(N) \} > 0$, we see that $B_r(q) \subseteq B_{r(i)}(q) \subseteq U_i$ for any $i$.
+      Hence $B_r(q) \subseteq V$, i.e., $q$ is an interior point of $V$.
+      Since $q$ is arbitrary, we see that $V$ is open in $M$.
+  \end{enumerate}
+\end{proof}
+
+Proposition~\ref{open-union-intersection} says that the collection of all open sets in $M$ is closed under arbitrary union and finite intersection.\footnote{The word {\em closed} has been abused.  There are so many occasions in mathematics in which we use this word to mean something like closure.  But really it takes a while to make necessary distinction about this word that appears in different places.  In this sentence the word ``closed'' already has a different meaning from a set being closed in a metric space.}
+The situation will be totally different when we talk about closed sets.
+But first let us introduce the following result.
+
+\begin{thm}
+  \label{thm:open-closed}
+  Let $M$ be a metric space.
+  A subset $U$ of $M$ is open if and only its complement $C = U^c$ is closed.
+\end{thm}
+
+\begin{proof}
+  Let us assume first that $U$ is open.
+  If a point $x \in U$ then there is a neighborhood $B_r(x)$ of $x$ that falls completely in $U$.  But this implies that $x$ cannot be a limit point of $C = U^c$, since there is no sequence in $C$ that can converge to $x$.  Hence any limit point of $C$ must belong to $C$, by definition $C$ is closed.
+
+  Now suppose $C = U^c$ is closed and $x \in U$.
+  Since $x \notin C$, $x$ is not a limit point of $C$.
+  Therefore there is an $r > 0$ such that $B_r(x) \cap C = \varnothing$.
+  But this is exactly $B_r(x) \subseteq U$.
+  Since $x$ is arbitrary, $U$ must be an open set.
+\end{proof}
+
+The choice of the words ``open'' and ``closed'' was unfortunate.
+Unlike a door which must be either open or closed, a subset of a metric space may be open, closed, neither, or both.
+For example an interval of the form $(a,b]$ in $\mathbb{R}$ is neither open nor closed.
+It is important to remember that, to establish a set being open, one should prove the closedness of its complement rather than itself.
+
+Combining Proposition~\ref{open-union-intersection}, Theorem~\ref{thm:open-closed} and De Morgan's Law, we immediately reach the following result.
+
+\begin{prop}
+  \label{closed-union-intersection}
+  Let $M$ be a metric space.
+  \begin{enumerate}[$(a)$]
+    \item Let $\{ C_\alpha \colon \alpha \in A \}$ be an arbitrary collection of closed sets in $M$ ($A$ is just some index set.)
+      Then their intersection $C = \displaystyle \bigcap_{\alpha \in A} C_\alpha$ is closed in $M$.
+
+    \item Let $C_1, C_2, \dots, C_N$ be a {\em finite} collection of closed sets in $M$.
+      Then their union $D = \displaystyle \bigcup_{i=1}^N C_i$ is closed in $M$.
+  \end{enumerate}
+\end{prop}
+
+The following proposition holds trivially.
+
+\begin{prop}
+  \label{empty-universal-clopen}
+  In any metric space $M$, the empty set $\varnothing$ and the whole space $M$ are both clopen.
+\end{prop}
+
+Indeed there is a more general notion of {\em topology.}\footnote{A \textsf{topology} on a set $M$ is a collection $\mathcal T$ of subsets of $M$, whose elements are called {\em open sets}, that is closed under arbitrary union, finite intersection, and contains $\varnothing$ and $M$.  In this scenario ``open set'' is introduced earlier than ``open ball'', which is only available for metric space.  Then a {\em closed set} is a subset of $M$ whose complement is open, that is, belongs to $\mathcal T$.  Theorem~\ref{thm:open-closed} becomes a definition!}
+Please refer to standard textbooks such as Munkres' {\em Topology, A First Course}.
+
+From Definition~1(e), it is clear that the interior $\mathring{S}$ is the largest open subset that is contained in $S$, in the sense that whenever $U$ is an open set and $U \subseteq S$, $U \subseteq \mathring{S}$.
+Also from Definition~1(i) the collection of all exterior points of $S$ forms an open set, by a similar argument. 
+On the other hand, the union of a subset and the set of all its limit points also has some significant properties.
+
+\begin{defn}
+  Let $S$ be a subset of a metric space $M$.
+  Denote by $S'$ the set of all limit points of $S$.
+  The \textsf{closure} of $S$ is defined to be the union $S \cup S'$, and is denoted by $\overline{S}$.
+\end{defn}
+
+\begin{thm}
+  Let $M$ be a metric space, and $S$ be a subset of $M$.
+  The closure $\overline{S}$ of $S$ is a closed set.
+  In fact, it is the smallest closed set in $M$ that contains $S$, in the sense that whenever $K$ is a closed set and $K \supseteq S$, $K \supseteq \overline{S}$ as well.
+\end{thm}
+
+\begin{proof}
+  Let $p \notin \overline{S} = S \cup S'$.
+  Since $p$ is neither a point in $S$ nor a limit point of $S$, there is an $r > 0$ such that $B_r(p) \cap S = \varnothing$, i.e., $p$ is an exterior point of $S$.
+  Conversely, if a point $p$ is an exterior point of $S$, $p$ is neither a point in $S$ nor a limit point of $S$.
+  Therefore $\overline{S}$ is a closed set since its complement is the open set consisting of all exterior points of $S$.
+
+  Now assume that $K$ is a closed set and $K \supseteq S$; we need to show that $K \supseteq S'$ as well.
+  Let $p$ be a limit point of $S$.
+  By definition $p$ is also a limit point of $K$, since every neighborhood of $p$ contains a point $q \ne p$ and $q \in S \subseteq K$.
+  Since $K$ is closed, $p \in K$, and the proof is completed.
+\end{proof}
+
+Let us state an important property about the closure of a set.
+
+\begin{thm}
+  Let $M$ be a metric space, and $S$ be a subset of $M$.
+  A point $x \in \overline{S}$ if and only if there is a sequence $\langle x_n \rangle$ in $S$ that converges to $x$.
+\end{thm}
+
+\begin{proof}
+  ($\Rightarrow$): Since $\overline{S} = S \cup S'$, there are two possible cases.
+  \begin{enumerate}
+    \item If $x \in S$, then we can simply take the constant sequence $\langle x \rangle$, which converges to $x$ trivially.
+
+    \item Suppose $x \in S'$.  For each $n \in \mathbb{N}$, $B_{1/n}(x)$ is a neighborhood of $x$.  Since $x$ is a limit point of $S$, there must be a point $x_n \in B_{1/n}(x) \cap S$ with $x_n \ne x$.  It is now clear that the sequence $\langle x_n \rangle$ in $S$ does converge to $x$.
+  \end{enumerate}
+
+  ($\Leftarrow$) Conversely, let us assume that there is a sequence $\langle x_n \rangle$ in $S$ that converges to $x$ but $x \notin S$; we must show that $x \in S'$.  For any $r > 0$, $B_r(x)$ is a neighborhood of $x$.  Since $x_n \to x$ as $n \to \infty$, there is an integer $N \in \mathbb{N}$ such that whenever $n \geqslant N$ we have $d(x_n,x) < r$.  Moreover, none of these $x_N, x_{N+1}, \dots$ can be the point $x$ because they belong to $S$ but $x$ is assumed not to be there.  Therefore, we have found (infinitely many) points $x_N, x_{N+1}, \dots$ in $S$ and in the neighborhood $B_r(x)$, none of which is $x$.  This shows that $x$ is indeed a limit point of $S$, i.e., $x \in S'$.
+\end{proof}
+
+Finally we talk about some properties of boundary.
+Given a subset $S \subseteq M$, the space is partitioned into three subsets: $\mathring{S}$, the subset of exterior points of $S$, and the boundary $\partial S$.  Since the former two sets are open, the last $\partial S$ is always a closed set.
+Furthermore, the following statement holds straight from Definition~1(j).
+
+\begin{prop}
+  Let $S$ be a subset of a metric space $M$.
+  A point $p$ lies in the boundary $\partial S$ of $S$ if and only if every neighborhood of $p$ contains a point in $S$ and another point not in $S$.
+\end{prop}
+\end{document}

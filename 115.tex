@@ -1,0 +1,158 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{May 16, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 15: Measurable functions}
+\end{center}
+
+We have established the collection $\mathcal{M}$ of Lebesgue measurable sets in $\mathbb{R}^n$ and obtained some of its properties in the last Topic, for instance $\mathcal{M}$ is a $\sigma$-algebra containing the empty set.  Now we define the class of real functions on $\mathbb{R}^n$ that can be ``integrated''\footnote{This Topic is taken from Chapter 4 of \textit{Measure and Integral: An Introduction to Real Analysis} by Wheeden and Zygmund (1977).}. 
+
+\begin{defn}
+  Let $f$ be a function defined on a set $E$ in $\mathbb{R}^n$ with $f(x) \in \mathbb{R} \cup \{ \pm\infty \}$ for all $x \in E$ (we simply call it a \textit{real-valued} function).  $f$ is called a \textsf{Lebesgue measurable function} on $E$, or simply a \textsf{measurable function} on $E$, if for every finite $a$, the set
+  \[
+    \{ x \in E \colon f(x) > a \}
+  \]
+  is a (Lebesgue) measurable set in $\mathbb{R}^n$.
+\end{defn}
+
+In what follows, we shall often use the abbreviation $\{ f > a \}$ for $\{ x \in E \colon f(x) > a \}$.  Since
+\[
+  E = \{ f = -\infty \} \cup \left( \bigcup_{k=1}^\infty \{ f > -k \} \right),
+\]
+the measurability of $E$ is equivalent to that of $\{ f = - \infty \}$ if we assume that $f$ is measurable.  Let us look at some basic properties about measurable functions.
+
+\begin{thm}
+  Let $f$ be a real-valued function defined on a measurable set $E$.  Then $f$ is measurable if and only if any of the following statements holds for every finite $a$:
+  \begin{enumerate}[(i)]
+    \item $\{ f \geqslant a \}$ is measurable.
+
+    \item $\{ f < a \}$ is measurable.
+
+    \item $\{ f \leqslant a \}$ is measurable.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  Since $\{ f \geqslant a \} = \cap_{k=1}^\infty \{ f > a - \frac{1}{k} \}$, the definition implies (i).  Since $\{ f < a \} = \{ f \geqslant a \}^c$, (i) implies (ii).  The other two implications are dealt with similarly.
+\end{proof}
+
+Recall that for any subset $S \subseteq \mathbb{R}$, the inverse image of $S$ under $f$ is the subset
+\[
+  f^{-1}(S) = \{ x \in E \colon f(x) \in S \}.
+\]
+Below is another equivalent definition for measurable functions.
+
+\begin{thm}
+  \label{thm:open-measurable}
+  $f$ is measurable if and only if for every open set $G$ in $\mathbb{R}^1$, the inverse image $f^{-1}(G)$ is measurable.
+\end{thm}
+
+\begin{proof}
+  Take $G = (a, +\infty)$, then $f^{-1}(G) = \{ a < f < +\infty \}$.  Hence, if $f^{-1}(G)$ is measurable for every such $G$, $f$ must be measurable.  To prove the converse, suppose that $f$ is measurable and let $G$ be any open subset of $\mathbb{R}^1$.  It is known that $G$ can be written as a countable union of open intervals, i.e. $G = \cup_k (a_k, b_k)$.  Since $f^{-1}( (a_k, b_k) ) = \{ a_k < f < b_k \} = \{ f < b_k \} \cap \{ f > a_k \}$, $f^{-1}( (a_k, b_k) )$ is a measurable set.  Since $f^{-1}(G)$ is a countable union of measurable sets, it is also measurable.
+\end{proof}
+
+As we have seen in the previous Topic, zero sets have no effect on measurability.  A property is said to hold \textit{almost everywhere} in $E$, or, in abbreviated form, \textit{a.e.}, if it holds in $E$ except in some zero subset of $E$.  So we can now talk about measurable functions under composition.
+
+\begin{thm}
+  \label{thm:measurable-composition}
+  Let $\phi$ be continuous on $\mathbb{R}$, and let $f$ be finite a.e.\ in $E$, so that, in particular, $\phi \circ f$ is defined a.e.\ in $E$.  Then $\phi\circ f$ is measurable if $f$ is.
+\end{thm}
+
+\begin{proof}
+  We may assume that $f$ is finite a.e.\ in $E$.  We will use the fact that since $\phi$ is continuous, the inverse image $\phi^{-1}(G)$ of an open set $G$ is open.  By Theorem~\ref{thm:open-measurable}, it is enough to show that for every open set $G$ in $\mathbb{R}$, $\{ x \in E \colon \phi(f(x)) \in G \}$ is measurable.  However, $\{ x \colon \phi(f(x)) \in G \} = f^{-1}(\phi^{-1}(G))$, and since $\phi^{-1}(G)$ is open and $f$ is measurable, $f^{-1}(\phi^{-1}(G))$ is measurable by Theorem~\ref{thm:open-measurable}.
+\end{proof}
+
+\noindent\textit{Remark.} From Theorem~\ref{thm:measurable-composition}, we have the following measurable functions whenever $f$ is:
+\[
+  |f|, |f|^p (p>0), \eu^{cf}, f^+=\max\{f,0\}, f^-=-\min\{f,0\}, \text{ etc.}
+\]
+
+\begin{thm}
+  \label{thm:f-larger-than-g}
+  If $f$ and $g$ are measurable functions, then $\{ f > g \}$ is a measurable set.
+\end{thm}
+
+\begin{proof}
+  Let $\{ r_k \}$ be the set of rational numbers.  Then
+  \[
+    \{ f > g \} = \bigcup_k \{ f > r_k > g \} = \bigcup_k \left( \{ f > r_k \} \cap \{ g < r_k \} \right),
+  \]
+  and the theorem follows since $\{ r_k \}$ is a countable set.
+\end{proof}
+
+\begin{thm}
+  If $f$ and $g$ are measurable functions and $\lambda \in \mathbb{R}$, then $f+g$, $\lambda f$, and $fg$ are all measurable functions.
+\end{thm}
+
+\begin{proof}
+  If $g$ is measurable, so is $a - g$ for any finite $a$.  Hence $\{ f + g > a \} = \{ f > a - g \}$ is measurable by Theorem~\ref{thm:f-larger-than-g}.  
+
+  The scalar product $\lambda f$ is measurable since $\{ \lambda f > a \}$ equals $\{ f > \frac{a}{\lambda} \}$ if $\lambda > 0$, but $\{ f < \frac{a}{\lambda} \}$ if $\lambda < 0$, for every finite $a$.
+
+  Finally, $fg = \frac{1}{2} ( (f+g)^2 - f^2 - g^2 )$ is measurable by combining the previous results.  (Special care is needed when $f$ and $g$ can be infinite.)
+\end{proof}
+
+At last, we have the result on sequences of measurable functions.
+
+\begin{thm}
+  \label{thm:measurable-sup-inf}
+  If $\langle f_k \rangle_k$ is a sequence of measurable functions, then $\sup_k f_k$ and $\inf_k f_k$ are measurable.
+\end{thm}
+
+\begin{proof}
+  Since $\inf_k f_k = - \sup_k (-f_k)$, it is enought to prove the result for $\sup_k f_k$.  But this follows easily by observing the fact that
+  \[
+    \{ \sup_k f_k > a \} = \bigcup_k \{ f_k > a \}.
+  \]
+\end{proof}
+
+As a direct application, the same can be said about $\limsup_k f_k$ and $\liminf_k f_k$ for a sequence of measurable functions $\langle f_k \rangle$.
+
+The \textit{characteristic function}, or \textit{indicator function}, $\chi_E(x)$, of a set $E$ is defined by
+\[
+  \chi_E(x) = 
+  \begin{cases}
+    1, & \text{if $x \in E$} \\
+    0, & \text{if $x \notin E$}.
+  \end{cases}
+\]
+Clearly, $\chi_E$ is measurable if and only if $E$ is measurable.  $\chi_E$ is an example of what is called a simple function: a \textit{simple function} is one which takes only a finite number of values, all of which are finite.  If $f$ is a simple function taking (distinct) values $a_1, \dots, a_N$ on (disjoint) sets $E_1, \dots, E_N$, then
+\[
+  f(x) = \sum_{i=1}^N a_i \chi_{E_i}(x).
+\]
+It is clear again that $f$ is measurable if and only if $E_1, \dots, E_N$ are all measurable.
+
+\begin{thm}
+  \begin{enumerate}[(i)]
+    \item Every function $f$ can be written as the limit of a sequence $\langle f_n \rangle$ of simple functions.
+
+    \item If $f \geqslant 0$, the sequence can be chosen to increase to $f$, that is, chosen such that $f_k \leqslant f_{k+1}$ for every $k$.
+
+    \item If the function $f$ in either (i) or (ii) is measurable, then the $f_k$'s can be chosen to be measurable.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  We will prove (ii) first.  Thus, suppose that $f \geqslant 0$.  For each $k \in \mathbb{N}$, subdivide the values of $f$ which fall in $[0,k]$ by partitioning $[0,k]$ into subintervals $[(j-1) 2^{-k}, j 2^{-k}]$, $j = 1, 2, \dots, k 2^k$.  Let
+  \[
+    f_k(x) =
+    \begin{cases}
+      \dfrac{j-1}{2^k}, & \text{if $\dfrac{j-1}{2^k} \geqslant f(x) < \dfrac{j}{2^k}$, $j = 1, \dots, k2^k$}; \\
+      k,                & \text{if $f(x) \geqslant k$}.
+    \end{cases}
+  \]
+  Each $f_k$ is a simple function defined everywhere in the domain of $f$.  Clearly, $f_k \geqslant f_{k+1}$ since in passing from $f_k$ to $f_{k+1}$, each subinterval $[(j-1) 2^{-k}, j 2^{-k}]$ is divided in half.  Moreover, $f_k \to f$ since $0 \leqslant f - f_k \leqslant 2^{-k}$ for sufficiently large $k$ wherever $f$ is finite, and $f_k = k \to +\infty$ wherever $f = +\infty$.  This proves (ii).
+
+  To prove (i), apply the result of (ii) to each of the nonnegative functions $f^+$ and $f^-$, obtaining increasing sequences $\{ f_k' \}$ and $\{ f_k'' \}$ of simple functions such that $f_k' \to f^+$ and $f_k'' \to f^-$.  Then $f_k' - f_k''$ is simplle and $f_k' - f_k'' \to f^+ - f^- = f$, as required.
+
+  Finally, it is enough to prove (iii) for $f \geqslant 0$ since otherwise we may consider $f^+$ and $f^-$.  In this case, however,
+  \[
+    f_k = \sum_{j=1}^{k2^k} \frac{j-1}{2^k} \chi_{E_j} + k \chi_{E_\infty},
+  \]
+  where $E_j = \{ \frac{j-1}{2^k} \leqslant f < \frac{j}{2^k} \}$ for $j = 1, \dots, k2^k$ and $E_\infty = \{ f \geqslant k \}$.  This $f_k$ is measurable if $f$ is since all the sets involved are measurable.
+\end{proof}
+
+Note that if $f$ is bounded, the simple functions above will converge to $f$ uniformly on $E$.
+\end{document}

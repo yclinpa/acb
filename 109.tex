@@ -1,0 +1,214 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{April 18, 2024}
+\input{24aac-macro}
+\usepackage{comment}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 9: The inverse function theorem} 
+\end{center}
+
+Now we come to maybe the most important theorems in differential calculus: the inverse function theorem and the implicit function theorem.
+They come in pairs in the sense that one can be inferred by another without much trouble.
+In order to establish the validity of both theorems, it takes to prove anyone of them independently, which is a formidable task.
+We will hereby prove the inverse function theorem first.
+Let us start off with a definition.
+
+\begin{defn}
+  Let $f$ be a mapping on $V \in \mathbb R^n$ to $\mathbb R^n$.
+  When $f$ is differentiable at $a \in V$, the \textsf{Jacobian} of $f$ at $a$ is defined as
+  \begin{equation*}
+    \Delta_f(a) := \det \, [ \DD f(a) ]
+  \end{equation*}
+  (under the standard bases for $\mathbb R^n$.)
+\end{defn}
+
+Note that $\Delta_f(a) \ne 0$ if and only if $\DD f(a)$ is an invertible linear transformation.
+Since $\DD f(a)$ is the linear transformation that approximates the mapping $f$ near $a$, it is expected that $f$ is also invertible around $a$.
+This is indeed the case and is guaranteed by the following theorem.
+
+\begin{thm}[Inverse function theorem]
+  Let $V$ be open in $\mathbb{R}^n$ and $f: V \to \mathbb{R}^n$ be $\mathcal{C}^1$ on $V$.
+  If $\Delta_f(a) \ne 0$ for some $a \in V$, then there exists an open set $W$ containing $a$ such that
+  \begin{enumerate}[(i)]
+    \item $f$ is injective on $W$,
+    \item $f^{-1}$ is $\mathcal{C}^1$ on $f(W)$, and
+    \item for each $y \in f(W)$, the total derivative of $f^{-1}$ at $y$ can be expressed as
+      \[
+	\DD f^{-1}(y) = ( \DD f ( f^{-1}(y) ) )^{-1}.
+      \]
+  \end{enumerate}
+\end{thm}
+
+We break the proof into three parts: Lemmas~3 and 4, and the final part, as follows.
+
+\begin{lem}
+Let $V$ be a nonempty open set in $\mathbb R^n$, $f: V \to \mathbb R^n$ be $\mathcal C^1$ on $V$.
+If $\DD f(a)$ is invertible for some $a \in V$, then $f$ is $1$-$1$ in some neighborhood of $a$.  
+\end{lem}
+
+\begin{proof}
+  If $f(x) = f(x')$ for some points $x, x'$ with $[x,x'] \subseteq V$.  Then by the mean value theorem, there are points $c_i \in [x,x']$, $i=1,2,\dots,n$, such that
+  \begin{equation*}
+    0 = f_i(x) - f_i(x') = \nabla f_i(c_i) \cdot (x - x')
+    = \sum_{j=1}^n \frac{\partial f_i}{\partial x_j}(c_i) (x_j - x'_j).
+  \end{equation*}
+  Because $\DD f(a)$ is invertible and $f$ is $\mathcal C^1$, the matrix
+  \begin{equation*}
+    \left[
+      \frac{\partial f_i}{\partial x_j} (c_i)
+    \right]
+  \end{equation*}
+  is also invertible when $c_1, c_2, \dots, c_n$ all lie in some neighborhood of $a$.
+  Hence $x = x'$, and $f$ is $1$-$1$.
+\end{proof}
+
+
+\begin{lem}
+  Let $V$ be a nonempty open set in $\mathbb R^n$ and let $f:V \to \mathbb R^n$ be continuous.
+  If $f$ is injective and has first-order partial derivatives on $V$, and $\Delta_f \neq 0$ on $V$, then $f^{-1}$ is continuous on $f(V)$.
+\end{lem} 
+
+\begin{proof}
+  We need to show that $f$ is an open mapping.
+  Let $W$ be an open subset of $V$, and our goal is that $f(W)$ is also an open set.
+  So pick $b \in f(W)$ and suppose that $b = f(a)$ for some $a \in W$.
+  We need to find a $\rho > 0$ such that $B_\rho(b) \subseteq f(W)$.
+  
+  Since $W$ is open, there is an $r_0 > 0$ such that $B_{r_0}(a) \subset W$.
+  Observe that for any $0 < r < r_0$, $\partial B_r(a) \subseteq \overline{B_r(a)} \subseteq W$.
+  Fix such an $r$ and define a function $g$ on $\partial B_r(a)$ by
+  \begin{equation*}
+    g(x) = \| f(x) - b \|, \qquad x \in \partial B_r(a).
+  \end{equation*}
+  Because $f$ is $1$-$1$, $g(x) > 0$ for all $x \in \partial B_r(a)$.
+  As $g$ is a continuous function over a compact set $\partial B_r(a)$, $g$ attains a minimum value $m > 0$, i.e.,
+  \begin{equation*}
+    m = \min_{x \in \partial B_r(a)} g(x) > 0.
+  \end{equation*}
+  We claim that $B_\rho(b) \subseteq f(W)$ for $\rho = \frac{m}{2} > 0$.
+  Let $y$ be an arbitrary point in $B_\rho(b)$, and consider another function $$h(x) := \| f(x) - y \|$$ on $\overline{B_r(a)}$.
+  Again by the extreme value theorem, there is a point $c \in \overline{B_r(a)}$ such that $h(c) \leqslant h(x)$ for all $x \in \overline{B_r(a)}$.
+  This point $c$ cannot lie on the boundary $\partial B_r(a)$, because if $c \in \partial B_r(a)$ then 
+  \begin{align*}
+    m \leqslant g(c) = \| f(c) - b \| &\leqslant \| f(c) - y \| + \| y - b \| \\
+    &\leqslant \| f(a) - y \| + \| y - b \| = 2 \| y - b \| < 2 \rho =m,
+  \end{align*}
+  which is a contradiction.
+  Therefore $c$ is in $B_r(a)$, which is an interior local minimum.
+  So we know that $\nabla h^2(c) = 0$. Hence for each $k$,
+  \begin{equation*}
+    0 = \frac{1}{2} \frac{\partial h^2}{\partial x_k} (c) 
+    = \sum_{i=1}^n (f_i(c) - y_i) \frac{\partial f_i}{\partial x_k}(c).
+  \end{equation*}
+  Since $\Delta_f(c) \neq 0$, therefore $f_i(c) - y_i = 0$ for all $i$, that is, $f(c) = y \in f(W)$.
+  Because $y$ is an arbitrary point in $B_\rho(b)$, we see that $B_\rho(b) \subseteq f(W)$, as desired.
+\end{proof}
+
+Finally we show that $f^{-1}$ is differentiable.
+Let $y \in f(W)$, $y + k \in f(W)$.
+Pick $x, x+h \in W$ such that $y = f(x)$, $y + k = f(x+h)$.
+Write $g = f^{-1}$ on $f(W)$.  The above also mean that $x = g(y)$, $x+h = g(y+k)$.
+
+Let $T = \bigl(\DD f(x)\bigr)^{-1}$.
+For $g$ to be differentiable at $y$, we need to estimate the following:
+\begin{align*}
+  \frac{ \| g(y+k) - g(y) - T(k) \| }{ \| k \| } &= \frac{ \| h - T(k) \| }{ \| k \| } \\
+  &= \frac{ \| - T ( k - \DD f(x) h ) \| }{ \| k \| } \\
+  &\leqslant \frac{ \| h \| }{\| k \|} \cdot \frac{ \| T \| \cdot \| f(x+h) - f(x) - \DD f(x) h \| }{ \| h \| }.
+\end{align*}
+As $\| T \| \in \mathbb{R}$ and $\displaystyle \frac{ \| f(x+h) - f(x) - \DD f(x) h \| }{ \| h \| } \to 0$ as $h \to  0$ since $f$ is differentiable at $x$, we only need a constant $C$ such that $\displaystyle \frac{ \| h \| }{ \| k \| } \leqslant C$ to finish the proof.
+
+Note that
+\begin{equation*}
+  \| k - \DD f(x) h \| = \| f(x+h) - f(x) - \DD f(x) h \| \leqslant \varepsilon \| h \|.
+\end{equation*}
+Hence
+\begin{equation*}
+  \| \DD f(x) h \| - \varepsilon \| h \| \leqslant \| k \| \leqslant \| \DD f(x) h \| + \varepsilon \| h \|.
+\end{equation*}
+Also $\DD f(x)$ has an inverse $T$, this implies that
+\begin{equation*}
+  \| h \| = \| T \bigl( \DD f(x) h \bigr) \| \leqslant \| T \| \cdot \| \DD f(x) h \|.
+\end{equation*}
+Hence
+\begin{align*}
+  \| k \| &\geq \| \DD f(x) h \| - \varepsilon \| h \| \\
+  &\geqslant \| \DD f(x) h \| - \varepsilon \| T \| \cdot \| \DD f(x) h \| \\
+  &= (1 - \varepsilon \| T \|) \| \DD f(x) h \|.
+\end{align*}
+So we put all inequalities together to conclude that
+\begin{equation*}
+  \frac{ \| h \| }{ \| k \| } \leqslant \frac{ \| T \| \cdot \| \DD f(x) h \| }{ (1 - \varepsilon \| T \|) \| \DD f(x) h \| } = \frac{ \| T \| }{ 1 - \varepsilon \| T \| }.
+\end{equation*}
+Therefore we pick $\varepsilon$ so small that $\displaystyle \frac{ \| T \| }{ 1 - \varepsilon \| T \| } \leqslant 2 \| T \| =: C$ and the requirement is now met.  
+The proof is now complete. 
+Note that $f^{-1} \in \mathcal C^1$ follows immediately from the representation $[\DD f^{-1}(y)] = [ \DD f(f^{-1}(y)) ]^{-1}$.
+\qed
+
+\vskip 1em
+
+\noindent {\bf Example.}
+The cubic monic polynomial equation $t^3 - 6t^2 + 11 t - 6 = 0$ has three roots: $t = 1, 2$, or $3$.
+When we change the coefficients of the polynomial, the roots will be changed accordingly.
+What is the rate of the change to the root $3$ if we change the linear coefficient $11$ only, while keeping the other coefficients (namely, two $-6$'s) fixed?
+
+\vskip 1em
+
+This is exactly a problem for the inverse function theorem.
+We first set up the variables.
+Define a mapping $F: \mathbb R^3 \to \mathbb R^3$ by $(a, b, c) = F(x, y, z)$, where
+\begin{equation*}
+  \left\{
+  \begin{array}{l}
+    a = -(x + y + z) \\
+    b = xy + yz + zx \\
+    c = -xyz.
+  \end{array}
+  \right.
+\end{equation*}
+(This is the \emph{Vi\'eta's formula}.)
+We have $F(1,2,3) = (-6, 11, -6)$.
+This problem asks $\displaystyle \frac{\partial z}{\partial b}(-6,11,-6)$, where $(x,y,z) = G(a,b,c)$ is the (local) inverse function of $F$ at $(-6,11,-6)$ (Think about it for a moment.)
+
+Let us make sure that $F$ does have a differentiable inverse $G$.
+Being a polynomial mapping, $F$ is clearly $C^1$.
+The Jacobian of $F$ at $p(1,2,3)$ is:
+\begin{align*}
+  \Delta_F(p) &= \det \left| \begin{array}{ccc}
+    a_x & a_y & a_z \\
+    b_x & b_y & b_z \\
+    c_x & c_y & c_z
+  \end{array} \right| (1,2,3)
+  = \det \left| \begin{array}{ccc}
+    -1 & -1 & -1 \\
+    y+z & z+x & x+y \\
+    -yz & -zx & -xy
+  \end{array} \right| (1,2,3) \\
+  &= \det \left| \begin{array}{ccc}
+    -1 & -1 & -1 \\
+    5 & 4 & 3 \\
+    -6 & -3 & -2
+  \end{array} \right| = -2 \neq 0.
+\end{align*}
+Hence the inverse function theorem is applicable to $F$, and the total derivative of $G$ at $q = (-6, 11, 6)$ is
+\begin{equation*}
+  [\DD G(q)] = [ \DD F(p) ]^{-1} =
+  \begin{bmatrix}
+    -1 & -1 & -1 \\
+    5 & 4 & 3 \\
+    -6 & -3 & -2
+  \end{bmatrix}^{-1}
+  = \begin{bmatrix}
+    -\frac12 & -\frac12 & -\frac12 \\
+    4 & 2 & 1 \\
+    -\frac92 & -\frac32 & -\frac12
+  \end{bmatrix}.
+\end{equation*}
+As $\displaystyle [\DD G(q)] = \begin{bmatrix}
+  x_a & x_b & x_c \\
+  y_a & y_b & y_c \\
+  z_a & z_b & z_c
+\end{bmatrix}(q)$, it is readily read as $\displaystyle \frac{\partial z}{\partial b}(-6,11,6) = -\frac{3}{2}$. \qed
+
+\end{document}

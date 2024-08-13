@@ -1,0 +1,210 @@
+\section{Compactness and Continuous Mappings, Heine-Borel Theorem Again}
+\label{sec:heine-borel}
+
+\begin{thm}
+  Let $f : M \to N$ be a continuous mapping between two metric spaces and $M$ be compact.
+  Then the image $f(M)$ is a compact subset of $N$.
+  That is, the continuous image of a compact set is compact.
+\end{thm}
+
+\begin{proof}
+  Let us prove this result by using covering.
+  Suppose that $\mathcal{U} = \{ U_\alpha \colon \alpha \in A \}$ is an open covering of $f(M)$.
+  Since $f$ is continuous, $f^{-1}(U_\alpha)$ is open for each $\alpha \in A$.
+  Therefore $\mathcal{U}' = \{ f^{-1}(U_\alpha) \colon \alpha \in A \}$ forms an open covering of $M$.
+  Since $M$ is compact, $\mathcal{U}'$ reduces to a finite subcovering, i.e., there are a finite number of indices $\alpha_1, \dots, \alpha_k \in A$ such that
+  \[
+    M \subseteq \bigcup_{i=1}^k f^{-1}(U_{\alpha_i}).
+  \]
+  Then
+  \[
+    f(M) \subseteq \bigcup_{i=1}^k f(f^{-1}(U_{\alpha_i})) \subseteq \bigcup_{i=1}^k U_{\alpha_i},
+  \]
+  i.e. $\mathcal{U}$ indeed reduces to a finite subcovering of $f(M)$.
+\end{proof}
+
+\begin{cor}
+  If $M$ and $N$ are homeomorphic and $M$ is compact, then $N$ is compact too.
+  Compactness is a topological property.
+\end{cor}
+
+Towards the Heine-Borel theorem, we will use the following properties.
+
+\begin{thm}
+  A bounded, closed interval $[a,b]$ in $\mathbb{R}$ is compact.
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal{U}$ be an open covering of $[a,b]$.
+  We need to reduce $\mathcal{U}$ to a finite subcovering.
+  To achieve this, let us consider the following subset of $[a,b]$:
+  \[
+    X = \{ x \in [a,b] \colon \text{ the interval $[a,x]$ can be covered by a finite collection of sets in $\mathcal{U}$} \}.
+  \]
+  Obviously $a \in X \ne \varnothing$ and $b$ is an upper bound for $X$.
+  Therefore $c = \sup X$ exists by the least upper bound property.
+  Below we argue that $c \in X$ and $b = c$, which proves our goal.
+
+  Since $c \in [a,b]$ and $\mathcal{U}$ is an open covering of $[a,b]$, there is an open set $U_0 \in \mathcal{U}$ with $c \in U_0$.
+  Then there is a $\delta > 0$ such that $(c - \delta, c + \delta) \subseteq U_0$.
+  Because $c = \sup X$, there is an $x \in X$ with $c - \delta < x \leqslant c$.
+  From the definition of $X$, the interval $[a,x]$ can be covered by the union of some finite number of open sets $U_1, U_2, \dots, U_N$ in $\mathcal{U}$.
+  Therefore $[a,c]$ can be covered by the union of $U_0, U_1, \dots, U_N$ in $\mathcal{U}$, totally $N+1$ members in $\mathcal{U}$, which is a finite number.  Thus $c \in X$.
+
+  If we go through the argument in the last paragraph, then we see that $c = b$; for otherwise $c + \frac{\delta}{2}$ is also an element in $X$ that is larger than $c$, which is absurd.
+  Hence $b = c \in X$ and the proof is completed.
+\end{proof}
+
+\begin{thm}[Tube lemma]
+  \label{thm:tube}
+  Let $M, N$ be compact metric spaces.
+  Then the Cartesian product $M \times N$ is compact.
+\end{thm}
+
+\begin{proof}
+  We had three metrics on the product of two metric spaces that induce the same product topology.
+  Hence it does not matter which metric we use here.
+  Here we use the $d = d_{\op{max}}$ metric on $M \times N$; that is,
+  \[
+    d( (x_1, x_2), (y_1, y_2) ) := \max \{ d_M(x_1, y_1), d_N(x_2, y_2) \}, \qquad (x_1,x_2), (y_1, y_2) \in M \times N.
+  \]
+  To show that $M \times N$ is compact, we need to reduce any given open covering $\mathcal{U} = \{ U_\alpha \colon \alpha \in A \}$ of $M \times N$ to a finite subcovering.
+
+  Let us investigate the vertical segment $V_p = \{ p \} \times N$ for every $p \in M$.
+  Since $V_p$ is homeomorphic to $N$, $V_p$ is compact.
+  For each $q \in N$, there is an $\alpha_q \in A$ such that $(p,q) \in U_q$.
+  Since $U_{\alpha_q}$ is open, there is an $r(q) > 0$ such that $B_{r(q)}( (p,q) ) \subseteq U_{\alpha_q}$ as well.
+  As we see above, $V_p$ is compact and is covered by the open balls $\{ B_{r(q)}( (p,q) ) \colon q \in N \}$, therefore the covering reduces to a finite subcovering $\{ B_{r(q(1))}( (p,q(1)) ), \dots, B_{r(q(\ell))}( (p,q(\ell) )\}$ for some $q(1), \dots, q(\ell) \in N$.
+  Let $\mathcal{V}(q) = \{ U_{\alpha_{q(1)}}, \dots, U_{\alpha_{q(\ell)}} \}$. 
+  Note that the collection $\mathcal{V}_p$ covers not only $V_p$, but also $B_{\rho(p)}(p) \times N$, where $\rho(p) = \min \{ r(q(1)), \dots, r(q(\ell)) \} > 0$, as well. 
+
+  Now $\{ B_{\rho(p)}(p) \colon p \in M \}$ becomes an open covering of the compact set $M$, therefore it reduces to a finite subcovering, i.e., there are a finite number of points $p_1, p_2, \dots, p_s \in M$ such that
+  \[
+    M \subseteq \bigcup_{n=1}^s B_{\rho(p_n)}(p_n).
+  \]
+  It is now clear that $\mathcal{U}$ reduces to the finite subcovering
+  \[
+    \bigcup_{n=1}^s \mathcal{V}_{p_n}
+  \]
+  that covers the product space $M \times N$.
+  Now the proof is complete.
+\end{proof}
+
+Using induction, Theorem~\ref{thm:tube} implies that the Cartesian product of a \textit{finite} number of compact sets is still compact.
+Therefore the following corollary is immediately implied.
+Nevertheless the same conclusion holds for an arbitrary number of compact sets (\textit{Tychonoff theorem}), whose proof requires the axiom of choice.
+
+\begin{cor}
+  A box $[a_1, b_1] \times \cdots \times [a_m, b_m]$ is a compact subset of $\mathbb{R}^m$.
+\end{cor}
+
+Combining all the relevant results, we have proven the Heine-Borel theorem again.
+\begin{thm}[Heine-Borel theorem]
+  Let $A$ be a subset of $\mathbb{R}^m$.
+  $A$ is compact if and only if $A$ is bounded and closed.
+\end{thm}
+
+The bounded value theorem and the extreme value theorem for real-valued functions defined over compact sets are still valid; their proofs are no different than those we did for sequentially compact sets.
+However, we have a different proof for uniform continuity of continuous functions over compact sets.
+
+\begin{thm}
+  Let $f: M \to N$ be a continuous function where $M$ is a compact space.
+  Then $f$ is uniformly continuous on $M$.
+\end{thm}
+
+\begin{proof}
+  Let $\varepsilon > 0$ be given.
+  For any $a \in M$, there is a $\delta(a) > 0$ such that
+  \[
+    f(B_{\delta(a)}(a)) \subseteq B_{\varepsilon/2}(f(a)).
+  \]
+  Clearly $\{ B_{\delta(a)}(a) \colon a \in M \}$ forms an open covering of $M$.    Since $M$ is also sequentially compact, this open covering has a Lebesgue number $\lambda > 0$, which means that for any $x \in M$, there is some $a \in M$ such that
+  \[
+    \tag{1}
+    B_\lambda(x) \subseteq B_{\delta(a)}(a).
+  \]
+  
+  We claim that the number $\lambda$ has the desired property.
+  Applying $f$ to the both sides of (1) yields
+  \[
+    f(B_\lambda(x)) \subseteq f(B_{\delta}(a)) \subseteq B_{\varepsilon/2}(f(a)).
+  \]
+  Therefore whenever $p, x \in B_\lambda(x)$, we have $d_N(f(p), f(a)) < \varepsilon/2$ and $d_N(f(x), f(a)) < \varepsilon/2$ as well.
+  Using the triangle inequality, we obtain
+  \[
+    d_N( f(p), f(x) ) \leqslant d_N(f(p), f(a)) + d_N( f(a), f(x) ) < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon.
+  \]
+  This means that
+  \[
+    f(B_\lambda(x)) \subseteq B_\varepsilon(f(x)).
+  \]
+  Since $\lambda$ does not depend on $x$, we have shown that $f$ is uniformly continuous on $M$.
+\end{proof}
+
+The Heine-Borel theorem holds in $\mathbb{R}^m$.
+So what properties are equivalent to compactness in general metric spaces?
+Sometimes this question might be hard to answer,
+but we have a good answer here.
+First we need a definition.
+
+\begin{defn}
+  A subset $A$ of a metric space $M$ is \textsf{totally bounded} if for each $\varepsilon > 0$ there exists a finite covering of $A$ by $\varepsilon$-balls.
+\end{defn}
+
+\begin{thm}[Generalized Heine-Borel theorem]
+  A subset of a complete metric space is compact if and only if it is closed and totally bounded.
+\end{thm}
+
+\begin{proof}
+  Any compact subset in a metric space is closed.
+  Let $A$ be a compact subset of a metric space $M$.
+  Also for any $\varepsilon > 0$, the collection
+  \[
+    \{ B_\varepsilon(a) \colon a \in A \}
+  \]
+  is an open covering of $A$.
+  Since $A$ is compact, it reduces to a finite subcovering.
+  Hence $A$ is totally bounded.
+
+  Conversely, let $A$ be a closed and totally bounded subset of a complete metric space $M$.
+  We claim that $A$ is sequentially compact.
+  For this, we start with a sequence $\langle a_n \rangle$ in $A$.
+  Let $\varepsilon_k = 1/k$, $k = 1, 2, \dots$.
+  Since $A$ is totally bounded we can cover $A$ by finitely many $\varepsilon_1$-balls
+  \[
+    B_{\varepsilon_1}(q_1), \dots, B_{\varepsilon_1}(q_m).
+  \]
+  By the pigeonhole principle, terms of the sequence $\langle a_n \rangle$ lie in at least one of these neighborhoods infinitely often, say it is $B_{\varepsilon_1}(p_1)$.
+  Choose
+  \[
+    a_{n_1} \in A_1 := A \cap B_{\varepsilon_1}(q_1).
+  \]
+  Every subset of a totally bounded set is totally bounded, so we can cover $A_1$ by finitely many $\varepsilon_2$-balls.
+  For one of them, say $B_{\varepsilon_2}(p_2)$, $\langle a_n \rangle$ lie in $A_2 := A_1 \cap B_{\varepsilon_2}(p_2)$ infinitely often.
+  Choose $a_{n_2} \in A_2$ with $n_2 > n_1$.
+
+  Proceeding inductively, cover $A_{k-1}$ by finitely many $\varepsilon_k$-balls, one of which, say $B_{\varepsilon_k}(p_k)$, contains terms of the sequence $\langle a_n \rangle$ infinitely often.
+  Then choose $a_{n_k} \in A_k := A_{k-1} \cap B_{\varepsilon_k}(p_k)$ with $n_k > n_{k-1}$.
+  Then $\langle a_{n_k} \rangle$ is a subsequence of $\langle a_n \rangle$.
+  Moreover $\langle a_{n_k} \rangle$ is a Cauchy sequence: for if $\varepsilon > 0$ is given we choose $N$ such that $2/N < \varepsilon$.  If $k, \ell \geqslant N$ then
+  \[
+    a_{n_k}, a_{n_\ell} \in A_N \quad \text{and} \quad
+    \op{diam} A_N \leqslant 2 \varepsilon_N = \frac{2}{N} < \varepsilon,
+  \]
+  which shows that $\langle a_{n_k} \rangle$ satisfies the Cauchy condition.
+  Completeness of $M$ implies that $\langle a_{n_k} \rangle$ converges to some $p \in M$.
+  Since $A$ is closed, $p \in A$.  Hence $A$ is (sequentially) compact.
+\end{proof}
+
+\begin{cor}
+  A metric space is compact if and only if it is complete and totally bounded.
+\end{cor}
+
+\begin{proof}
+  Every compact metric space is complete.
+  This is because, given a Cauchy sequence $\langle p_n \rangle$ in $M$, compactness implies that some subsequence converges in $M$, and if a Cauchy sequence has a convergent subsequence then the mother sequence converges too.
+  As observed above, compactness immediately gives the total boundedness.
+
+  Conversely, assume that $M$ is complete and totally bounded.
+  Every metric space is closed in itself, hence $M$ is compact by the Generalized Heine-Borel theorem.
+\end{proof}

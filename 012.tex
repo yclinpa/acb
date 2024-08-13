@@ -1,0 +1,172 @@
+\section{Compactness}
+\label{sec:covering-comp}
+
+We now come to the definition of genuine compactness in terms of open sets.
+Most people find this abstract.
+Nevertheless it catches the most important feature of what analysis needs.
+You may find that it is parallel to what we have developed in sequential compactness.
+
+\begin{defn}
+  A collection $\mathcal U$ of subsets of $M$ \textsf{covers} $A \subseteq M$ if $A$ is contained in the union of sets belongs to $\mathcal{U}$.
+  The collection $\mathcal{U}$ is a \textsf{covering} of $A$.
+  If $\mathcal{U}$ and $\mathcal{V}$ both cover $A$ and if $\mathcal{V} \subseteq \mathcal{U}$ in the sense that each set $V \in \mathcal{V}$ belongs also to $\mathcal{U}$ then we say that $\mathcal{U}$ \textsf{reduces} to $\mathcal{V}$, and that $\mathcal{V}$ is a \textsf{subcovering} of $\mathcal{U}$.
+\end{defn}
+
+\begin{defn}
+  If all the sets in a covering $\mathcal{U}$ of $A$ are open then $\mathcal{U}$ is an \textsf{open covering} of $A$.
+  If every open covering of $A$ reduces to a finite subcovering of $A$ then we say that $A$ is \textsf{(covering) compact}.\footnote{You will frequently find it said that an open covering of $A$ \textit{has} a finite subcovering.  ``Has'' means ``reduces to.''}
+\end{defn}
+
+The idea is that if $A$ is compact and $\mathcal{U}$ is an open covering of $A$ then just a finite number of the open sets are actually doing the work of covering $A$.
+The rest are redundant.
+
+The mere existence of a finite open covering of $A$ is trivial and utterly worthless.
+{\em Every} set $A$ has such a covering, namely the single open set $M$.
+Rather, for $A$ to be compact, each and every open covering of $A$ must reduce to a finite subcovering of $A$.
+Deciding directly whether this is so is daunting. 
+How could you hope to verify the finite reducibility of all open coverings of $A$? 
+There are so many of them. 
+For this reason we concentrated on sequential compactness; it is relatively easy to check by inspection whether every sequence in a set has a convergent subsequence.
+
+To check that a set is not compact it suffices to find an open covering which fails to reduce to a finite subcovering. 
+Occasionally this is simple.
+For example, the set $(0,1)$ is not compact in $\mathbb{R}$ because its covering
+\[
+  \mathcal{U} = \{ (1/n, 1) \colon n \in \mathbb{N} \}
+\]
+fails to reduce to a finite subcovering.
+
+Indeed, the Heine-Borel theorem can be proved directly from the topological properties of compact sets.
+This treatment can be found in many books about real analysis and point set topology.
+Here we prove the following equivalence and the Heine-Borel theorem follows immediately.
+
+\begin{thm}
+  \label{thm:cpt}
+  For a subset $A$ of a metric space $M$ the following are equivalent.
+  \begin{enumerate}[(i)]
+    \item $A$ is (covering) compact.
+    \item $A$ is sequentially compact.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}[Proof that (i) $\Rightarrow$ (ii).]
+  We assume that $A$ is compact.
+  If $A$ is not sequentially compact, then there is a sequence $\langle p_n \rangle$ of $A$ that does not have any subsequence that converges in $A$.
+  If this is so, then for any point $a \in A$ there is some neighborhood $U_a$ of $a$ which contains only a finite number of terms of $\langle p_n \rangle$.
+  Clearly $\{ U_a \colon a \in A \}$ is an open covering of $A$.
+  Because $A$ is compact, there are a finite number of points $a_1, a_2, \dots, a_N \in A$ such that the finite collection $\mathcal{V} = \{ U_{a_1}, \dots, U_{a_N} \}$ also covers $A$.
+  However, the collection $\mathcal{V}$ can contain only a finite number of terms of $\langle p_n \rangle$, which is absurd.
+  Hence such a sequence $\langle p_n \rangle$ cannot exist in $A$, and $A$ is sequentially compact.
+\end{proof}
+
+Before we present the reverse implication, we need a notion called a Lebesgue number which is defined as follows.
+
+\begin{defn}
+  Let $\mathcal{U}$ be a covering of a subset $A$ in a metric space $M$.
+  A \textsf{Lebesgue number} for the covering $\mathcal{U}$ of $A$ is a positive real number $\lambda$ such that for each $a \in A$ there is some $U \in \mathcal{U}$ with $B_\lambda(a) \subseteq U$.
+\end{defn}
+
+How do we interpret the above definition?
+When $\mathcal{U}$ is an open covering of $A$, of course for each $a \in A$ there is a positive number $\lambda(a) > 0$ such that $B_{\lambda(a)}(a)$ lies in some member of $\mathcal{U}$.
+But $\lambda(a)$ depends on $a$.
+A Lebesgue number $\lambda$ for a covering $\mathcal{U}$ of $A$ can be thought a \textit{uniform} radius for every point in $A$ that produces an open neighborhood that lies in a single member of $\mathcal{U}$.
+If $\lambda > 0$ is a Lebesgue number for a covering $\mathcal{U}$ of $A$, obviously any number $\lambda'$ with $0 < \lambda' \leqslant \lambda$ is also a Lebesgue number for $\mathcal{U}$ of $A$.
+
+\begin{lem}
+  \label{lem:lebesgue}
+  Every open covering of a sequentially compact set has a Lebesgue number.
+\end{lem}
+
+\begin{proof}
+  Suppose not: $\mathcal{U}$ is an open covering of a sequentially compact set $A$, and yet for each $\lambda > 0$ there exists an $a \in A$ such that no $U \in \mathcal{U}$ contains $B_\lambda(a)$.
+  Take $\lambda = 1/n$ and let $a_n \in A$ be a point such that no $U \in \mathcal{U}$ contains $B_{1/n}(a_n)$.
+  By sequentially compactness, there is a subsequence $\langle a_{n_k} \rangle$ of $\langle a_n \rangle$ that converges to some point $p \in A$.
+  Since $\mathcal{U}$ is an open covering of $A$, there are an $r > 0$ and a $U \in \mathcal{U}$ such that $B_r(p) \subseteq U$.
+  When $k$ is large enough, we have $d(a_{n_k}, p) < r/2$ and $1/n_k < r/2$.
+  So if $d(x, a_{n_k}) < 1/n_k$, then
+  \[
+    d(x,p) \leqslant d(x,a_{n_k}) + d(a_{n_k},p) < \frac{1}{n_k} + \frac{r}{2} < \frac{r}{2} + \frac{r}{2} = r,
+  \]
+  that is, $B_{1/n_k}(a_{n_k}) \subseteq B_r(p) \subseteq U$.
+  This contradicts to the supposition that no $U \in \mathcal{U}$ contains $B_{1/n_k}(a_{n_k})$.
+  We conclude that, after all, $\mathcal{U}$ does have a Lebesgue number.
+\end{proof}
+
+\begin{proof}[Proof that (ii) $\Rightarrow$ (i) in Theorem~\ref{thm:cpt}.]
+  Let $\mathcal{U}$ be an open covering of the sequentially compact set $A$.
+  By Lemma~\ref{lem:lebesgue}, $\mathcal{U}$ has a Lebesgue number $\lambda > 0$.
+
+  Let us assume the contrary, i.e., $\mathcal{U}$ cannot reduce to any finite subcovering that covers $A$.
+  Choose any $a_1 \in A$ and some $U_1 \in \mathcal{U}$ such that $B_\lambda(a_1) \subseteq U_1$.
+  Since $U_1$ alone cannot cover $A$, there is a point $a_2 \in A \setminus U_1$.
+  We can proceed this procedure inductively as follows.
+
+  Let $n \in \mathbb{N}$ and $n \geqslant 2$, and suppose that $a_1, \dots, a_{n-1} \in A$ and $U_1, \dots, U_{n-1} \in \mathcal{U}$ have been constructed such that
+  \[
+    a_k \notin \bigcup_{i=1}^{k-1} U_i, \quad
+    B_\lambda(a_k) \subseteq U_k, \qquad k = 1, 2, \dots, n-1.
+  \]
+  Since $\{ U_1, \dots, U_{n-1} \}$ cannot cover $A$, there is a point $a_n \in A$ outside this union.
+  Therefore there is a $U_n \in \mathcal{U}$ such that $B_\lambda(a_n) \subseteq U_n$.
+  Thus a sequence $\langle a_n \rangle$ in $A$ and a sequence $\langle U_n \rangle$ in $\mathcal{U}$ have been constructed.
+
+  We now argue that they lead to a contradiction.
+  Since $A$ is sequentially compact, there is a subsequence $\langle a_{n_k} \rangle$ that converges to some point $p \in A$.
+  For large $k$ we have $d(a_{n_k},p) < \lambda$ and
+  \[
+    p \in B_\lambda(a_k) \subseteq U_{n_k}.
+  \]
+  However, $a_{n_\ell}$ all lie outside $U_{n_k}$ whenever $\ell > k$, which contradicts to $a_{n_k} \to p$ as $k \to \infty$.
+  Therefore $\mathcal{U}$ can indeed be reduced to a finite subcovering, and $A$ is then compact.
+\end{proof}
+
+After Theorem~\ref{thm:cpt}, we can now use the word ``compact'' for both covering compact and sequentially compact.\footnote{Note that the equivalence between these two compactnesses requires a Lebesgue number, hence this equivalence holds only for metric spaces.
+They might be inequivalent in topological spaces whose topology is not induced by any metric.}
+In the end we present two results about compactness that can be proved without appealing to sequential compactness.
+
+\begin{thm}
+  Every compact subset in a metric space is bounded and closed.
+\end{thm}
+
+\begin{proof}
+  Let $A$ be a compact subset of a metric space $M$.
+  Fix a point $m \in M$.  Clearly $A$ is covered by the open covering
+  \[
+    \mathcal{U} = \{ B_n(m) \colon n \in \mathbb{N} \}.
+  \]
+  Since $A$ is compact, $\mathcal{U}$ reduces to a finite subcovering
+  \[
+    \{ B_{n_k}(m) \colon k = 1, 2, \dots, N \}, \quad \text{where $n_1, \dots, n_N \in \mathbb{N}$.}
+  \]
+  If we set $R = \max \{ n_1, n_2, \dots, n_k \}$, we see that $A \subseteq B_R(m)$, which shows that $A$ is bounded.
+
+  Next we show that $A$ is closed; this is equivalent to that $A^c$ is open.
+  Consider an arbitrary point $p \in A^c$.
+  For each $a \in A$, we take $\varepsilon(a) = d(p,a)/2 > 0$ and observe that $B_{\varepsilon(a)}(p) \cap B_{\varepsilon(a)}(a) = \varnothing$.
+  Now $\{ B_{\varepsilon(a)}(a) \colon a \in A \}$ is an open covering of $A$.
+  Since $A$ is compact, that covering can be reduced to a finite subcovering, i.e., there are a finite number of points $a_1, a_2, \dots, a_N \in A$ such that
+  \[
+      A \subseteq \bigcup_{n=1}^N B_{\varepsilon_n}(a_n), \qquad \text{where } \varepsilon_n = \varepsilon(a_n).
+  \]
+  Then if we take $\varepsilon = \min \{ \varepsilon_1, \dots, \varepsilon_N \} > 0$, we see that
+  \[
+    B_{\varepsilon}(p) \cap A
+    \subseteq \bigcap_{n=1}^N B_{\varepsilon_n}(p) \cap \bigcup_{n=1}^N B_{\varepsilon_n}(a_n) = \varnothing,
+  \]
+  i.e., $B_{\varepsilon}(p) \subseteq A^c$.
+  This shows that $p$ is an interior point of $A^c$.
+  Since $p$ is arbitrary, we conclude that $A^c$ is open, i.e., $A$ is closed.
+\end{proof}
+
+\begin{thm}
+  Let $A$ be a closed subset of a compact space $M$.
+  Then $A$ is also compact.
+\end{thm}
+
+\begin{proof}
+  Let $\mathcal{U}$ be an open covering of $A$.
+  Then $\mathcal{U}_M := \mathcal{U} \cup \{ M \setminus A\}$ becomes an open covering of $M$, since $M \setminus A$ is an open set.
+  Since $M$ is compact, $\mathcal{U}_M$ reduces to a finite subcovering $\mathcal{V}_M$.
+  Then $\mathcal{V}_M \setminus \{ M \setminus A \}$ is a finite subcovering of $A$ which can be reduced from $\mathcal{U}$.
+  Therefore $A$ is compact.
+\end{proof}

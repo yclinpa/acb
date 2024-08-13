@@ -1,0 +1,285 @@
+\section{Continuous functions}
+\label{sec:continuous}
+
+With the language of sequences in hand, it is now time to state the definition of continuous functions or mappings.
+
+\begin{defn}
+  Let $M, N$ be two metric spaces, and $f : M \to N$ be a function.
+  The function $f$ is said to be \textsf{continuous} if it preserves sequential convergence: $f$ sends convergent sequences in $M$ to convergent sequences in $N$, limits being sent to limits.
+  That is, for each sequence $\langle p_n \rangle$ in $M$ which converges to a limit $p$ in $M$, the image sequence $\langle f(p_n) \rangle$ converges to $f(p)$ in $N$.
+\end{defn}
+
+There are two obvious continuous functions.  Namely, the identity function $\operatorname{id}_M: M \to M$ and any constant function $f: M \to N$.
+We omit their proofs here.
+
+It is easy to see that the composite of two continuous functions are still continuous.
+
+\begin{thm}
+  Let $f: M \to N$ and $g: N \to P$ be continuous functions among three metric spaces $M, N$, and $P$.  Then their composition $g \circ f : M \to P$ is also continuous.
+\end{thm}
+
+\begin{proof}
+  Let $\langle p_n \rangle$ be a sequence in $M$ that converges to $p$.
+  Then $\langle f(p_n) \rangle$ converges to $f(p)$ in $N$, since $f$ is continuous.
+  This in turn implies that $\langle g(f(p_n)) \rangle$ converges to $g(f(p))$ in $P$ since $g$ is also continuous, as required.
+\end{proof}
+
+The following definition of continuity sounds more (un-)familiar: it uses Greek letters.
+We state it as a theorem, but really it is equivalent to what we just defined.
+
+\begin{thm}
+  Let $(M, d_M), (N, d_N)$ be metric spaces.
+  A function $f: M \to N$ is continuous if and only if it satisfies the \textbf{$(\varepsilon,\delta)$-condition}: For each $\varepsilon > 0$ and each $p \in M$ there exists a $\delta > 0$ such that if $x \in M$ and $d_M(x,p) < \delta$ then $d_N\left( f(x), f(p) \right) < \varepsilon$.
+\end{thm}
+
+\begin{proof}
+  For the forward direction, let us assume that $f$ preserves sequential limits.
+  If the conclusion is false, then there are $\varepsilon > 0$ and $p \in M$ such that, for each $\delta > 0$, there is a point that violates the condition.
+  Let us consider $\delta = 1, \frac12, \frac13, \dots, \frac1n, \dots$.
+  For each $n \in \mathbb{N}$, let $x_n$ be some point in $M$ such that $d_M(x_n, p) < 1/n$ but $d_N( f(x_n), f(p) ) \geqslant \varepsilon$. 
+  It is clear that $x_n \to p$ in $M$ but $f(x_n)$ cannot converge to $f(p)$, which is a contradiction.
+  Therefore $f$ must satisfy the $(\varepsilon, \delta)$-condition.
+
+  On the other hand, let us assume that $f$ satisfies the $(\varepsilon, \delta)$-condition.
+  Take a sequence $\langle p_n \rangle$ in $M$ that converges to $p$ in $M$.
+  For any $\varepsilon > 0$, there is a $\delta > 0$ (we have a point $p$ already) such that $d_N(f(x), f(p)) < \varepsilon$ whenever $x \in M$ and $d_M(x,p) < \delta$.
+  For this $\delta > 0$, there is an integer $N \in \mathbb{N}$ such that $d_M( x_n, p ) < \delta$ whenever $n \geqslant N$.
+  Piecing these informations together, we see that whenever $n \geqslant N$,
+  \[
+    d_M(x_n, p) < \delta \implies d_N \left( f(x_n), f(p) \right) < \varepsilon.
+  \]
+  This is exactly the definition for $\langle f(x_n) \rangle$ converges to $f(p)$ in $N$, 
+  and we are done.
+\end{proof}
+A property of a metric space or of a mapping between metric spaces that can be described solely in terms of open sets (or equivalently, in terms of closed sets) is called a \textit{topological property}.
+Our next result describes continuity of mappings topologically.
+
+Firstly we introduce a notion.
+Let $f : M \to N$ be a function/mapping.
+For any $n \in N$, the \textsf{preimage} of $n$ under $f$ is the subset
+\[
+  f^{-1}(n) = \{ m \in M \colon f(m) = n \}
+\]
+of $M$.\footnote{Our textbook uses $f^{\text{pre}}$ instead of $f^{-1}$.  I assume that Pugh wanted to preserve the notation $f^{-1}$ to mean the inverse function of $f$.  Nevertheless we could regard $f^{-1}$ as a \textit{set-valued} mapping.}
+Note that $f^{-1}(n) = \varnothing$ when $n$ is not in the image of $f$; also that $f$ is an injection if and only if $|f^{-1}(n)| \leqslant 1$.
+We also use the notation
+\[
+  f^{-1}(A) = \{ m \in M \colon f(m) \in A \}
+\]
+for any subset $A \subseteq N$.
+Here is our statement.
+
+\begin{thm}
+  The following are equivalent for continuity of $f : M \to N$.
+  \begin{enumerate}[(i)]
+    \item The $(\varepsilon,\delta)$-condition.
+    \item The sequential convergence preservation condition.
+    \item The \textbf{closed set condition}: The preimage $f^{-1}(C)$ of each closed set $C$ in $N$ is closed in $M$.
+    \item The \textbf{open set condition}: The preimage $f^{-1}(U)$ of each open set $U$ in $N$ is open in $M$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  We have shown the equivalence (i) $\iff$ (ii).
+  We hereby deal with other implications.
+
+  \smallskip
+  \noindent\textbf{(ii) $\implies$ (iii)}.
+  Let $C$ be any closed set in $N$, and $p$ be a limit point of $f^{-1}(C)$.
+  By definition there is a sequence $\langle a_n \rangle$ in $M$ such that converges to $p \in M$ and $f(a_n) \in C$ for all $n$.
+  By (ii) $f$ preserves sequential convergence, hence $\langle f(a_n) \rangle$ converges to $f(p) \in N$.
+  Since $f(a_n) \in C$ for all $n$ and $C$ is a closed set, we get $f(p) \in C$.
+  This is saying that $p \in f^{-1}(C)$.
+  Since $p$ is arbitrary, we see that $f^{-1}(C)$ contains all of its limit points, hence $f^{-1}(C)$ is a closed set in $M$.
+
+  \smallskip
+  \noindent\textbf{(iii) $\iff$ (iv)}.  This follows from Theorem 4 in Topic 8 and taking the complement: $$\left( f^{-1}(X) \right)^c = f^{-1}(X^c)$$ for any subset $X \subseteq N$.
+
+  \smallskip
+  \noindent\textbf{(iv) $\implies$ (i)}.
+  Let $p$ be a point in $M$ and a positive number $\varepsilon > 0$ be given.
+  Then the open ball $B_\varepsilon(f(p))$ is an open ball in $N$.
+  By (iv) the set $U = f^{-1}(B_\varepsilon(f(p)))$ is open in $M$, and $p$ belongs to $U$.
+  Since $U$ is open, $p$ is an interior point of $U$, i.e., there is a $\delta > 0$ such that $B_\delta(p) \subseteq U = f^{-1}(B_\varepsilon(f(p))$.
+  This is saying that $f(B_\delta(p)) \subseteq B_\varepsilon(f(p))$.
+  Translating this relation, it means that for any $x \in M$,
+  \[
+    d_M(x,p) < \delta \implies d_N(f(x),f(p)) < \varepsilon,
+  \]
+  which is exactly the $(\varepsilon, \delta)$-condition!
+
+  \smallskip
+  The proof is now complete.
+\end{proof}
+
+Note that no explicit mention is made of the metric in the closed and open set chararacterization for continuous functions.
+The open set condition is purely topological.
+It would be perfectly valid to take the open set characterization as a \textit{definition} of continuity; in fact this is how it is done in general topology.
+With this, it is natural to introduce the following definition.
+
+\begin{defn}
+  Two metric spaces (or topological spaces) $M$ and $N$ are said to be \textsf{homeomorphic} if and only if there is a bijection $f: M \to N$ such that $f$ is continuous from $M$ to $N$, while $f^{-1}$ is continuous from $N$ to $M$.  (We could also say that the bijection $f$ is \textit{bicontinuous}.)  In this case $f$ is called a \textsf{homeomorphism} between $M$ and $N$. 
+\end{defn}
+
+In the mathematical terms, any word that ends in ``morphism'' usually means ``preserving the structure.''
+A homeomorphism between $M$ and $N$ preserves the topological structures on both sides; it establishes a one-to-one correspondence between open sets in $M$ and open sets in $N$.
+Two spaces that are homeomorphic to each other are really the same thing, but maybe under different names.
+We see this phenomenon in other areas of mathematics.
+For example, the same algebraic structures on two sets are called \textit{isomorphic}.
+
+\medskip
+\noindent\textbf{\large Subspace topology}
+
+If a set $S$ is contained in a metric subspace $N \subseteq M$ you need to be careful when you say that $S$ is open or closed.
+For example,
+\[
+  S = [0,1) = \{ x \in \mathbb{R} \colon 0 \leqslant x < 1 \}
+\]
+is not an open set in $\mathbb{R}$, but it is an open set in $[0,1]$, as we shall see.
+The way to see this clearly is through the notion of \textit{inheritance}, or the so-called \textit{subspace topology}.
+
+\begin{defn}
+  Let $M$ be a metric space and $N$ be a subset of $M$.
+  We say that $N$ \textsf{inherits its topology} from $M$ in the sense that each subset $V \subseteq N$ which is open in $N$ is actually the intersection $V = N \cap U$ for some $U \subseteq M$ that is open in $M$, and vice versa.
+  In this situation we say that $N$ is equipped with the \textsf{subspace topology} from $M$.
+\end{defn}
+
+Here, the metric on $N$ is \textit{inherited} from $M$: we simply use the metric on $M$ for points on $N$.
+Let us see why this notion of open sets in a subspace makes sense.
+Indeed, for $p \in N \subseteq M$ and $r > 0$,
+\[
+  B_N(p,r) = \{ x \in N \colon d(x,p) < r \} = B_M(p,r) \cap N.\footnote{Here we use $B_N(p,r)$ to denote the open ball centered at $p$ with radius $r > 0$ in the metric space $N$.  I hope that this notation is self-evident.}
+\]
+Let $V$ be an open set in $N$.
+For each $p \in N$, there is an $r_p > 0$ such that $B_N(p, r_p) \subseteq V$.
+Set
+\[
+  U = \bigcup_{p \in V} B_M(p, r_p).
+\]
+It is clear that $U$ is an open set in $M$ and $V = U \cap N$.
+The opposite direction is also clear.
+The same can be said for closed sets in a subspace.
+We state it for future reference if needed.
+
+\begin{prop}
+  Let $N$ be a subspace of a metric space $M$, and $N$ be equipped with the subspace topology.
+  Then $C$ is a closed subset of $N$ if and only if there is a closed subset $K$ of $M$ such that $C = K \cap N$.
+\end{prop}
+
+\noindent\textbf{\large Product metric}
+
+We next define a metric on the Cartesian product $M = X \times Y$ of two metric spaces $X$ and $Y$.
+There are three natural ways to do so:
+\begin{align*}
+  d_E(p,p') &= \sqrt{ d_X(x,x')^2 + d_Y(y,y')^2 } \\
+  d_{\operatorname{max}}(p,p') &= \max \{ d_X(x,x'), d_Y(y,y') \} \\
+  d_{\operatorname{sum}}(p,p') &= d_X(x,x') + d_Y(y,y')
+\end{align*}
+where $p=(x,y)$, $p'=(x',y')$ belong to $M = X \times Y$.
+The following result is immediate.
+
+\begin{prop}
+  \label{prop:product-metric}
+  We have $d_{\operatorname{max}} \leqslant d_E \leqslant d_{\operatorname{sum}} \leqslant 2 d_{\operatorname{max}}$.
+\end{prop}
+
+In fact, the topologies induced by these three metrics on the product space are identical in the following sense.
+
+\begin{thm}
+  Let $U$ be a subset of a product space $M = X \times Y$ of two metric spaces.
+  If $U$ is open under anyone of the three metrics, it is also open under the other two metrics.
+\end{thm}
+
+\begin{proof}
+  Let us show one of the implications; others follow in a similar fashion.
+  Suppose that $U$ is an open set under $d_E$.
+  For any $p \in U$, there is an $r > 0$ such that $B_{E,r}(p) \subseteq U$ (the notation $B_{E,r}(p)$ is self clear.)
+  Since $d_E \leqslant d_{\operatorname{sum}}$, we see that $d_E(p,p') < r$ whenever $d_{\operatorname{sum}}(p,p') < r$ for any $p' \in M$, i.e., $B_{\operatorname{sum},r}(p) \subseteq B_{E,r}(p)$.
+  Therefore $p \in B_{\operatorname{sum},r}(p) \subseteq B_{E,r}(p) \subseteq U$ for that $r > 0$.
+  Since $p$ is arbitrary, we conclude that $U$ is also an open set under $d_{\operatorname{sum}}$.
+\end{proof}
+
+From Proposition~5, we see that the notion of convergence in a product space prevails under these three different metrics, as the following theorem states; its proof is omitted here.
+
+\begin{thm}
+  \label{thm:product-convergence}
+  The following are equivalent for a sequence $\langle p_n = (p_{1n}, p_{2n}) \rangle$ in $M = X \times Y$:
+  \begin{enumerate}[(a)]
+    \item $\langle p_n \rangle$ converges with respect to the metric $d_{\operatorname{max}}$.
+    \item $\langle p_n \rangle$ converges with respect to the metric $d_{E}$.
+    \item $\langle p_n \rangle$ converges with respect to the metric $d_{\operatorname{sum}}$.
+    \item $\langle p_{1n} \rangle$ and $\langle p_{2n} \rangle$ converge in $X$ and $Y$, respectively.
+    
+    
+  \end{enumerate}
+\end{thm}
+
+By repeating the products, the following result is useful and sometimes is forgotten when used.
+
+\begin{cor}
+  A sequence of vectors $\langle v_n \rangle$ in $\mathbb{R}^m$ converges in $\mathbb{R}^m$ if and only if each of its component sequences $\langle v_{in} \rangle_n$ converges, $1 \leqslant i \leqslant m$.
+  The limit of the vector sequence is the vector
+  \[
+    v = \lim_{n \to \infty} v_n = \left( \lim_{n \to \infty} v_{1n}, \lim_{n \to \infty} v_{2n}, \dots, \lim_{n \to \infty} v_{mn}  \right).
+  \]
+\end{cor}
+
+The distance function $d: M \times M \to \mathbb{R}$ is a function from the product space $M \times M$ to the metric space $\mathbb{R}$, so the following assertion makes sense.
+
+\begin{thm}
+  The distance function $d: M \times M \to \mathbb{R}$ is continuous.
+\end{thm}
+
+\begin{proof}
+  We check $(\varepsilon, \delta)$-continuity with respect to the metric $d_{\operatorname{sum}}$ on $M \times M$.
+  Given $\varepsilon > 0$ we take $\delta = \varepsilon$.
+  If $d_{\operatorname{sum}}( (p,q), (p',q') ) < \delta$ then the triangle inequality gives
+  \begin{align*}
+    d(p,q)   &\leqslant d(p,p') + d(p',q') + d(q',q) < d(p',q') + \varepsilon, \\
+    d(p',q') &\leqslant d(p',p) + d(p,q) + d(q,q') < d(p,q) + \varepsilon,
+  \end{align*}
+  which gives
+  \[
+    d(p,q) - \varepsilon < d(p',q') < d(p,q) + \varepsilon.
+  \]
+  Thus $|d(p',q') - d(p,q)| < \varepsilon$ and we get continuity with respect to the metric $d_{\operatorname{sum}}$.
+  By Theorem~\ref{thm:product-convergence} it does not matter which metric we use on $M \times M$.
+\end{proof}
+
+\medskip
+\noindent\textbf{\large Completeness}
+
+In an earlier class we discussed the Cauchy criterion for convergence of a sequence of real numbers.
+There is a natural way to carry these ideas over to a metric space $M$.
+A sequence $\langle p_N \rangle$ in $M$ satisfies a \textsf{Cauchy condition} provided that for each $\varepsilon > 0$ there is an integer $N \in \mathbb{N}$ such that for all $k, n \geqslant N$ we have $d(p_k, p_n) < \varepsilon$, and $\langle p_n \rangle$ is said to be a \textsf{Cauchy sequence}.  In symbols,
+\[
+  \forall \varepsilon > 0 \,\, \exists N \text{ such that } k, n \geqslant N \implies d(p_k, p_n) < \varepsilon.
+\]
+
+Under this notion, all properties of Cauchy sequences in $\mathbb{R}$ carry to general metric spaces, except that a Cauchy sequence in a metric space may or may not converge.
+In fact, we have the following definition.
+
+\begin{defn}
+  A metric space $(M,d)$ is \textsf{complete} if every Cauchy sequence in $M$ converges to a limit in $M$.
+\end{defn}
+
+Under this definition, $\mathbb{R}$ and $\mathbb{R}^m$ are complete metric spaces, while $\mathbb{Q}$ is not.
+Now there is a nice property about closed subsets of such spaces.
+
+\begin{thm}
+  Every closed subset of a complete metric space is a complete metric space.
+\end{thm}
+
+\begin{proof}
+  Let $A$ be a closed subset of the complete metric space $M$ and let $\langle p_n \rangle$ be a Cauchy sequence in $A$ with respect to the inherited metric.
+  It is of course a Cauchy sequence in $M$ so it converges to a limit $p$ in $M$.
+  Since $A$ is closed we have $p \in A$, i.e., the Cauchy sequence $\langle p_n \rangle$ converges to a point $p \in A$.
+  This shows that $A$ is also complete.
+\end{proof}
+
+We note that completeness is \textit{not} a topological property.
+For example, consider $\mathbb{R}$ with its usual metric and $(-1,1)$ with the metric it inherited from $\mathbb{R}$.
+Although they are homeomorphic metric spaces, $\mathbb{R}$ is complete but $(-1,1)$ is not.
+
+There is a general construction to complete a general metric space.
+Please consult Chapter 2, Section 10 of Pugh's textbook.

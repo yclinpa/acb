@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{April 25, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 10: The implicit function theorem}
+\end{center}
+
+As we mentioned in the earlier Topic, the implicit function theorem can be derived from the inverse function theorem at ease.
+Here we provide such a route, and then give a computational example on the implicit function theorem.
+
+We need to fix some conventions.
+Below we often refer points in $\mathbb{R}^{n+p} = \mathbb{R}^n \times \mathbb{R}^p$.
+When we write $(x, t) \in \mathbb{R}^{n+p}$, it is understood that $x \in \mathbb{R}^n$ and $t \in \mathbb{R}^p$.
+This convention also applies to points in some subset of $\mathbb{R}^{n+p}$.
+
+\begin{thm}[Implicit function theorem]
+  Let $F$ be a $\mathcal{C}^1$ mapping on an open set $V \subseteq \mathbb{R}^{n+p}$ into $\mathbb{R}^n$, such that $F(x_0, t_0) = 0$ for some point $(x_0, t_0) \in V$.
+  Put $A = [\DD F(x_0, t_0)]$ and assume that the first $n \times n$ minor $A_x$ of $A$ is invertible.
+
+  Then there exist open sets $U \subseteq \mathbb{R}^{n+p}$ and $W \subseteq \mathbb{R}^p$, with $(x_0, t_0) \in U$ and $t_0 \in W$, having the following properties:
+  \begin{enumerate}[(i)]
+    \item To every $t \in W$ corresponds a unique point $x \in \mathbb{R}^n$ such that $(x,t) \in U$ and $F(x,t) = 0$.
+    \item Denote this $x$ by $g(t)$, then $g$ is a $\mathcal{C}^1$ mapping of $W$ into $\mathbb{R}^n$, $g(t_0) = x_0$, and $F\left( g(t), t \right) = 0$.
+  \end{enumerate}
+\end{thm}
+
+Before we prove this theorem, we'd like to explain what is going on here.
+Write $x = (x_1, \dots, x_n)$, $t = (t_1, \dots, t_p)$, and $F = (f_1, \dots, f_n)$.
+The equation $F(x,t) = 0$ is actually a system of $n$ equations in $n+p$ unknowns as follows:
+\begin{align*}
+  f_1(x_1, \dots, x_n, t_1, \dots, t_p) &= 0, \\
+  f_2(x_1, \dots, x_n, t_1, \dots, t_p) &= 0, \\
+  \vdots \qquad\qquad& \\
+  f_n(x_1, \dots, x_n, t_1, \dots, t_p) &= 0. \\
+\end{align*}
+We know that $(x,t) = (x_0, t_0)$ solves these equations.
+Now we like to find nearby solutions.
+When there are $n$ equations, the number of unknowns (or ``free variables'') is decreased by $n$, if these equations are fairly ``independent.''
+Since there are $n+p$ unknowns in the beginning, these $n$ equations will hint that the values of the $n$ non-free variables (the $x$'s) can be determined from the values of the other $p$ free variables (the $t$'s) so that together they satisfy those $n$ equations.
+In this way we say that the $x$'s are functions in the $t$'s \textit{implicitly} defined\footnote{This notion is contrasted to an \textit{explicit} function, which has the form $x = g(t)$ where $g$ is usually given by explicit arithmetic and algebraic procedures.} by the equations $F(x,t) = 0$.
+Moreover, we'd like to have the implicitly defined function $x = x(t)$ that satisfies $F(x(t),t) = 0$ to be continuous (or differentiable, etc.), in the sense that when we vary $t$ from $t_0$ a little bit, the solution $x$ also differs from $x_0$ a little bit.
+
+\begin{proof}
+  Define an auxiliary function $K: V \to \mathbb{R}^{n+p}$ by
+  \[
+    K(x,t) = \left( F(x,t), t \right).
+  \]
+  Then the matrix representation of $\DD K(x_0,t_0)$ is
+  \[
+    A = [ \DD K(x_0, t_0) ] = 
+    \begin{bmatrix}
+      A_x & A_t \\ 0 & {\mathrm I}_p
+    \end{bmatrix}
+  \]
+  where $\begin{bmatrix} A_x & A_t \end{bmatrix}$ is the matrix representation of $\DD F(x_0, t_0)$, and $\mathrm I_p$ is the identity matrix of size $p$.
+  It is immediate to see that the Jacobian $\Delta K(x_0,t_0)$ is computed as
+  \[
+    \Delta K(x_0,t_0) = \det A = (\det A_x)(\det \mathrm I_p) = \det A_x \ne 0.
+  \]
+  Since the Jacobian $\Delta K$ does not vanish at the point $(x_0, t_0)$, the mapping $K$ is locally invertible with a continuously differentiable inverse, by the inverse mapping theorem.
+  Therefore there are neighborhoods $W_1$ of $(x_0, t_0)$, $U_1$ of $(0,t_0)$ in $\mathbb{R}^{n+p}$, and a $\mathcal{C}^1$-mapping $H : U_1 \to W_1$ of $K$ such that $H(0,t_0) = (x_0, t_0)$ and
+  \[
+    H(K(x,t)) = (x,t) \qquad \forall\,\, (x,t) \in W_1.
+  \]
+  
+  By shrinking neighborhoods if necessary, we may assume that $U_1 = U_2 \times W$, where $U_2$ and $W$ are open sets in $\mathbb{R}^n$ and $\mathbb{R}^p$, respectively, with $0 \in U_2$ and $t_0 \in W$.
+  Note that because the mapping $K$ is of the form
+  \[
+    K(x,t) = \left( F(x,t), t \right),
+  \]
+  its inverse $H$ must also be of the form
+  \[
+    H(w,t) = \left( h(w,t), t \right),
+  \]
+  that is, the last $p$ coordinates of $H(w,t)$ are the same as those of $(w,t)$.
+
+  With the definite form of the inverse mapping $H(w,t)$, we now define
+  \[
+    g(t) = h(0,t), \qquad \text{for $t \in W$},
+  \]
+  that is, $H(0,t) = (h(0,t),t) = (g(t),t)$.
+  Since $H$ is $\mathcal{C}^1$, so is $g$, because they have almost identical partial derivatives that are continuous.  We claim that this function $g$ is the implicit function we are looking for.
+
+  The relationship of inverse functions shows
+  \[
+    \left( F(g(t),t), t \right) = K\left( g(t), t \right) = K \left( h(0,t), t \right) = K\left( H(0,t) \right) = (0,t),
+  \]
+  this exactly means that $F\left( g(t), t \right) = 0$ for any $t \in W$, and the proof is finished.
+\end{proof}
+
+As we mentioned before, the inverse function theorem and the implicit function theorem are equivalent in the sense that it is easy to derive one from the other.
+We now give the argument of the opposite direction.
+
+\begin{proof}[Proof from the implicit function theorem to the inverse function theorem]
+  Given a $\mathcal{C}^1$-mapping $F$ from $V\subseteq\mathbb{R}^n$ into $\mathbb{R}^n$, define another function
+  \begin{equation}
+    \label{eq:imp-inv}
+    G(x,t) = F(x) - t, \qquad x \in V, \,\, t \in \mathbb{R}^n.
+  \end{equation}
+  Then $G$ is a $\mathcal{C}^1$-mapping from an open set in $\mathbb{R}^{n+n}$ to $\mathbb{R}^n$ with $G(a,b) = 0$.
+  The first $n \times n$ minor $A_x$ of $\DD G(a,b)$ is exactly $A_x = [\DD F(a)]$, because
+  \[
+    [ \DD G(a,b) ] = \begin{bmatrix} A_x & - {\mathrm I}_n \end{bmatrix}.
+  \]
+  and $\DD F(a)$ is assumed to be invertible.
+  Therefore the implicit function theorem is applicable to $G$ at $(a,b)$.
+  That is, locally there is a $\mathcal{C}^1$-mapping $g$ such that $g(b) = a$ and $G\left( g(t), t \right) = 0$.
+  Put this relation back to (\ref{eq:imp-inv}) and we see that
+  \[
+    0 = G\left( g(t), t \right) = F\left( g(t) \right) - t,
+  \]
+  that is, $F\left( g(t) \right) = t$, which is exactly the property defining the inverse mapping.
+\end{proof}
+
+\noindent\textbf{Example.} The partial derivatives for implicit functions can be solved via \textit{implicit differentiation}.  We use the following example.
+Consider the equations
+\begin{align}
+  f_1(x,y) &= 2 \eu^{x_1} + x_2 y_1 - 4 y_2 + 3 = 0, \notag \\
+  \label{eq:imp-example}
+  f_2(x,y) &= x_2 \cos x_1 - 6 x_1 + 2 y_1 - y_3 = 0. 
+\end{align}
+Note that $F(0,1,3,2,7) = (0,0)$ where $F = (f_1, f_2)$.
+We need to verify first that $(x_1, x_2)$ can locally be thought as implicit functions on $(y_1,y_2,y_3)$ near $(x_1,x_2,y_1,y_2,y_3) = (0,1,3,2,7)$.
+For this we check the first $2 \times 2$ minor
+\begin{equation}
+  \label{eq:ax}
+  A_x = \begin{bmatrix}
+    \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} \\[5pt]
+    \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2}
+  \end{bmatrix} (0,1,3,2,7) =
+  \begin{bmatrix}
+    2 & 3 \\ -6 & 1
+  \end{bmatrix}.
+\end{equation}
+Because $\det A_x = (2)(1) - (3)(-6) = 20 \ne 0$, $A_x$ is invertible and the implicit function theorem is applicable.
+Now suppose that we want to find the partial derivative $\dfrac{\partial x_2}{\partial y_1} (3,2,7)$.
+Take $\partial_{y_1}$ to both sides of both equations in (\ref{eq:imp-example}) to get
+\begin{align}
+  0 &= 2 \eu^{x_1} {x_1}_{y_1} + {x_2}_{y_1} + x_2, \notag \\
+  \label{eq:imp-example-1}
+  0 &= {x_2}_{y_1} \cos x_1 - x_2 (\sin x_1) {x_1}_{y_1} - 6 {x_1}_{y_1} + 2.
+\end{align}
+Note that when applying the partial derivative operator $\partial_{y_1}$, keep in mind that the $x$'s are functions of the $y$'s, but the $y$'s are mutually independent variables.  Plugging in $(x_1,x_2,y_1,y_2,y_3) = (0,1,3,2,7)$ to Equations~(\ref{eq:imp-example-1}) yields
+\begin{align}
+  0 &= 2 {x_1}_{y_1} + 3 {x_2}_{y_1} + 1,\notag \\ \label{eq:imp-example-2}
+  0 &= {x_2}{y_1} - 6 {x_1}_{y_1} + 2.
+\end{align}
+Note that the above equations are a system of simultaneous linear equations in the unknowns ${x_1}_{y_1}$ and ${x_2}_{y_1}$.
+Solving these equations produces, at $(a,b) = (0,1,3,2,7)$,
+\[
+  \frac{\partial x_1}{\partial y_1} = \frac14, \qquad
+  \frac{\partial x_2}{\partial y_1} = - \frac12.
+\]
+We also remark here that the coefficients appearing in the system (\ref{eq:imp-example-2}) are exactly the entries of $A_x$ in (\ref{eq:ax}).
+\end{document}

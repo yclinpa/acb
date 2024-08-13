@@ -1,0 +1,118 @@
+\section{Improper integrals}
+\label{sec:improper-integrals}
+
+To extend the Riemann integral to unbounded intervals or unbounded functions, we begin with an elementary observation.
+
+If $f$ is Riemann integrable over $[a,b]$, then its indefinite integral
+\[
+  F(x) = \int_a^x f
+\]
+is continuous on $[a,b]$.  Therefore
+\[
+  \int_a^b f = F(b) = \lim_{x \to b-} F(x) = \lim_{x \to b-} \int_a^x f.
+\]
+The same can be said for the left-end point $a$.
+This leads to the following generalization of the Riemann integral.
+
+\begin{defn}
+  Let $(a,b)$ be a nonempty, open (possibly unbounded) interval and $f: (a,b) \to \mathbb{R}$.
+  \begin{enumerate}[(i)]
+    \item $f$ is said to be \textsf{locally integrable} over $(a,b)$ if and only if $f$ is integrable over each bounded closed subinterval $[c,d] \subseteq (a,b)$.
+
+    \item $f$ is said to be \textsf{improperly integrable} over $(a,b)$ if and only if $f$ is locally integrable over $(a,b)$ and 
+      \begin{equation}
+	\label{eq:improper-integral}
+	\int_a^b f := \left( \lim_{c \to a+} \int_c^m f \right) + \left( \lim_{d \to b-} \int_m^d f \right)
+      \end{equation}
+      exists and is finite for any $m \in (a,b)$.  (When it does converge, the limit will not depend on $m$.)
+      This limit is called the \textsf{improper (Riemann) integral} of $f$ over $(a,b)$; or equivalently we say that the improper integral $\int_a^b f$ converges.  We say that the improper integral $\int_a^b f$ diverges when the limit (\ref{eq:improper-integral}) diverges.
+  \end{enumerate}
+\end{defn}
+
+\medskip
+\noindent\textbf{Example.} Let $p$ be a positive real number.
+The improper integral
+\[
+  \int_1^\infty \frac{1}{x^p} \, \dd x
+\]
+converges if and only if $p > 1$, while the improper integral
+\[
+  \int_0^1 \frac{1}{x^p} \, \dd x
+\]
+converges if and only if $0 < p < 1$. \hfill$\heartsuit$
+
+Note from the definition that in order to talk about the convergence for two-sided improper integral such as $\int_{-\infty}^\infty f$, it is necessary to break it into two improper integrals like
+\[
+  \int_{-\infty}^\infty f = \int_{-\infty}^m f + \int_m^\infty f
+\]
+for any $m \in (-\infty, \infty)$.
+The improper integral $\int_{-\infty}^\infty f$ converges only when both $\int_{-\infty}^m f$ and $\int_m^\infty f$ converge.
+The verdict does not depend on the choice of $m \in (-\infty, \infty)$.
+
+Because an improper integral is a limit  of Riemann integrals, many of the results we proved earlier have analogues for the improper integral,
+such as the linearity property.
+Next we state a useful theorem whose proof is clear and omitted here.
+
+\begin{thm}[Comparison theorem for improper integrals]
+  Suppose that $f$ and $g$ are locally integrable over $(a,b)$.
+  If $0 \leqslant f(x) \leqslant g(x)$ for $x \in (a,b)$, and $g$ is improperly integrable over $(a,b)$, then $f$ is also improperly integrable over $(a,b)$, with
+  \[
+    \int_a^b f \leqslant \int_a^b g.
+  \]
+\end{thm}
+
+\medskip
+\noindent\textbf{Example.} Let $\alpha > 0$.  Since $\log x < x^{\alpha/2}$ for sufficiently large real $x$ (we will return to this statement when we formally define the logarithmic function,) hence
+\[
+  \frac{\log x}{x^{1+\alpha}} < \frac{1}{x^{1+(\alpha/2)}}
+\]
+for sufficiently large $x$ too.  This implies that $\dfrac{\log x}{x^{1+\alpha}}$ is integrable over $[1,\infty)$.
+
+There are two more definitions relating to improper integrability that are similar to the cases for series.
+\begin{defn}
+  Let $(a,b)$ be a nonempty, open interval in $\mathbb{R}$ and $f: (a,b) \to \mathbb{R}$.
+  \begin{enumerate}[(i)]
+    \item $f$ is said to be \textsf{absolutely integrable} over $(a,b)$ if $f$ is locally integrable and $|f|$ is improperly integrable over $(a,b)$.
+    \item $f$ is said to be \textsf{conditionally integrable} over $(a,b)$ if $f$ is improperly integrable over $(a,b)$ but $|f|$ is not improperly integrable over $(a,b)$.
+  \end{enumerate}
+\end{defn}
+
+There is a similar result to the integrability about the function of absolute values of an integrable function.
+Let us state the result here.
+
+\begin{thm}
+  If $f$ is absolutely integrable over $(a,b)$, then $f$ is improperly integrable over $(a,b)$ and
+  \[
+    \left| \int_a^b f \right| \leqslant \int_a^b |f|,
+  \]
+  where both sides are taken in the sense of improper integrals.
+\end{thm}
+
+\begin{proof}
+  Use the inequalities
+  \[
+    0 \leqslant |f(x)| + f(x) \leqslant 2 |f(x)|
+  \]
+  over any bounded closed subinterval $[c,d]$ of $(a,b)$ and the usual comparison theorem to get
+  \[
+    0 \leqslant \int_c^d |f| + \int_c^d f \leqslant 2 \int_c^d |f|.
+  \]
+  Our result follows by passing to the limits $c \to a+$ and $d \to b-$.
+\end{proof}
+
+\noindent\textbf{Example.} The function $\dfrac{\sin x}{x}$ is conditionally integrable over $[1,\infty)$.
+
+Let us first prove that $\dfrac{\sin x}{x}$ is improperly integrable over $[1,\infty)$.  Indeed, for any finite $d > 1$, by integration by parts we get
+\[
+  \int_1^d \frac{\sin x}{x} \, \dd x = \cos 1 - \frac{\cos d}{d} + \int_1^d \frac{\cos x}{x^2} \, \dd x.
+\]
+Since $\left| \dfrac{\cos x}{x^2} \right| \leqslant \dfrac{1}{x^2}$ for any $x \geqslant 1$ and the function $\dfrac{1}{x^2}$ is improperly integrable over $[1,\infty)$, we see that $\dfrac{\sin x}{x}$ is improperly integrable over $[1,\infty)$ as well.
+
+On the other hand, 
+\begin{align*}
+  \int_1^\infty \left| \frac{\sin x}{x} \right| \, \dd x &\geqslant \lim_{n \to \infty} \int_\pi^{n\pi} \left| \frac{\sin x}{x} \right| \, \dd x \\
+  &\geqslant \lim_{n \to \infty} \sum_{k=2}^n \frac{1}{k\pi} \int_{(k-1)\pi}^{k\pi} |\sin x| \, \dd x \\
+  &= \sum_{k=2}^\infty \frac{ 2 }{ k \pi }.
+\end{align*}
+The last term is a harmonic series, which can be shown to diverge in the following classes.
+Hence $\left| \dfrac{\sin x}{x} \right|$ is not improperly integrable over $[1,\infty)$.

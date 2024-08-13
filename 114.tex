@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{May 13, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 14: Measurable sets}
+\end{center}
+
+If $A$ and $B$ are subsets of disjoint intervals in $\mathbb{R}$ it is easy to show that
+\[
+  m^*(A\cup B) = m^*A + m^*B.
+\]
+But what if $A$ and $B$ are merely disjoint?  Is this formula still true?  The answer is ``yes'' if the sets have an additional property called measurability, but ``no'' in general.  Measurabililty is the rule and nonmeasurability is the exception.  Most sets we meet here --- open sets, closed sets, their unions, differences, etc.\ --- all are measurable.
+
+\begin{defn}
+  A set $E \subseteq \mathbb{R}$ is \textsf{(Lebesgue) measurable} if the division $E \mid E^c$ of $\mathbb{R}$ is so ``clean'' that for each ``test set'' $X \subseteq \mathbb{R}$ we have
+  \[
+    m^*X = m^*(X \cap E) + m^*(X \cap E^c).
+  \]
+
+  The definition of measuability in higher dimension is analogous.
+\end{defn}
+
+In fact, the Lebesgue measure is an instance of general outer measures.  Most theorems will work under suitable assumptions about measures.  So we make the following general definition.
+
+\begin{defn}
+  Let $M$ be any set.  The collection of all subsets of $M$ is denoted by $2^M$.  An \textsf{abstract outer measure} on $M$ is a function $\omega : 2^M \to [0,\infty]$ that satisfies the three axioms of outer measure: $\omega(\varnothing) = 0$, $\omega$ is monotone, and $\omega$ is countably additive.  A set $E \subseteq M$ is \textsf{measurable} with respect to $\omega$ ($\omega$-measurable) if $E \mid E^c$ is so clean that for each test set $X \subseteq M$ we have
+  \[
+    \omega(X) = \omega(X \cap E) + \omega(X \cap E^c).
+  \]
+\end{defn}
+
+\begin{thm}
+  The collection $\mathcal{M}$ of measuable sets with respect to any outer measure on any set $M$ is a $\sigma$-algebra and the outer measure restricted to this $\sigma$-algebra is countably additive.  All zero sets are measuable and have no effect on measurability.  In particular Lebesgue measure has these properties.
+\end{thm}
+
+A \textsf{$\sigma$-algebra} is a collection of sets that includes the empty set, is closed under complement, and is closed under countable union.  \textsf{Countable addivity} of $\omega$ means that if $E_1, E_2, \dots$ are measurable with respect to $\omega$ then
+\[
+  E = \bigsqcup_i E_i \implies \omega(E) = \sum_i \omega(E_i).
+\]
+($\sqcup$ means disjoint union.)
+
+\begin{proof}
+  Let $\mathcal{M}$ denote the collection of measurable sets with respect to the outer measure $\omega$ on $M$.  First we deal with zero sets, sets for which $\omega(Z)=0$.  By monotonicity, if $Z$ is a zero set and $X$ is a test set then
+  \[
+    \omega(X) \leqslant \omega(X \cap Z) + \omega(X \cap Z^c) = 0 + \omega(X \cap Z^c) \leqslant \omega(X),
+  \]
+  implies that $Z$ is measurable.  Likewise, if $E \mid E^c$ divides $X$ cleanly then the same is true for $(E \cap Z) \mid (E \cap Z^c)$ and $(E \setminus Z) \mid (E \setminus Z^c)$.  That is, $Z$ has no effect on measurability.
+
+  To check that $\mathcal{M}$ is a $\sigma$-algebra we must show that it contains the empty set, is closed under complements, and is closed under countable union.  By the definition of outer measure the empty set is a zero set so it is measurable, $\varnothing \in \mathcal{M}$.  Also, since $E \mid E^c$ divides a test set $X$ in the same way that $E^c \mid E$ does, $\mathcal{M}$ is closed under complements.  To check that $\mathcal{M}$ is closed under countable union takes four preliminary steps.
+
+  \begin{enumerate}[(a)]
+    \item $\mathcal{M}$ is closed under differences.
+
+    \item $\mathcal{M}$ is closed under finite union.
+
+    \item $\omega$ is finitely additive on $\mathcal{M}$.
+
+    \item $\omega$ satisfies a special countable addition formula.
+  \end{enumerate}
+
+  \begin{enumerate}[(a)]
+    \item Let $E_1, E_2$ be measurable sets and $X$ be any test set.  Since $E_i$ divides any set cleanly, we have
+      \begin{align*}
+	\omega(X \cap (E_1^c \cup E_2)) &= \omega(X \cap (E_1 \cap E_2)) + \omega(X \cap E_1^c) \\
+	&= \omega(X \cap (E_1 \cap E_2) + \omega(X \cap (E_1^c \cap E_2)) + \omega(X \cap (E_1^c \cap E_2)).
+      \end{align*}
+
+      Thus,
+      \begin{align*}
+	&\omega(X \cap (E_1 \setminus E_2)) + \omega(X \cap (E_1 \setminus E_2)^c) \\
+	    = \,\, &\omega(X \cap (E_1 \setminus E_2)) + \omega(X \cap (E_1^c \cup E_2)) \\
+	= \,\,&\omega(X \cap (E_1 \cap E_2^c)) + \omega(X \cap (E_1 \cap E_2) + \omega(X \cap (E_1^c \cap E_2)) + \omega(X \cap (E_1^c \cap E_2)) \\
+	  = \,\,&\omega(X \cap E_1) + \omega(X \cap E_1^c) = \omega(X),
+      \end{align*}
+      which completes the proof fo (a).
+
+    \item Suppose that $E_1, E_2$ are measurable and $E = E_1 \cup E_2$.  Since $E^c = E_1^c \setminus E_2$, (a) implies that $E^c \in \mathcal{M}$ and thus $E \in \mathcal{M}$.  For more than two sets, induction shows that if $E_1, \dots, E_n \in \mathcal{M}$ then $E_1 \cup \cdots \cup E_n \in \mathcal{M}$.
+
+    \item If $E_1, E_2 \in \mathcal{M}$ are disjoint then $E_1$ divides $E = E_1 \sqcup E_2$ cleanly, so
+      \[
+	\omega(E) = \omega(E \cap E_1) + \omega(E \cap E_1^c) = \omega(E_1) + \omega(E_2),
+      \]
+      which is addivity for pairs of measurable sets.  For more than two measurable sets, induction implies that $\omega$ is finitely additive on $\mathcal{M}$, that is, if $E_1, \dots, E_n \in \mathcal{M}$ then
+      \[
+	\omega \left( \bigsqcup_{i=1}^n E_i \right) = \sum_{i=1}^n \omega(E_i).
+      \]
+
+    \item Give a test set $X \subseteq M$ and a countable disjoint union of measurable sets $E = \sqcup_{i} E_i$ we claim that
+      \begin{equation}
+	\label{eq:countable-union}
+	\omega(X) = \sum_{i=1}^\infty \omega(X \cap E_i) + \omega(X \cap E^c).
+      \end{equation}
+      (Taking $X = E$, (\ref{eq:countable-union}) implies countable additivity of measurable sets, $\omega(E) = \sum \omega(E_i)$, but does not imply measuability of $E$.)  (b) implies that the finite union $F = \sqcup_{i=1}^k E_i$ is measurable so it divides $X$ cleanly: $\omega(X) = \omega(X \cap F) + \omega(X \cap F^c)$.  Since $F \subseteq E$, we have $F^c \supseteq E^c$, which gives
+      \[
+	\omega(X) \geqslant \omega(X \cap F) + \omega(X \cap E^c).
+      \]
+      The individual clean divisions by the $E_i$ imply $\omega(X \cap F) = \sum_{i=1}^k \omega(X \cap E_i)$.  Thus
+      \[
+	\omega(X) \geqslant \sum_{i=1}^k \omega(X \cap E_i) + \omega(X \cap E^c).
+      \]
+      Since the constant $\omega(X)$ dominates every partial sum, it dominates the whole series:
+      \[
+	\omega(X) \geqslant \sum_{i=1}^\infty \omega(X \cap E_i) + \omega(X \cap E^c).
+      \]
+      The reverse inequality is always true by subadditivity of $\omega$, so we get equality, which is the special addivity formula (\ref{eq:countable-union}).
+
+      It remains to show that the countable union of measurable sets $E = \cup E_i$ is measurable.  Since $E$ can be reexpressed as a countable \textit{disjoint} union of measurable sets $E_i' = E_i \setminus (E_1 \cup \cdots \cup E_{i-1})$, it is enough to check that $E = \sqcup E_i$ is measurable.  Applying (\ref{eq:countable-union}) to the test set $Y = X \cap E$ gives
+      \[
+	\omega(X \cap E) = \sum_i \omega(X \cap E \cap E_i) + \omega(X \cap E \cap E^c) = \sum_i \omega(X \cap E_i).
+      \]
+      Substituting this into (\ref{eq:countable-union}) itself gives measurability of $E$ and completes the proof that $\mathcal{M}$ is a $\sigma$-algebra.
+  \end{enumerate}
+\end{proof}
+
+From countable additivity we deduce a very useful fact about measures.  It applies to any outer measure $\omega$, in particular to Lebesgue outer measure.
+
+\begin{thm}
+  If $\{E_k\}$ and $\{F_k\}$ are sequences of measurable sets then
+  \begin{align*}
+    E_k \uparrow E &\implies \omega(E_k) \uparrow \omega(E) & &\text{(upward measure continuity)} \\
+    \omega(F_1) < \infty \text{ and } F_k \downarrow F &\implies \omega(F_k) \downarrow \omega(F) & &\text{(downward measure continuity)}
+  \end{align*}
+\end{thm}
+
+\begin{proof}
+  The notation $E_k \uparrow E$ means that $E_1 \subseteq E_2 \subseteq \cdots$ and $E = \cup E_k$.  Write $E$ disjointly as $E = \sqcup E_k'$ where $E_k' = E_k \setminus (E_1 \cup \cdots \cup E_{k-1})$.  Countable additivity for measurable sets gives
+  \[
+    \omega(E) = \sum_{k=1}^\infty \omega(E_k').
+  \]
+  Also, the $k^{\text{th}}$ partial sum of the series equals $\omega(E_k)$, so $\omega(E_k)$ converges upward to $\omega(E)$.
+
+  The notation $F_k \downarrow F$ means that $F_1 \supseteq F_2 \supseteq \cdots$ and $F = \cap F_k$.  Write $F_1$ disjointly as
+  \[
+    F_1 = \left( \bigsqcup_{k=1}^\infty F_k' \right) \sqcup F,
+  \]
+  where $F_k' = F_k \setminus F_{k+1}$.  Then $F_k = \sqcup_{n \geqslant k} F_n' \sqcup F$.  The countable additive formula for measurable sets gives
+  \[
+    \omega(F_1) = \omega(F) + \sum_{n=1}^\infty \omega(F_n'),
+  \]
+  implie the series converges to a finite limit, so its tails converge to zero:
+  \[
+    \omega(F_k) = \sum_{n=k}^\infty \omega(F_n') + \omega(F)
+  \]
+  converges downward to $\omega(F)$ as $k \to \infty$.
+\end{proof}
+
+We return to the Lebesgue outer measure on $\mathbb{R}^n$.  Here is the result about topology relative to measure.
+
+\begin{thm}
+  \label{thm:topology-measurable}
+  Open sets and closed sets in $\mathbb{R}^n$ are Lebesgue measuable.
+\end{thm}
+
+\begin{prop}
+  The half-spaces $[a,\infty) \times \mathbb{R}^{n-1}$ and $(a,\infty) \times \mathbb{R}^{n-1}$ are measurable in $\mathbb{R}^n$.  So are all open boxes.
+\end{prop}
+
+\begin{proof}
+  Without loss of generality we assume that $n=2$.  Let $H = [a, \infty) \times \mathbb{R}$.  We must show that $H$ divides each test set $X$ cleanly: $m^*(X) = m^*(X \cap H) + m^*(X \cap H^c)$.  Since $\{ a \} \times \mathbb{R}$ is a zero set in $\mathbb{R}^2$ and zero sets have no effect on outer measure, we may assume that $X \cap (\{ a \} \times \mathbb{R}) = \varnothing$.  Set
+  \[
+    X^- = \{ (x,y) \in X \colon x < a \}, \qquad
+    X^+ = \{ (x,y) \in X \colon x > a \}.
+  \]
+  Then $X = X^- \sqcup X^+$.  Given $\varepsilon > 0$ there is a countable covering $\mathcal{R}$ by rectangles $R$ with $\sum_{\mathcal{R}} |R| \leqslant m^*(X) + \varepsilon$.  Let $\mathcal{R}^{\pm}$ be the collection of rectangles $R^\pm = \{ (x,y) \in R \colon R \in \mathcal{R} \text{ and } \pm (x-a) > 0 \}$.  Then $\mathcal{R}^\pm$ covers $X^\pm$ and
+  \begin{align*}
+    m^*(X) &\leqslant m^*(X \cap H) + m^*(X \cap H^c) \\
+    &\leqslant \sum_{\mathcal{R}^+} |R^+| + \sum_{\mathcal{R}^-} |R^-| \\
+    &= \sum_{\mathcal{R}} |R| \leqslant m^*(X) + \varepsilon.
+  \end{align*}
+  Since $\varepsilon$ is arbitrary this gives measurability of $H = [a,\infty) \times \mathbb{R}$.  Since the line $x=a$ is a planar zero set in $\mathbb{R}$, $(a,\infty) \times \mathbb{R}$ is also measurable.  The vertical strip $(a,b) \times \mathbb{R}$ is measurable since it is the intersection
+  \[
+    (a,\infty) \times \mathbb{R} \cap (-\infty, b) \times \mathbb{R},
+  \]
+  and $(-\infty, b) \times \mathbb{R} = ( [b,\infty) \times \mathbb{R} )^c$.  Interchanging the coordinates shows that the horizontal strip $\mathbb{R} \times (c,d)$ is also measurable.  The rectangle $R = (a,b) \times (c,d)$ is the intersection of the strips and is therefore measurable.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:topology-measurable}]
+  Let $U$ be an open subset of $\mathbb{R}^n$.  It is the \textit{countable} union of open boxes.  Since $\mathcal{M}(\mathbb{R}^n)$ is a $\sigma$-algebra and a $\sigma$-algebra is closed with respect to countable unions, $U$ is measuable.  Since a $\sigma$-algebra is closed with respect to complements, every closed set in $\mathbb{R}^n$ is also measurable.
+\end{proof}
+
+\begin{cor}
+  The Lebesgue measure of a closed or partially closed box is the volume of its interior.  The boundary of a box is a zero set.
+\end{cor}
+\end{document}

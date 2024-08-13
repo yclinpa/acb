@@ -1,0 +1,195 @@
+\section{Connectness}
+\label{sec:conn}
+
+We now consider the general notion of connectedness.
+Let $A$ be a subset of a metric space $M$.
+If $A$ is neither the empty set nor $M$ then $A$ is a \textsf{proper} subset of $M$.
+Recall that if $A$ is both open and closed in $M$ it is said to be \textit{clopen}.
+The complement of a clopen set is clopen.
+The complement of a proper subset is proper.
+
+\begin{defn}
+  A \textsf{separation} of a metric space $M$ is a pair of disjoint open proper subsets of $M$ whose union is $M$.
+  $M$ is \textsf{disconnected} if $M$ has a separation.
+  $M$ is \textsf{connected} if $M$ has no separation.
+\end{defn}
+
+Equivalently, $M$ is disconnected if it has a proper clopen subset.
+Connectedness of $M$ does not mean that $M$ is connected to something, but rather $M$ is one unbroken thing.
+
+Another common criterion for a connected subset $E$ of a metric space $M$ is expressed in the following way: $E$ is connected if and only if there are no two disjoint open sets $U$ and $V$ in $M$ such that $E \subseteq U \cup V$.
+
+We can characterize connected subsets of the reals $\mathbb{R}$.
+But we need a formal definition of interval.
+
+\begin{defn}
+  A subset $I$ of $\mathbb{R}$ is called an \textsf{interval} if the following holds: for any $x, y \in I$ with $x < y$, $z \in I$ whenever $x < z < y$.
+\end{defn}
+
+Intuitively, if an interval contains two points, it also contains every point in-between.
+Therefore an interval in $\mathbb{R}$ must be of the forms $(a,b), [a,b], [a,b)$, or $(a,b]$, depending on whether its supremum and infimum (which can be $\pm\infty$) belong to it or not.
+In fact, intervals are the only connected subsets in $\mathbb{R}$.
+
+\begin{thm}
+  \label{thm:conn-R-interval}
+  Let $E$ be a subset of $\mathbb{R}$.
+  $E$ is connected if and only if $E$ is an interval.
+\end{thm}
+
+\begin{proof}
+  ($\Longrightarrow$).
+  If $E$ is not an interval, then there are three points $x < z < y$ such that $x,y \in E$ but $z \notin E$.
+  Then $E \cap (-\infty, z)$ and $E \cap (z, \infty)$ form a separation of $E$, and hence $E$ is disconnected.
+
+ \medskip
+ \noindent ($\Longleftarrow$).
+ Now we need to show that every nonempty interval $E$ in $\mathbb{R}$ is connected.  The empty set is always connected by definition, since it admits no separation, obviously.
+
+ Suppose $E$ is not connected, i.e., there are disjoint open sets $U, V$ in $\mathbb{R}$ such that $E \subseteq U \cup V$ and both $E \cap U$ and $E \cap V$ are nonempty.
+ Pick $x \in E \cap U$ and $y \in E \cap V$; by symmetry we may assume that $x < y$.
+ Since $E$ is an interval, we have $[x,y] \subseteq E$.
+ Consider the set
+ \[
+   X = \{ u \in [x,y] \colon u \in U \}.
+ \]
+ Obviously $x \in X \ne \varnothing$ and $X$ is bounded above by $y$.
+ Therefore $z = \sup X$ exists by the least upper bound property.
+ Since $z \in [x,y] \subseteq E$ as well, either $z \in U$ or $z \in V$.
+
+ If $z \in U$ then $z$ cannot be $y$ since $y \notin U$.
+ As $U$ is open, there is a $\delta > 0$ such that $z + \delta \in [x,y] \cap U$.  This contradicts to the fact that $z$ is an upper bound for $X$.
+ On the other hand, if $z \in V$ then $z$ cannot be $x$ since $x \notin V$.
+ As $V$ is open, there is $\delta' > 0$ such that $(z-\delta', z] \subseteq [x,y] \cap V$.  This implies that $X$ is also bounded above by $z - \delta'$, which is less than $z$; this contradicts to the fact that $z = \sup X$.
+
+ Therefore the assumption that $E$ is disconnected is incorrect, that is, $E$ is in fact connected.
+\end{proof}
+
+Next we discuss the interplay between continuous mappings and connected sets.
+Here is the main theorem.
+
+\begin{thm}
+  \label{thm:cont-conn}
+  Let $M$ be connected.  If a mapping $f: M \to N$ is continuous and surjective, then $N$ is connected.  That is, the continuous image of a connected set is connected.
+\end{thm}
+
+\begin{proof}
+  Let $A$ be a nonempty clopen subset of $N$.
+  Then by the topological properties of continuous mappings, $f^{-1}(A)$ is again a clopen subset of $M$.  Since $f$ is onto and $A$ is nonempty, $f^{-1}(A)$ is nonempty as well.
+  Since $M$ itself is connected, $f^{-1}(A)$ must be the whole space $M$.
+  Therefore $A$ must be $N$ since $f$ is onto.
+  This shows that $N$ cannot have any proper clopen subset, hence $N$ is connected.
+\end{proof}
+
+\begin{cor}
+  If $M$ is connected and $M$ is homeomorphic to $N$ then $N$ is also connected.
+  Connectedness is a topological property.
+\end{cor}
+
+Combining Theorems~\ref{thm:conn-R-interval} and \ref{thm:cont-conn}, we obtain a generalization of the intermediate value theorem.
+
+\begin{cor}[Generalized intermediate value theorem]
+  Every continuous real-valued function defined on a connected domain has the intermediate value property.
+\end{cor}
+
+\begin{proof}
+  Let $M$ be a connected set and $f: M \to \mathbb{R}$ be a continuous function.
+  By Theorem~\ref{thm:cont-conn} $f(M)$ is a connected subset of $\mathbb{R}$.
+  By Theorem~\ref{thm:conn-R-interval} $f(M)$ is an interval.
+  Therefore $f$ enjoys the intermediate value property.
+\end{proof}
+
+Now we see the very reason why the intermediate value theorem holds---the interval $[a,b]$ is connected!
+This is different from the extreme value theorem, whose validity is based on the fact that $[a,b]$ is sequentially compact.
+
+Connectedness properties give a good way to distinguish nonhomeomorphic sets.
+
+\noindent\textbf{Example.} The union of two disjoint closed intervals is not homeomorphic to a single interval.
+The former is disconnected while the latter is connected.
+
+\medskip
+\noindent\textbf{Example.} The closed interval $[a,b]$ is not homeomorphic to the unit circle $S^1 \subseteq \mathbb{R}^2$.
+The former becomes disconnected when an interior point of it is removed, but the latter remains connected if any one of its points is removed.
+
+\bigskip
+Now we return to more properties about connected sets.
+
+\begin{thm}
+  The closure of a connected set is connected.
+  More generally, if $S \subseteq M$ is connected and $S \subseteq T \subseteq \overline{S}$ then $T$ is connected.
+\end{thm}
+
+\begin{proof}
+  Suppose there are two disjoint open sets $U, V \subseteq M$ such that $T \subseteq U \cup V$.
+  Since $S \subseteq U \cup V$ as well, either $S \subseteq U$ or $S \subseteq V$; without loss of generality let us assume that $S \subseteq U$.
+  Any point $p \in T \setminus S$ is a limit point of $S$.
+  Therefore any neighborhood of $p$ contains a point $q \in S$ and $q \ne p$.
+  Thus $p$ cannot belong to $V$, otherwise there would be a neighborhood of $p$ that lies completely in $V$, thus it has an empty intersection with $U$, contradiction.  Therefore $T \subseteq U$ and $T \cap V = \varnothing$.
+  This shows that $T$ cannot have nontrivial separation, hence $T$ is connected.
+\end{proof}
+
+\begin{thm}
+  The union of arbitrarily many connected sets that share a common point is connected.
+\end{thm}
+
+\begin{proof}
+  Let $\{ C_\alpha \colon \alpha \in A \}$ be an arbitrary collection of connected sets such that $p \in \cap_{\alpha \in A} C_\alpha \ne \varnothing$.
+  Write $C = \cup_{\alpha \in A} C_\alpha$.
+  Suppose that there are two disjoint open sets $U, V$ such that $C \subseteq U \cup V$.
+  Since $p \in C \subseteq U \cup V$, by symmetry we may assume that $p \in U$.
+  Because for each $\alpha \in A$ we have $p \in C_\alpha \subseteq U \cup V$, $C_\alpha$ must also be a subset of $U$ because $C_\alpha$ is connected.
+  Therefore $C \subseteq U$ and $C \cap V = \varnothing$.
+  This shows that $C$ has no nontrivial separation and $C$ is connected.
+\end{proof}
+
+Lastly there is a similar but different notion of connectivity, which we define below.
+
+\begin{defn}
+  A \textsf{path} joining points $p$ to $q$ in a metric space $M$ is a continuous mapping $f: [a,b] \to M$ such that $f(a) = p$ and $f(b) = q$.
+  If each pair of points in $M$ can be joined by a path that lies completely in $M$, then $M$ is called \textsf{path-connected}.
+\end{defn}
+
+\begin{thm}
+  Path-connected sets are connected.
+\end{thm}
+
+\begin{proof}
+  Let $M$ be a path-connected set.
+  If $M$ is empty it is connected.
+  So below we assume that $M$ is nonempty.
+
+  If $M$ is not connected, then there are two disjoint clopen proper subsets $U, V$ of $M$ such that $M = U \cup V$.
+  Pick a point $p \in U$ and $q \in V$.
+  Since $M$ is path-connected there is a continuous mapping $f: [a,b] \to M$ such that $f(a) = p$ and $f(b) = q$.
+  Therefore $f^{-1}(U)$ and $f^{-1}(V)$ form a separation of $[a,b]$ by two disjoint clopen proper subsets, which is a contradiction since $[a,b]$ is connected.
+  Hence $M$ must be connected.
+\end{proof}
+
+Although any connected subset of $\mathbb{R}$ is path-connected, there are connected sets in $\mathbb{R}^2$ which are not path-connected.
+Nevertheless, if we add one more condition these notions are the same.
+
+\begin{thm}
+  Every open connected subset of $\mathbb{R}^m$ is path-connected.
+\end{thm}
+
+\begin{proof}
+  We first note here that any convex set in $\mathbb{R}^m$ is path-connected since any pair of points can be joined by a segment that lies totally in that convex set.
+  Because an open ball is convex, it is also path-connected.
+
+  Let $D$ be a nonempty, open, and connected subset of $\mathbb{R}^m$ (the empty set is path-connected by definition).
+  Fix a point $p \in D$ and consider the following subsets of $D$:
+  \[
+    U = \{ u \in D \colon \text{ $u$ and $p$ can be joined by a path in $D$} \}, \quad V = D \setminus U.
+  \]
+
+  We argue that both $U$ and $V$ are open subsets of $D$ as follows.
+  Let $u \in U$.  Since $u \in D$ and $D$ is open, there is an $r > 0$ such that $B_r(u) \subseteq D$.  Then every point $x$ in $B_r(u)$ can be joined to $p$ by a path from $p$ to $u$ followed by the radius from $u$ to $x$.
+  Hence $B_r(u) \subseteq U$ as well.  This shows that $U$ is an open subset of $D$.
+
+  On the other hand, suppose $v \in V$.  Again there is an $s > 0$ such that $B_s(v) \subseteq D$.
+  No point in $B_s(v)$ can be joined to $p$ by a path in $D$ because otherwise $v \in U$.  Hence $B_s(v) \subseteq V$.
+  This shows that $V$ is also an open subset of $D$.
+
+  Now $D$ is written as a union of two disjoint open subsets $U, V$, and $U \ne \varnothing$.
+  Since $D$ is connected we must have $V = \varnothing$, i.e. $U = D$.
+  This says any point in $D$ can be joined to $p$ by a path in $D$, hence $D$ is path-connected.
+\end{proof}

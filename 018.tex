@@ -1,0 +1,171 @@
+\section{Logarithmic function and exponential function}
+\label{sec:log-exp}
+
+We now come to rigorous definitions for logarithmic and exponential functions.
+The reason that we adapt these definitions is that many properties in analysis of them will follow naturally and almost immediately.
+The motivation is that the integral formula
+\begin{equation}
+  \label{eq:power-int}
+  \int x^n \, \dd x = \frac{x^{n+1}}{n+1} + C
+\end{equation}
+holds for any integer $n \in \mathbb{Z}$ except for $n = -1$.  So what happens there?
+It turns out that it gives rise a new function that has wider applications than expected.
+
+\begin{defn}
+  The \textsf{logarithmic function} for $x > 0$ is defined via the following definite integral:
+\[
+  L(x) = \int_1^x \frac{1}{t} \, \dd t, \qquad x > 0.
+\]
+\end{defn}
+
+This definition surely fills in the gap occurred in (\ref{eq:power-int}).
+The reason why $L$ is called a logarithmic function is that it carries key properties such as logarithmic laws, as we see in the next result.
+
+\begin{thm}
+  The logarithmic function $L$ defined on $(0,\infty)$ enjoys the following properties.
+  \begin{enumerate}[(i)]
+    \item $L(1) = 0$.
+    \item For $x, y > 0$, we have $L(xy) = L(x) + L(y)$.
+    \item $L(x^q) = q L(x)$ for any $x > 0$ and $q \in \mathbb{Q}$.
+      Moreover, the range of $L$ is $\mathbb{R}$.
+    \item $L$ is differentiable with $L'(x) = \dfrac{1}{x}$; hence $L$ is strictly increasing and concave in $(0,\infty)$.
+    \item For any $\varepsilon > 0$, $\displaystyle \lim_{x \to \infty} \frac{L(x)}{x^{\varepsilon}} = 0$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item Trivial.
+
+    \item Using change of variable $t = xu$, we see that
+      \begin{align*}
+	L(xy) &= \int_1^{xy} \frac{1}{t} \, \dd t = \int_1^x \frac{1}{t} \, \dd t + \int_x^{xy} \frac{1}{t} \, \dd t \\
+	&= L(x) + \int_1^y \frac{1}{xu} \cdot x \, \dd u\\
+	&= L(x) + \int_1^y \frac{1}{u} \, \dd u = L(x) + L(y).
+      \end{align*}
+
+    \item By (ii) and mathematical induction one sees that $L(x^q) = q L(x)$ for any $x > 0$ and $q \in \mathbb{Q}$.
+
+      It is clear that $L(\alpha) > 0$ for any $\alpha > 1$.
+      Because we have established that $L(\alpha^n) = n L(\alpha)$ for all $n \in \mathbb{Z}$, we see that
+      \[
+	\lim_{n\to\infty} L(\alpha^n) = +\infty \quad \text{and} \quad
+	\lim_{n\to-\infty} L(\alpha^n) = -\infty.
+      \]
+      Since $L$ is continuous in $(0,\infty)$, the range of $L$ is the whole $\mathbb{R}$.
+      
+    \item Again by the fundamental theorem of calculus we have $L'(x) = \dfrac1x$.
+      Hence by the mean value theorem and the second derivative test we get that $L$ is strictly increasing and concave in $(0,\infty)$.
+
+    \item By (iii), $L(x) \to \infty$ as $x \to \infty$.  We may assume that $\varepsilon \in \mathbb{Q}$ by taking a smaller positive {\em rational} exponent $\varepsilon'$.
+      Hence by l'Hospital's rule we obtain
+      \begin{align*}
+	\lim_{x\to\infty} \frac{L(x)}{x^\varepsilon} &\stackrel{\text{H}}{=} \lim_{x\to\infty} \frac{1/x}{\varepsilon x^{\varepsilon - 1}} = \lim_{x\to\infty} \frac{1}{\varepsilon x^{\varepsilon}} = 0.
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+
+Statement (ii) above is the one that resembles the \textit{logarithmic law}: $\log_a xy = \log_a x + \log_a y$.  Now we have to make sure what the base is.  There is a natural candidate for that.
+
+\begin{defn}
+  \begin{enumerate}[(i)]
+    \item The \textsf{base of natural logarithm} $\eu$ is the (unique) positive real number that satisfies $L(\eu) = 1$.
+    \item The inverse function of $L$ is denoted by $E: \mathbb{R} \to (0,\infty)$, and is called the \textsf{exponential function}.
+  \end{enumerate}
+\end{defn}
+
+Now we apply various theorems to get properties about the exponential function $E$.
+
+\begin{thm}
+  The exponential function $E$ defined on $\mathbb{R}$ enjoys the following properties.
+  \begin{enumerate}[(i)]
+    \item $E(0) = 1$.
+
+    \item For $a, b \in \mathbb{R}$, we have $E(a+b) = E(a) \cdot E(b)$.
+
+    \item $E(qa) = (E(a))^q$ for any $a \in \mathbb{R}$ and $q \in \mathbb{Q}$.  Moreover, the range of $E$ is $(0,\infty)$.
+
+    \item $E$ is differentiable with $E'(x) = E(x)$; hence $E$ is strictly increasing and convex.
+
+    \item For any $r > 0$, $\displaystyle \lim_{x \to \infty} \frac{x^r}{E(x)} = 0$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  These properties for the exponential function more or less correspond to those for the logarithmic function.
+  All proofs are omitted except for (iv).
+  Since $L$ is continuously differentiable with $L'(x) = 1/x \ne 0$ for any $x > 0$, we conclude that its inverse function $E = L^{-1}$ is also differentiable with
+  \[
+    E'(x) = \frac{1}{L'(E(x))} = \frac{1}{1/E(x)} = E(x), \qquad x \in \mathbb{R}.
+  \]
+\end{proof}
+
+Let us tabulate the properties for the logarithmic function and the exponential function below\footnote{%
+A logarithmic function with base $a$, $0 < a \ne 1$, is written as $\log_a$.
+Here $\ln$ is exactly $\log_{\eu}$.
+The notion ``$\ln$'' occurs more often in engineering.
+``$\log$'' (without specifying its base) usually refers to $\log_{\eu}$ in higher mathematics, but refers to $\log_{10}$ in high schools (or in daily life).
+}.
+
+\begin{center}
+\begin{tabular}{c||c|c}
+  & Logarithmic fuction & Exponential function \\ \hline
+  Usual notation & $L(x) = \ln x$ & $E(x) = \exp(x)$ \\ \hline
+  & $L(1) = 0$ & $E(0) = 1$ \\ \hline
+  & $L(xy) = L(x) + L(y)$ & $E(a+b) = E(a) \cdot E(b)$ \\ \hline
+  Domain & $(0,\infty)$ & $\mathbb{R}$ \\ \hline
+  Range  & $\mathbb{R}$ & $(0,\infty)$ \\ \hline
+  Derivative & $L'(x) = 1/x$ & $E'(x) = E(x)$
+\end{tabular}
+\end{center}
+
+With the exponential function defined, any exponential function with a general base and a power function with arbitrary exponent can be defined as follows.
+
+\begin{defn}
+  \begin{enumerate}[(i)]
+    \item Let $a > 0$.  The exponential function with base $a$ is defined by
+      \[
+	a^x = E(x L(a)), \qquad x \in \mathbb{R}.
+      \]
+
+    \item A power function with real exponent $r \in \mathbb{R}$ is defined by
+      \[
+	x^r = E(r L(x)), \qquad x > 0.
+      \]
+  \end{enumerate}
+\end{defn}
+
+These functions are both differentiable.
+Their derivatives can be computed via the chain rule.
+
+\medskip
+\noindent\textbf{Example.} The derivative of the exponent function $a^x$ with base $a$ is
+\begin{equation}
+  \label{eq:arb-exp}
+  \frac{\dd}{\dd x} a^x = \frac{\dd}{\dd x} E(x L(a)) = E'(x L(a)) (x L(a))' = E(x L(a)) L(a) = a^x \, \ln x.
+\end{equation}
+
+While the derivative of the power function $x^r$ with real exponent $r$ is
+\[
+  \frac{\dd}{\dd x} x^r = \frac{\dd}{\dd x} E(r L(x)) = E'(r L(x)) \, r L'(x) = x^r \cdot \frac{r}{x} = r x^{r-1}.
+\]
+Note this formula is consistent with the derivative formula for power functions with rational exponents.
+
+\medskip
+Finally let us highlight the special properties for the base $\eu$ of natural logarithm.  Since $L(\eu) = 1$, we have $E(1) = \eu$.  Therefore
+\[
+  \exp(x) = E(x) = E(1 \cdot x) = (E(1))^x = \eu^x.
+\] 
+That is, the exponential function $E(x)$ is the exponential function with base $\eu$.  Plugging in $a = \eu$ in (\ref{eq:arb-exp}), we see that
+\[
+  (\eu^x)' = \eu^x \, L(\eu) = \eu^x \cdot 1 = \eu^x.
+\]
+
+Nevertheless, let us not confuse two sources of $\eu$.  They are
+\begin{enumerate}[(i)]
+  \item $\displaystyle \eu_1 = \lim_{n \to \infty} \left( 1 + \frac{1}{n} \right)^n$.
+
+  \item $\eu_2$ is the unique positive number satisfying $\displaystyle \int_1^{\eu_2} \frac{1}{t} \, \dd t$.
+\end{enumerate}
+It is a nice result to show that $\eu_1 = \eu_2$.
+We will prove this result after discussion on series.

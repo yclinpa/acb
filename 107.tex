@@ -1,0 +1,481 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{March 21, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 7: Differentiation in $\mathbb{R}^n$} 
+\end{center}
+
+Recall that a function $f : \mathbb{R} \rightarrow \mathbb{R}$ is differentiable
+at $a \in \mathbb{R}$ if there is a number $f'(a)$ such that
+\begin{equation}
+  \label{eq:d1}
+  \lim_{h \rightarrow 0} \frac{f(a+h) - f(a)}{h} = f'(a).
+\end{equation}
+This equation clearly makes no sense in the general case of a function
+$f : \mathbb{R}^n \rightarrow \mathbb{R}^m$, but can be reformulated in a way that
+does.  
+Let us start with a definition that mimics the one-dimensional situation: the partial derivatives.
+
+\begin{defn}
+  Let $f : \mathbb{R}^n \rightarrow \mathbb{R}$ and $a \in \mathbb{R}^n$, the limit
+  \begin{equation}
+    \label{defn:partial-derivative}
+     \lim_{h \to 0} \frac{ f(a+h\eu_i) - f(a)}{h} = \lim_{h \rightarrow 0} \frac{ f( a_1, \dots, a_i + h, \dots, a_n) - f(a_1, \dots, a_i, \dots, a_n) }{ h }
+  \end{equation}
+  is denoted by $\DD_i f(a)$, provided that it exists.  
+  It is called the $i^{\text{th}}$ \textsf{partial derivative} of $f$ at $a$, for $i = 1, \dots, n$.
+\end{defn}
+
+It is important to note that $\DD_i f(a)$ is the ordinary derivative of a certain function; in fact, if we set $g(x) = f(a_1, \dots, x, \dots, a_n)$, where the variable $x$ is at the $i^{\text{th}}$ position, then $\DD_i f(a) = g'(a_j)$.  
+This means that we have already known the method of computing $\DD_i f(a)$ from we have learned in elementary calculus.
+Sometimes the partial derivative $\DD_i f(a)$ is written as $\displaystyle
+\frac{\partial f}{\partial x_i} (a)$ or $f_{x_j}(a)$, if our variables in $\mathbb{R}^n$ are $x_1$ through $x_n$.
+
+Another way to rewrite (\ref{eq:d1}) is to take the viewpoint from linear algebra.
+If $T : \mathbb{R} \rightarrow \mathbb{R}$ is the linear transformation defined by $T(h) = f'(a) \cdot h$, then (\ref{eq:d1}) is equivalent to
+\begin{equation}
+  \label{eq:d2}
+  \lim_{h \rightarrow 0} \frac{ f(a+h) - f(a) - T(h) }{h} = 0.
+\end{equation}
+Equation~(\ref{eq:d2}) is often interpreted as saying that $f(a) + T(h)$ is a good approximation to $f(a+h)$.  
+Henceforth we focus our attention on the linear transformation $T$ and reformulate the definition of differentiability as follows.
+
+\begin{defn}
+  A function $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ is \textsf{
+  differentiable} at $a \in \mathbb{R}^n$ if there is a linear
+  transformation $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ such that
+  \begin{equation}
+    \label{eq:dmn}
+    \lim_{h \rightarrow 0} \frac{ |f(a+h) - f(a) - T(h)| }{|h|}
+    = 0.
+  \end{equation}
+
+  Let $U \subseteq \mathbb{R}^n$ be a \textsf{domain} (i.e.~a
+  connected open set) and $f : U \rightarrow \mathbb{R}^m$ be a
+  function.  $f$ is \textsf{differentiable} in $U$ if $f$ is
+  differentiable at every point $a \in U$.
+\end{defn}
+
+Note that $h$ is a point in $\mathbb{R}^n$ and $f(a+h) - f(a) - T(h)$
+is a point in $\mathbb{R}^m$, so the norm signs are essential.  The linear
+transformation $T$ is denoted by $\DD f(a)$ and called the
+\textsf{derivative} of $f$ at $a$.  The justification for the
+phrase ``{\em the\/}'' linear transformation $T$ is the following.
+
+\begin{thm}
+  If $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is differentiable at $a \in \mathbb{R}^n$, there is a unique linear transformation $T : \mathbb{R}^n \rightarrow \mathbb{R}^m$ such that
+  \begin{equation*}
+    \lim_{h \rightarrow 0} \frac{ |f(a+h) - f(a) - T(h)| }{|h|}
+    = 0.
+  \end{equation*}
+\end{thm}
+
+\begin{proof}
+Suppose a linear map $S : \mathbb{R}^n \rightarrow \mathbb{R}^m$ also satisfies
+\begin{equation*}
+  \lim_{h \rightarrow 0} \frac{ |f(a+h) - f(a) - S(h)| }{|h|} = 0.
+\end{equation*}
+Write $\delta(h) = f(a + h) - f(a)$.  Then
+\begin{equation*}
+  \lim_{h \rightarrow 0} \frac{|T(h) - S(h)|}{|h|} \leqslant 
+  \lim_{h \rightarrow 0} \frac{|T(h) - \delta(h)|}{|h|} + 
+  \lim_{h \rightarrow 0} \frac{|\delta(h) - S(h)|}{|h|} = 0.
+\end{equation*}
+If $x \in \mathbb{R}^n$ and $t \in \mathbb{R}$, then $tx \rightarrow 0$ as $t
+\rightarrow 0$.  Hence for $x \neq 0$ we have
+\begin{equation*}
+  0 = \lim_{t \rightarrow 0} \frac{ | T(tx) - S(tx) | }{|tx|} 
+  = \frac{ | T(x) - S(x) | }{ |x| }.
+\end{equation*}
+Therefore $S(x) = T(x)$.
+\end{proof}
+
+We shall later discover a simple way of finding $\DD f(a)$ when the
+assumption is met.
+
+It is often convenient to consider the matrix of $\DD f(a) : \mathbb{R}^n
+\rightarrow \mathbb{R}^m$ with respect to the usual bases for $\mathbb{R}^n$ and $\mathbb{R}^m$.  
+This $m \times n$ matrix is sometimes called the \textsf{Jacobian matrix} of $f$ at $a$.  
+When $f : \mathbb{R} \rightarrow \mathbb{R}$, then
+$f'(a)$ is a $1 \times 1$ matrix whose single entry  is the number
+which is denoted by $f'(a)$ in elementary calculus.  Also note that
+differentiation is a \textit{local} property, so we may concentrate on
+some neighborhood of the point that we are interested in, rather than
+the whole space $\mathbb{R}^n$.
+
+Let us verify now a few basic rules about differentiation.
+
+\begin{thm}[Chain Rule] \label{thm:chainrule}
+  If $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ is differentiable at $a$, and $g : \mathbb{R}^m \rightarrow \mathbb{R}^\ell$ is differentiable at $f(a)$, then the composition $g \circ f : \mathbb{R}^n \rightarrow \mathbb{R}^\ell$ is differentiable at $a$, with
+  \begin{equation*}
+    \DD (g \circ f)(a) = \DD g(f(a)) \circ \DD f(a).
+  \end{equation*}
+\end{thm}
+
+\begin{proof} 
+  Write $b = f(a)$, $T = \DD f(a)$ and $S = \DD g(f(a))$.  If we define
+\begin{gather*}
+  \varphi(x) = f(x) - f(a) - T(x-a), \\
+  \psi(y) = g(y) - g(b) - S(y-b), \\
+  \rho(x) = g(f(x)) - g(f(a)) - S(T(x-a)),
+\end{gather*}
+then from hypotheses
+\begin{equation*}
+  \lim_{x \rightarrow a} \frac{ |\varphi(x)| }{|x|} = 0 =
+  \lim_{y \rightarrow b} \frac{ |\psi(y)| }{|y|},
+\end{equation*}
+and we must show that
+\begin{equation*}
+  \lim_{x \rightarrow a} \frac{ |\rho(x)| }{ |x| } = 0.
+\end{equation*}
+Now
+\begin{align*}
+    \rho(x) &= g(f(x)) - g(b) - S(T(x-a)) \\
+    &= g(f(x)) - g(b) - S(f(x) - f(a) - \varphi(x)) \\
+    &= [g(f(x)) - g(b) - S(f(x) - f(a))] + S(\varphi(x)) \\
+    &= \psi(f(x)) + S(\varphi(x)).
+\end{align*}
+Thus we must show that
+\begin{equation*}
+  \lim_{x \rightarrow a} \frac{ |\psi(f(x))| }{|x - a|} = 0, \qquad
+  \lim_{x \rightarrow a} \frac{ |S(\varphi(x))| }{|x - a|} = 0.
+\end{equation*}
+
+For the second limit, we first observe that $|S(y)| \leqslant \|S\| \cdot |y|$ for any $y \in \mathbb{R}^m$ since $S$ is a linear transformation.  Therefore
+\begin{equation*}
+  \lim_{x \rightarrow a} \frac{ |S(\varphi(x))| }{|x - a|} \leqslant 
+  \lim_{x \rightarrow a} \frac{ \|S\| \cdot |\varphi(x)| }{|x - a|}
+  = 0.
+\end{equation*}
+
+On the other hand, if $\varepsilon > 0$, it follows from the
+definition of $\psi$ that for some $\delta > 0$ we have
+\begin{equation*}
+  | \psi(f(x)) | \leqslant \varepsilon | f(x) - b | \qquad \text{ whenever } |f(x) - b | < \delta,
+\end{equation*}
+which is true when $|x - a| < \delta_1$, for a suitable $\delta_1 > 0$,
+because $f$ is continuous at $a$.  Hence
+\begin{equation*}
+  | \psi(f(x)) | \leqslant \varepsilon |f(x) - b| = \varepsilon | \varphi(x) +
+    T(x - a)| \leqslant \varepsilon |\varphi(x)| + \varepsilon \|T\| \cdot |x
+    - a|.
+\end{equation*}
+The proof is now complete.
+\end{proof}
+
+\begin{thm}
+  \label{thm:diffrule}
+  \begin{enumerate}[(i)]
+  \item If $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a constant function, then $\DD f(a) = 0$ (the zero transformation.)
+    
+  \item If $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ is a linear transformation, then $\DD f(a) = f$.
+
+  \item If $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$, then $f$ is differentiable at $a \in \mathbb{R}^n$ if and only if each $f_i$ is, and
+    \begin{equation*}
+      [\DD f(a)] =
+      \begin{bmatrix}
+	\DD f_1(a) \\ \vdots \\ \DD f_m(a)
+      \end{bmatrix}
+    \end{equation*}
+    That is,  $[\DD f(a)]$ is the $m \times n$ matrix whose $i^{\text{th}}$ row is $[\DD f_i(a)]$, $1 \leqslant i \leqslant m$.
+
+  \item If $s : \mathbb{R}^2 \rightarrow \mathbb{R}$ is defined by $s(x,y) = x+y$, then $\DD s(a) = s$.
+
+  \item If $p : \mathbb{R}^2 \rightarrow \mathbb{R}$ is defined by $p(x,y) = xy$, then $(\DD p(a,b))(x,y) = bx + ay$, that is,  $[\DD p(a,b)] = [b,a]$.
+  \end{enumerate}
+\end{thm}
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item 
+\begin{equation*}
+  \lim_{h \rightarrow 0} \frac{ | f(a+h) - f(a) - 0 | }{ |h| } 
+  = \lim_{h \rightarrow 0} \frac{ |y - y - 0| }{ |h| } = 0.
+\end{equation*}
+
+\item Because $f$ is linear,
+\begin{equation*}
+  \lim_{h \rightarrow 0} \frac{ | f(a+h) - f(a) - f(h) | }{ |h| } 
+  = \lim_{h \rightarrow 0} \frac{ | f(a) + f(h) - f(a) - f(h) | }{ |h|
+  } = 0.
+\end{equation*}
+
+\item If each $f_i$ is differentiable at $a$ and
+\begin{equation*}
+  T = \begin{bmatrix} \DD f_1(a) \\ \vdots \\ \DD f_n(a) \end{bmatrix},
+\end{equation*}
+then
+\begin{align*}
+  &f(a+h) - f(a) - T(h) \\ =\,\, &( f_1(a+h) - f_1(a) - \DD f_1(a)(h), \,\,
+  \dots, \,\, f_n(a+h) - f_n(a) - \DD f_n(a)(h)).
+\end{align*}
+Therefore
+\begin{equation*}
+  \lim_{h \rightarrow 0} \frac{ | f(a+h) - f(a) - T(h) | }{ |h|
+  } \leqslant \sum_{i=1}^n \lim_{h \rightarrow 0} \frac{ | f_i(a+h) -
+  f_i(a) - \DD f_i(a)(h) | }{ |h| } = 0.
+\end{equation*}
+If, on the other hand, $f$ is differentiable at $a$, then $f_i = \pi_i \circ f$, where $\pi_i$ denotes the projection to the $i^{\text{th}}$ coordinate, is differentiable at $a$ by (ii) and Theorem~\ref{thm:chainrule}.
+
+\item follows immediately from (ii).
+
+\item First we observe that for any $(h,k) \in \mathbb{R}^2$, $|hk| \leqslant (|h|^2 + |k|^2)/2$ by the AM-GM inequality.
+Let $T(x,y) = bx + ay$.  A routine calculation shows that
+\begin{align*}
+  \lim_{(h,k) \rightarrow 0} &\frac{ | p(a+h, b+k) - p(a,b) -
+  T(h,k) |}{|(h,k)|} = \lim_{(h,k) \rightarrow 0}
+  \frac{|hk|}{|(h,k)|} \\ &\leqslant \lim_{(h,k) \rightarrow 0} \frac{h^2 +
+  k^2}{ 2 \sqrt{h^2 + k^2} } \\ &= \lim_{(h,k) \rightarrow 0} \frac{\sqrt{h^2 +
+  k^2}}{2} = 0.
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{cor}
+  If $f,g : \mathbb{R}^n \rightarrow \mathbb{R}$ are differentiable at $a$, then
+  \begin{align*}
+    \DD (f+g)(a) &= \DD f(a) + \DD g(a) \\
+    \DD (f \cdot g)(a) &= g(a) \, \DD f(a) + f(a) \, \DD g(a);
+  \end{align*}
+  Moreover, if $g(a) \ne 0$, then
+  \begin{equation*}
+    \DD \frac{f}{g} (a) = \frac{g(a) \, \DD f(a) - f(a) \, \DD g(a)}{ (g(a))^2 }.
+  \end{equation*}
+\end{cor} \qed
+
+\medskip
+
+There is a subtle difference between (total) derivatives and partial
+derivatives.  
+For the existence of a total derivative, we must find a linear transformation to approximate the function locally.  
+On the other hand, we simply disregard what happens to other directions when we look for partial derivatives.
+The relation between derivatives and partial derivatives is stated in the following theorems.
+
+\begin{thm}
+  \label{thm:partialdiff}
+  If $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ is differentiable at $a$, then
+  $\DD_j f_i(a)$ exists for $1 \leqslant i \leqslant m$ and $1 \leqslant j \leqslant n$, and $[\DD f(a)]$ is the $m \times n$ matrix $[\DD_j f_i(a)]$.
+\end{thm}
+
+\begin{proof}
+Suppose first that $m = 1$, so that $f: \mathbb{R}^n \rightarrow \mathbb{R}$.  Define $h : \mathbb{R} \rightarrow \mathbb{R}^n$ by 
+\begin{equation*}
+  h(x) = (a_1, \dots, x, \dots, a_n)
+\end{equation*}
+with $x$ in the $j^{\text{th}}$ place.  Then $\DD_j f(a) = (f \circ h)'(a_j)$.  
+Hence, by Theorem~\ref{thm:chainrule},
+\begin{equation*}
+  (f \circ h)'(a_j) = f'(a) \cdot h'(a_j) = f'(a) \cdot \eu_j.
+\end{equation*}
+($\eu_j$ is the $j^{\text{th}}$ vector in the standard basis in $\mathbb{R}^n$.)  
+Since $(f \circ h)'(a_j)$ has the single entry $\DD_j f(a)$, this shows that $\DD_j f(a)$ exists and is the $j^{\text{th}}$ entry of the $1 \times n$ matrix $f'(a)$.
+
+The theorem now follows for arbitrary $m$ since, by
+Theorem~\ref{thm:diffrule}, each $f_i$ is differentiable and the
+$i^{\text{th}}$ row of $f'(a)$ is $(f_i)'(a)$.
+\end{proof}
+
+There are examples showing that the converse of
+Theorem~\ref{thm:partialdiff} is false.  It is true, however, if one
+hypothesis is added.
+
+\begin{thm}
+  \label{thm:contdiff}
+If $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$, then $\DD f(a)$ exists if all $\DD_j f_i(x)$ exist in an open set $U$ containing $a$ and if each function $\DD_j f_i$ is continuous at $a$.
+\end{thm}
+
+\noindent\textit{Remark.} Such a function $f$ is called \textsf{continuously
+  differentiable} at $a$.
+
+\begin{proof}
+As in the proof of Theorem~\ref{thm:partialdiff}, it suffices to consider the case $m = 1$, so that $f: \mathbb{R}^n \rightarrow \mathbb{R}$.  Then
+\begin{align*}
+    f(a+h) - f(a) = &\phantom{+} f(a_1 + h_1, a_2, \dots, a_n) -
+    f(a_1, a_2, \dots, a_n) \\
+    &+ f(a_1 + h_1, a_2 + h_2, a_3, \dots, a_n) - f(a_1 + h_1, a_2,
+    \dots, a_n) \\
+    &+ \cdots \\
+    &+ f(a_1 + h_1, \dots, a_n + h_n) - f(a_1+h_1, \dots, a_{n-1} +
+    h_{n-1}, a_n).
+\end{align*}
+Recall that $\DD_1 f$ is the derivative of the function $g$ defined by
+$g(x) = f(x, a_2, \dots, a_n)$.  Applying the mean-value theorem to
+$g$ we obtain
+\begin{equation*}
+  f(a_1 + h_1, a_2, \dots, a_n) - f(a_1, \dots, a_n) = h_1 \cdot \DD_1 f(b_1, a_2, \dots, a_n)
+\end{equation*}
+for some $b_1$ between $a_1$ and $a_1 + h_1$.  Similarly the
+$i^{\text{th}}$ term in the sum equals
+\begin{equation*}
+  h_i \cdot \DD_i f(a_1 + h_1, \dots, a_{i-1} + h_{i-1}, b_i, \dots,
+  a_n) = h_i \cdot \DD_i f(c_i),
+\end{equation*}
+for some $c_i$.  Then
+\begin{align*}
+    \lim_{h \rightarrow 0} \frac{ \Bigl| f(a+h) - f(a) - \sum_{i=1}^n
+    \DD_i f(a) \cdot h_i \Bigr| }{ |h| } 
+  & = \lim_{h \rightarrow 0} \frac{ \Bigl| \sum_{i=1}^n (\DD_i f(c_i) -
+    \DD_i f(a) ) \cdot h_i \Bigr| }{ |h| } \\
+  & \leqslant \lim_{h \rightarrow 0} \sum_{i = 1}^n | \DD_i f(c_i) - \DD_i f(a)
+    | \cdot \frac{ |h_i| }{ |h| } \\
+    & \leqslant \lim_{h \rightarrow 0} \sum_{i = 1}^n | \DD_i f(c_i) -
+    \DD_i f(a) | \\ & = 0,
+\end{align*}
+since $\DD_i f$ is continuous at $a$ for all $i$.
+\end{proof}
+
+The following theorem, based on partial derivatives, is a
+computational tool regarding the chain rule.  This is the version we
+usually see.
+
+\begin{thm}[Chain rule in terms of partial derivatives]
+  \label{thm:chainruleP}
+  Let $g_1, \dots, g_m : \mathbb{R}^n \rightarrow \mathbb{R}$ be continuously
+  differentiable at $a$, and let $f : \mathbb{R}^m \rightarrow \mathbb{R}$ be
+  continuously differentiable at $(g_1(a), g_2(a), \dots, g_m(a))$.
+  Define $F: \mathbb{R}^n \rightarrow \mathbb{R}$ by $F(x) = f(g_1(x), g_2(x),
+  \dots, g_m(x))$.  Then
+  \begin{equation*}
+    \DD_i F(a) = \sum_{j=1}^m \DD_j f(g_1(a), \dots, g_m(a)) \cdot \DD_i
+    g_j(a).
+  \end{equation*}
+\end{thm}
+
+\begin{proof}
+The function $F$ is just the composition $f \circ g$, where $g
+= (g_1, \dots, g_m)$.  Hence one translates the formula in the
+conclusion of Theorem~\ref{thm:chainrule} into components and this
+theorem follows by Theorem~\ref{thm:contdiff}.
+\end{proof}
+
+\noindent\textit{Remark.} Note that Theorem~\ref{thm:chainrule} is more general than Theorem~\ref{thm:chainruleP}, because $g$ or $f$ could be
+differentiable without $g_i$ or $f$ being continuously differentiable.
+
+There is one more notion that appears in the calculus textbook: directional derivative.
+We may modify (\ref{defn:partial-derivative}) and give the following definition.
+
+\begin{defn}
+  Let $f : \mathbb{R}^n \to \mathbb{R}^m$ and $a \in \mathbb{R}^n$, and $u \in \mathbb{R}^n$ be a unit vector, i.e., $|u| = 1$.
+  The \textsf{directional derivative} of $f$ at $a$ in the direction of $u$ is
+  \[
+    \DD_u f(a) = \lim_{h \to 0} \frac{ f(a + hu) }{ h },
+  \]
+  provided that the limit exists.
+\end{defn}
+
+Clearly, the partial derivative $\DD_i f(a)$ can also be written as $\DD_{\eu_i} f(a)$.
+Another notion appears before when $m = 1$.
+
+\begin{defn}
+  \label{defn:gradient}
+  Let $f : \mathbb{R}^n \to \mathbb{R}^1$ and $a \in \mathbb{R}^n$.
+  The \textsf{gradient vector} of $f$ at $a$ is defined to be
+  \[
+    \nabla f(a) = [\DD_1 f(a), \DD_2 f(a), \dots, \DD_n f(a)]^\TT.
+  \]
+  if it exists.
+\end{defn}
+
+The relation between directional derivatives and the gradient vector can be seen in the following result.
+
+\begin{thm}
+  Let $f : \mathbb{R}^n \to \mathbb{R}$ be differentiable at $a \in \mathbb{R}^n$.  Then for any $h \in \mathbb{R}^n$,
+  \[
+    \DD f(a) (h) = \nabla f(a) \cdot h,
+  \]
+  where $\cdot$ is the standard inner product in $\mathbb{R}^n$.
+\end{thm}
+
+\begin{proof}
+  Apply Theorem~\ref{thm:partialdiff} and Definition~\ref{defn:gradient}.
+\end{proof}
+
+Below we state a few results regarding to differentiation on functions of several variable.
+We need a convention: for two points $p, q \in \mathbb{R}^n$, the notation $[p,q]$ means the line segment whose two endpoints are $p$ and $q$.
+In mathematical terms, we have
+\[
+  [p,q] := \{ t p + (1-t) q \in \mathbb{R}^n \colon 0 \leqslant t \leqslant 1 \}.
+\]
+
+\begin{thm}[$\mathcal{C}^1$ Mean value theorem]
+  \label{thm:c1mvt}
+  Let $U$ be an open set in $\mathbb{R}^n$, and $f : U \to \mathbb{R}^m$ be a $\mathcal{C}^1$ function on $U$ (namely, all of its partial derivatives exist and are continuous in $U$.)
+  If the segment $[p,q]$ is contained in $U$ then
+  \[
+    f(q) - f(p) = T(q-p),
+  \]
+  where $T$ is the \textsf{average derivative} of $f$ on the segment,
+  \begin{equation}
+    \label{eq:average-derivative}
+    T = \int_0^1 (\DD f)(tp + (1-t)q) \, \dd t.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  The integrand in (\ref{eq:average-derivative}) takes values in the normed space $\mathcal{L}(\mathbb{R}^n, \mathbb{R}^m)$ and is a continuous function in $t$.
+  The integral is the limit of Riemann sums
+  \[
+    \sum_k (\DD f)(p + t_k(q-p)) \, \Delta t_k,
+  \]
+  which lies in $\mathcal{L}$.
+  Since the integral is an element in $\mathcal{L}$ it has a right to act on the vector $q-p$.
+  Alternatively, if you integrate each entry of the matrix that represents $\DD f$ along the segment then the resulting matrix represents $T$.
+  
+  Fix an index $i$ and apply the fundamental theorem of calculus to the $\mathcal{C}^1$ real-valued function of one variable
+  \[
+    g(t) = f_i \circ \sigma(t)
+  \]
+  where $\sigma(t) = p + t(q-p)$ parametrizes $[p,q]$.
+  This gives
+  \begin{align*}
+    f_i(q) - f_i(p) &= g(1) - g(0) = \int_0^1 g'(t) \, \dd t \\
+    &= \int_0^1 \sum_{j=1}^n \frac{\partial f_i(\sigma(t))}{\partial x_j} (q_j - p_j) \, \dd t \\
+    &= \sum_{j=1}^n \left( \int_0^1 \frac{\partial f_i(\sigma(t))}{\partial x_j} \, \dd t \right) (q_j - p_j),
+  \end{align*}
+  which is the $j^\text{th}$ component of $T(q-p)$.
+  The proof is finished.
+\end{proof}
+
+\begin{cor}
+  Assume that $U$ is connected.
+  If $f: U \to \mathbb{R}^m$ is differentiable and for each point $x \in U$ we have $\DD f(x) = 0$ then $f$ is a constant function on $U$.
+\end{cor}
+
+\begin{proof}
+  Fix an $x_0 \in U$ and consider the following subset of $U$:
+  \[
+    E = \{ x \in U \colon f(x) = f(x_0) \}.
+  \]
+  Since $f$ is continuous, $E$ is a closed subset of $U$.
+  Using Theorem~\ref{thm:c1mvt} we see that $E$ is an open subset of $U$.
+  Because $x_0 \in E \ne \varnothing$, we conclude that $E = U$, which gives the conclusion of our corollary.
+\end{proof}
+
+Another application to Theorem~\ref{thm:c1mvt} is a useful rule---\textsf{differentiation past the integral}.  We state it as follows.
+
+\begin{thm}
+  Assume that $f : [a,b] \times (c,d) \to \mathbb{R}$ is continuous and that $\displaystyle \frac{\partial f(x,y)}{\partial y}$ exists and is continuous.
+  Then
+  \[
+    F(y) = \int_a^b f(x,y) \, \dd x
+  \]
+  is a $\mathcal{C}^1$ function in the interval $(c,d)$, and
+  \begin{equation}
+    \label{eq:dFdy}
+    \frac{\dd F}{\dd y} = \int_a^b \frac{\partial f(x,y)}{\partial y} \, \dd x.
+  \end{equation}
+\end{thm}
+
+\begin{proof}
+  By Theorem~\ref{thm:c1mvt}, if $h$ is small then
+  \[
+    \frac{F(y+h) - F(y)}{h} = \frac{1}{h} \int_a^b \left( \int_0^1 \frac{ \partial f(x,y+th)}{\partial y} \, \dd t \right) h \, \dd x.
+  \]
+  The inner integral is the partial derivative of $f$ with respect to $y$ averaged along the segment $[y, y+h]$.
+  Continuity implies that this average converges to $\displaystyle \frac{\partial f(x,y)}{\partial y}$ as $h \to 0$, which verifies (\ref{eq:dFdy}).
+  Continuity of $\dfrac{\dd F}{\dd y}$ follows from continuity of $\dfrac{\partial f}{\partial y}$.
+\end{proof}
+\end{document}
+\end{document}

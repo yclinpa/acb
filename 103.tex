@@ -1,0 +1,403 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{February 29, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 3: Power series and analytic functions}
+\end{center}
+
+The simplest series of functions are the power series, which we will define now.
+
+\begin{defn}
+  Let $x_0$ be a real number.
+  A \textsf{power series} centered at $x_0$ is a series of the form
+  \[
+    S(x) = \sum_{k=0}^\infty c_k (x - x_0)^k,
+  \]
+  where $\langle c_k \rangle$ is a real sequence.
+\end{defn}
+
+If we stop here, the symbol $x$ is regarded as an indeterminate that commutes with real numbers, i.e. $rx = xr$ for any $r \in \mathbb{R}$ as products.
+Since we soon will regard $x$ as a real variable, some real numbers will replace the place that $x$ holds.
+Again we adopt the convention $0^0 = 1$ here as we replace $x$ by the number $x_0$.
+Once we plug in a real number $\alpha$ for $x$, such a power series becomes a real series $S(\alpha)$, which we could determine whether the resulting series converges or diverges.
+Of course when $x = x_0$ the series converges because there is at most one non-vanishing term $c_0$.
+We will now investigate whether there are points other than $x_0$ for which the real series converges when we plug those numbers in $x$.
+A further question is that, for those $\alpha \in \mathbb{R}$ such that $S(\alpha)$ converges, its limiting value can be regarded as a function of $\alpha$.  Can we identify this function $S(\alpha)$?
+This is certainly a harder question which we will face later.
+
+Note that to simply the notations we may make a translation, i.e. set up a new variable $t = x - x_0$.
+Therefore, without loss of generality, we may assume that $x_0 = 0$.
+This will also make the expression cleaner.
+So let us assume that we are looking at the power series
+\begin{equation}
+  \label{eq:pwr}
+  S(x) = \sum_{k=0}^\infty c_k x^k.
+\end{equation}
+
+To determine at which $x$ the power series $S(x)$ converges, we start with an important observation.
+
+\begin{thm}
+  \label{thm:small-x}
+  If the power series $S(x)$ in (\ref{eq:pwr}) converges at some point $\lambda \ne 0$, then $S(x)$ converges at every $x \in \mathbb{R}$ with $|x| < |\lambda|$.
+\end{thm}
+
+\begin{proof}
+  By assumption the real series
+  \[
+    S(\lambda) = \sum_{k=0}^\infty c_k \lambda^k
+  \]
+  converges, hence by the zero test we have $c_k \lambda^k \to 0$ as $k \to \infty$.
+  Since every convergent sequence is a bounded sequence, there is an $M > 0$ such that $|c_k \lambda^k| \leqslant M$ for any $k$.
+
+  Now let $x \in \mathbb{R}$ with $0< |x| < |\lambda|$. (The case $x=0$ is obvious.)
+  Set $r = |x| / |\lambda| < 1$.  Then for any $k \in \mathbb{N}$, we have
+  \[
+    |c_k x^k| = |c_k \lambda^k| \left( \frac{|x|}{|\lambda|} \right)^k \leqslant M r^k.
+  \]
+  Now with $0 < r < 1$, $\sum_k M r^k$ is a convergent geometric series.
+  Therefore by the comparison theorem, $S(x) = \sum_{k=0}^\infty c_k x^k$ also converges provided that $|x| < |\lambda|$.
+\end{proof}
+
+Theorem~\ref{thm:small-x} motivates the following definition, which essentially tells how large the set in which the power series $S(x)$ converges can be.
+
+\begin{defn}
+  \label{defn:radius-conv}
+  Let $S(x) = \sum_{k=0}^\infty c_k x^k$ be a power series centered at $0$.
+  Define the number
+  \[
+    R := \sup \{ |\alpha| \colon \text{ $S(x)$ converges at $x = \alpha \in \mathbb{R}$} \} \in [0, \infty].
+  \]
+  The number $R$ is called the \textsf{radius of convergence} for the series $S(x)$.
+\end{defn}
+
+Why is this definition legitimate?
+Firstly the set appearing in Definition~\ref{defn:radius-conv} is nonempty since the center $0$ is always there.
+By Theorem~\ref{thm:small-x}, when $S(x)$ converges at $x = \lambda \ne 0$, $S(x)$ must also converge in the interval $(-|\lambda|, |\lambda|)$, which is an interval centered at $0$.
+So a reasonable question is, how large can such an interval be? Or equivalently how large can its radius be?
+Thus the radius of convergence for the power series $S(x)$ is defined to be the maximum number $R$ such that $S(x)$ converges in the \textit{open} interval $(-R, R)$ (unless $R=0$).
+And the series $S(x)$ must diverge in the set $(-\infty, -R) \cup (R, \infty)$.
+At the boundary points $x = \pm R$, both convergence and divergence for $S(x)$ can happen\footnote{The question whether $S(x)$ converges or diverges at $x = \pm R$ is usually harder, since it always corresponds to the case $\alpha = 1$ as in the root test.}.
+
+After realizing the importance of the radius of convergence to a power series, a formula for the radius of convergence is called for.
+We now state a general formula for that, whose proof is very similar to that for the root test.
+
+\begin{thm}[Hadamard's formula]
+  Let $S(x) = \sum_{k=0}^\infty c_k x^k$ be a power series.
+  Suppose that $\alpha$ is the exponential growth rate of the sequence of coefficients $\langle c_k \rangle$, i.e.,
+  \[
+    \alpha = \limsup_{k\to\infty} \sqrt[k]{|c_k|}.
+  \]
+  Then the radius of convergence for the power series $S(x)$ is $R = 1/\alpha$, where we take $1/0 = \infty$ and $1/\infty = 0$.
+\end{thm}
+
+\begin{proof}
+  To show that $1/\alpha$ is indeed the radius of convergence for $S(x)$, we need to demonstrate
+  \begin{enumerate}[(i)]
+    \item If $|x| < 1/\alpha$, then $S(x)$ converges.
+    \item If $|x| > 1/\alpha$, then $S(x)$ diverges.
+  \end{enumerate}
+  Note that when $\alpha \in \{0, \infty\}$, one of the statements (i), (ii) is vacuous.
+
+  \begin{enumerate}[(i)]
+    \item Suppose $|x| < 1/\alpha$.
+      Pick a number $\beta$ such that $\alpha < \beta$ but $\beta |x| < 1$, which can be done since $\alpha |x| < 1$.
+      Then there is an integer $K \in \mathbb{N}$ such that $\sqrt[k]{|c_k|} < \beta$, i.e., $|c_k| < \beta^k$, whenever $k \geqslant K$.
+      Thus for any $k \geqslant K$, we have
+      \[
+	|c_k x^k| \leqslant \beta^k |x|^k = (\beta |x|)^k.
+      \]
+      As $0 \leqslant \beta|x| < 1$, $\sum_k (\beta |x|)^k$ is a convergent geometric series, hence $S(x) = \sum_{k=0}^\infty c_k x^k$ converges (absolutely) as well by the comparison theorem.
+
+    \item Suppose $|x| > 1/\alpha$.
+      Pick a number $\beta$ such that $0 < \beta < \alpha$ but $\beta |x| > 1$, which can be done since $\alpha |x| > 1$.
+      Then $|c_k| > \beta^k$ for infinitely many $k \in \mathbb{N}$.
+      Thus
+      \[
+	|a_k x^k| \geqslant \beta^k |x|^k = (\beta|x|)^k > 1
+      \]
+      infinitely often.
+      Therefore the series $\sum_k c_k x^k$ must diverge by the zero test.
+  \end{enumerate}
+
+  Now the proof is completed.
+\end{proof}
+
+An alternative way of expressing the Hadamard's formula is stated below without further justification.
+
+\begin{cor}
+  Let $S(x) = \sum_{k=0}^\infty c_k (x-x_0)^k$ be a power series.
+  $S(x)$ converges if $x = x_0$ or $x$ satisfies the inequality
+  \[
+    \left( \limsup_{k\to\infty} \sqrt[k]{|c_k|} \right) |x-x_0| < 1,
+  \]
+  but diverges if $\displaystyle \left( \limsup_{k\to\infty} \sqrt[k]{|c_k|} \right) |x-x_0| > 1$.
+\end{cor}
+
+The following result, which is weaker than Hadamard's formula, provides another way to compute the radius of convergence of some power series.
+This way is easier since computing quotients is easier than computing roots.
+
+\begin{thm}
+  If the limit
+  \[
+    \alpha = \lim_{k \to \infty} \left| \frac{ c_{k+1} }{ c_k } \right|
+  \]
+  exists, then $1/\alpha$ is the radius of convergence for the power series $S(x) = \sum_k c_k (x - x_0)^k$.
+  That is, $S(x)$ converges if $x = x_0$ or $\alpha |x - x_0| < 1$.
+\end{thm}
+
+\begin{proof}
+  Repeat the argument in the proof of the ratio test for real series.
+\end{proof}
+
+\noindent\textbf{Example.} Let us find the radius of convergence for the power series $\displaystyle S(x) = \sum_{k=0}^\infty \binom{2k}{k} x^{2k}$, where $\displaystyle \binom{2k}{k}$ is the (central) binomial coefficient (a.k.a. $C^{2k}_k$ in high schools).
+
+As in the ratio test, let us do the following.  $S(x)$ will converge if
+\begin{equation}
+  \label{eq:central-cancel}
+  \lim_{k \to \infty} \left| \frac{ \binom{2(k+1)}{k+1} x^{2(k+1)} }{ \binom{2k}{k} x^{2k} } \right| < 1.
+\end{equation}
+Working out the cancellation in the fraction, we see that
+\[
+  \frac{ \binom{2(k+1)}{k+1} x^{2(k+1)} }{ \binom{2k}{k} x^{2k} } = \frac{ \frac{(2k+2)!}{((k+1)!)^2} x^{2k+2} }{ \frac{(2k)!}{(k!)^2} x^{2k} } = \frac{ (2k+2)(2k+1) }{(k+1)^2} x^2.
+\]
+So we continue to work on (\ref{eq:central-cancel}) to get
+\[
+  1 > \lim_{k\to\infty} \left| \frac{ \binom{2(k+1)}{k+1} x^{2(k+1)} }{ \binom{2k}{k} x^{2k} } \right| 
+= \lim_{k \to \infty} \frac{ (2k+2)(2k+1) }{ (k+1)^2 } |x|^2 = 4 |x|^2.
+\]
+Therefore the solution to this inequality is $|x| < \frac{1}{2}$, i.e. the radius of convergence for the power series $S(x)$ is $\frac12$. \hfill$\heartsuit$
+
+\medskip
+As an application of the Weierstrass $M$-test we say a little more about the power series $\sum_k c_k x^k$.
+A power series is a special type of series of functions, the functions being constant multiples of powers of $x$.
+We have seen before that the radius of convergence $R$ for a power series $\sum_k c_k x^k$ satisfies the \textit{Hadamard's formula}
+\[
+  \frac{1}{R} = \limsup_{k \to \infty} \sqrt[k]{|c_k|}.
+\]
+That is, the power series $\sum_k c_k x^k$ converges and defines a function $f(x) = \sum_k c_k x^k$ when $|x| < R$, but diverges when $|x| > R$.
+Now we will apply the results from uniform convergence to power series.
+
+\begin{thm}
+  \label{thm:power-series-R-unif}
+  Let $R$ be the radius of convergence for the power series $\sum c_k x^k$.
+  For any $r \in [0,R)$, the power series converges uniformly and absolutely on the interval $[-r,r]$.
+\end{thm}
+
+\begin{proof}
+  We may assume that $R > r > 0$; the cases $R = 0$ and $r = 0$ require no further explanation.
+  Choose a real number $\rho$ such that $r < \rho < R$.
+  For all large $k$, $\sqrt[k]{|c_k|} < 1/\rho$ since $\rho < R$.
+  Thus, if $|x| \leqslant r$ then
+  \[
+    |c_k x^k| \leqslant \left( \frac{r}{\rho} \right)^k.
+  \]
+  These are terms in a convergent geometric series and according to the $M$-test $\sum_k c_k x^k$ converges uniformly and absolutely on $[-r,r]$.
+\end{proof}
+
+\begin{cor}
+  \label{cor:power-series}
+  A power series $S(x) = \sum_k c_k x^k$ is continuous in the open interval $(-R, R)$, and can also be differentiated and integrated term-by-term in the same open interval.
+\end{cor}
+
+\begin{proof}
+  If $|x_0| < R$, then there is a positive number $r$ such that $|x_0| < r < R$.
+  By Theorem~\ref{thm:power-series-R-unif} the power series $S(x)$ is continuous on $[-r,r]$, hence it is continuous at $x_0$.
+  Since $x_0$ is arbitrarily chosen from $(-R, R)$, $S(x)$ is continuous in $(-R, R)$.
+
+  For term-by-term integration, we know that $S(x)$ converges uniformly on $[-r,r]$ when $0 < r < R$.  Therefore we apply Corollary~2.8 directly to obtain
+  \[
+    \int_0^x S(t) \, \dd t = \int_0^x \sum_{k=0}^\infty c_k t^k \, \dd t = \sum_{k=0}^\infty \int_0^x c_k t^k \, \dd t = \sum_{k=0}^\infty \frac{c_k}{k+1} x^{k+1}.
+  \]
+
+  For term-by-term differentiation, we perform the following computation:
+  \[
+    \limsup_{k \to \infty} \sqrt[k]{|k c_k|} = \left( \lim_{k \to \infty} \sqrt[k]{k} \right) \left( \limsup_{k \to \infty} \sqrt[k]{|c_k|} \right) = \limsup_{k \to \infty} \sqrt[k]{|c_k|},
+  \]
+  since $\sqrt[k]{k} \to 1$ as $k \to \infty$.
+  Therefore $\sum_k c_k x^k$ has the same radius of convergence as $\sum_k k c_k x^k$, so does $\sum_k k c_k x^{k-1}$.
+  Because $\sum_k c_k x^k$ converges to $c_0$ at $x = 0$, Corollary 2.10 applies and we obtain
+  \[
+    \left( \sum_k c_k x^k \right)' = \sum_k (c_k x^k)' = \sum_k k c_k x^{k-1}
+  \]
+  in the interval $(-R, R)$.
+  This completes the proof.
+\end{proof}
+
+Note that, by repeating applications of Corollary~\ref{cor:power-series}, a power series defines a \textit{smooth} function, i.e., a function that can be differentiated infinitely many times, within its open interval of convergence.
+
+Now we turn our attention to the boundary of the interval of convergence for a power series $S(x) = \sum_k c_k x^k$.
+There is no guarantee that $S(x)$ will converge or diverge at $x = \pm R$; anything could happen\footnote{A better viewpoint can be found in the class of one complex variable, where we talk about the \textit{disk} of convergence.}.
+However, when the series does converge at any of the boundary point, it will be continuous there.  This fact is guaranteed by the following theorem.
+
+\begin{thm}[Abel's theorem]
+  \label{thm:abel}
+  Let $S(x) = \sum_k c_k x^k$ be a power series whose radius of convergence is $R$, where $0 < R < \infty$.
+  If $S(x)$ converges at $x = R$, then $S(x)$ converges uniformly on $[0,R]$; in particular, $S(x)$ is continuous at $x = R \in [0, R]$.
+\end{thm}
+
+\begin{proof}
+  It suffices to show that $S(x)$ converges uniformly on $[0,R]$.
+  Consider a fixed number $t \in (0, R]$ for a moment.
+  Let $a_k = c_k R^k$ and $b_k = \dfrac{t^k}{R^k}$; we still write $A_{m,n} = \sum_{k=m}^n a_k$ for $n \geqslant m$.
+  By hypotheses $\sum_k a_k$ converges.
+  Hence, for any $\varepsilon > 0$ there is an integer $N > 1$ such that
+  \[
+    |A_{m,k}| < \varepsilon
+  \]
+  whenever $k > m \geqslant N$.
+
+  Since $0 < t \leqslant R$, the sequence $\langle b_k \rangle$ is decreasing.
+  Applying Abel's formula and telescoping, we have
+  \begin{align*}
+    \left| \sum_{k=m}^n c_k t^k \right| &= \left| \sum_{k=m}^n a_k b_k \right| 
+    = \left| A_{m,n} b_n + \sum_{k=m}^{n-1} A_{m,k} (b_k - b_{k+1}) \right| \\
+    &< \varepsilon b_n + \sum_{k=m}^{n-1} \varepsilon (b_k - b_{k+1}) = b_m \varepsilon \leqslant \varepsilon
+  \end{align*}
+  for any $n \geqslant m \geqslant N$.
+  Because this inequality holds automatically when $t = 0$, we conclude that the power series $S(x) = \sum_k c_k x^k$ converges uniformly on $[0,R]$.
+\end{proof}
+
+\noindent\textbf{Remark.} Although the convergence of $\sum_k c_k R^k$ promises the uniform convergence of $\sum_k c_k x^k$ on $[0,R]$, the series may or may not converge \textit{absolutely} at $x=R$.
+A counterexample is given in $\sum_{k=1}^\infty \frac{(-1)^k}{k} x^k$ at $x=1$.
+
+From Abel's theorem a few interesting computational results follow, usually coming from term-by-term integration.
+Let us start with a corollary.
+
+\begin{cor}
+  \label{cor:series-R-int}
+  Let $\displaystyle f(x) = \sum_{k=0}^\infty c_k x^k$ be a power series whose radius of convergence is $R$, where $0 < R < \infty$.
+  If $\displaystyle \sum_{k=0}^\infty \frac{c_k}{k+1} R^{k+1}$ converges, then $f(x)$ is improperly integrable in $[0,R)$ with
+  \[
+    \int_0^R f(x) \, \dd x = \sum_{k=0}^\infty \frac{c_k}{k+1} R^{k+1}.
+  \]
+\end{cor}
+
+\begin{proof}
+  For $0 < t < R$, we may apply term-by-term integration directly to obtain
+  \[
+    F(t) := \int_0^t f(x) \, \dd x = \int_0^t \sum_{k=0}^\infty c_k x^k \, \dd x = \sum_{k=0}^\infty \int_0^t c_k x^k \, \dd x = \sum_{k=0}^\infty \frac{c_k}{k+1} t^{k+1}.
+  \]
+  By hypothesis $F(R)$ converges, hence $F$ is continuous on $[0,R]$.
+  Therefore
+  \[
+    \int_0^R f(x) \, \dd x = \lim_{t \to R-} \int_0^t f(x) \, \dd x = \lim_{t \to R-} F(t) = F(R) = \sum_{k=0}^\infty \frac{c_k}{k+1} R^{k+1}.
+  \]
+\end{proof}
+
+\noindent\textbf{Example.} Consider $\displaystyle \frac{1}{1 + x} = \sum_{k=0}^\infty (-1)^k x^k$, whose radius of convergence is $1$.
+Since $\displaystyle \sum_{k=0}^\infty \frac{(-1)^k}{k+1} = \frac11 - \frac12 + \frac13 \mp \cdots$ converges, we can apply Corollary~\ref{cor:series-R-int} to obtain
+\[
+  1 - \frac12 + \frac13 \pm \cdots = \sum_{k=0}^\infty \frac{(-1)^k}{k+1}
+  = \int_0^1 \sum_{k=0}^\infty (-1)^k x^k \, \dd x 
+  = \int_0^1 \frac{1}{1+x} \, \dd x
+  = \ln x \, \Big|_0^1 = \ln 2. 
+\]
+
+Using a similar trick it can be shown that
+\[
+  1 - \frac13 + \frac15 \mp \cdots + \frac{(-1)^k}{2k+1} + \cdots = \arctan 1 = \frac{\pi}{4}.
+\]
+
+Now we discuss analytic functions.
+We start with their definition.
+
+\begin{defn}
+  A function $f : (a,b) \to \mathbb{R}$ is \textsf{analytic} if it can be expressed locally as a power series.
+\end{defn}
+
+Here ``locally'' means: for any $x_0 \in (a,b)$, there is a neighborhood $U$ of $x_0$ such that the power series
+\[
+  \sum_{k=0}^\infty c_k (x - x_0)^k
+\]
+converges to $f(x)$ for any $x \in U$.
+
+It is important to realize that if a function $f$ is analytic on an open interval $I$, then for each center $x_0$ there is one and only one power series that represents $f$ near $x_0$, and that power series has the same coefficients as the Taylor series.
+
+\begin{thm}
+  Let $c, d \in \mathbb{R} \cup \{ \pm \infty \}$ with $c < d$, $x_0 \in (c,d)$, and suppose that $f : (c, d) \to \mathbb{R}$.
+  If $f(x) = \displaystyle \sum_{k=0}^\infty c_k (x - x_0)^k$ for $x \in (c,d)$, then $f$ is smooth in $(c,d)$ and
+  \[
+    c_k = \frac{ f^{(k)}(x_0) }{k!}, \qquad k = 0, 1, 2, \dots.
+  \]
+\end{thm}
+
+\begin{proof}
+  Plugging in $x = x_0$ gives $f(x_0) = c_0$.
+  Using Corollary~\ref{cor:power-series} to differentiate $f$ $k$ times ($k \in \mathbb{N}$), it shows that
+  \[
+    f^{(k)}(x) = \sum_{j=k}^\infty \frac{j!}{(j-k)!} c_j (x-x_0)^{j-k}, \qquad x \in (c,d).
+  \]
+  Again plugging in $x = x_0$ gives
+  \[
+    f^{(k)}(x_0) = k! \, c_k.
+  \]
+  This finishes the proof.
+\end{proof}
+
+In fact, there is a power series expansion that comes from any smooth function.The following definition is inspired.
+
+\begin{defn}
+  Let $f$ be a smooth function in the open interval $(c,d)$.
+  The \textsf{Taylor series expansion} (or simply the \textit{Taylor series}) of $f$ centered at $x_0 \in (c,d)$ is the series
+  \[
+    \sum_{k=0}^\infty \frac{ f^{(k)}(x_0) }{k!} (x - x_0)^k.
+  \]
+  (No convergence is implied or assumed for this series.)
+
+  The Taylor series of $f$ centered at $x_0 = 0$ is also called the \textsf{Maclaurin series expansion} (or simply the \textit{Maclaurin series}.)
+\end{defn}
+
+The sequence of finite sums of a Taylor series is simply a Taylor polynomial.
+Therefore the following result is a paraphrase.
+
+\begin{prop}
+  Let $\displaystyle \sum_{k=0}^\infty \dfrac{f^{(k)}(x_0)}{k!} (x - x_0)^k$ be the Taylor series of a smooth function $f$ centered at $x_0$.  
+  Then $f$ is analytic around $x_0$ if and only if there is a $\delta > 0$ such that the Taylor remainders
+  \[
+    R_n(x) = f(x) - \sum_{k=0}^n \frac{ f^{(k)}(x_0) }{k!} (x-x_0)^k
+  \]
+  tends to $0$ for $x \in (x_0 - \delta, x_0 + \delta)$ as $n \to \infty$.
+\end{prop}
+
+So far it is easy to verify whether a power series centered at $x_0$ is analytic or not around $x_0$.
+However, the following result shows that the center of a power series can be changed within its open interval of convergence.
+Therefore it is not necessary to check the analyticity of a function at every points in that interval.
+
+\begin{thm}
+  Suppose that $I$ is an open interval centered at $a$ and that
+  \[
+    f(x) = \sum_{k=0}^\infty c_k (x-a)^k, \qquad x \in I.
+  \]
+  If $x_0 \in I$ and $r > 0$ satisfy $(x_0 - r, x_0 + r) \subseteq I$, then
+  \[
+    f(x) = \sum_{k=0}^\infty \frac{ f^{(k)}(x_0) }{ k! } (x - x_0)^k
+  \]
+  for all $x \in (x_0-r, x_0+r)$.
+  In particular, if $f$ is a smooth function whose Taylor series expansion converges to $f$ on some open interval $J$, then $f$ is analytic on $J$.
+\end{thm}
+
+\begin{proof}
+  It suffices to prove the first statement.
+  By making the change of variables $w = x - c$, we may assume that $a = 0$ and $I = (-R, R)$; that is, $\displaystyle f(x) = \sum_{k=0}^\infty c_k x^k$ for all $x \in (-R, R)$.
+  Suppose that $(x_0-r, x_0+r) \subseteq (-R, R)$ and fix $x \in (x_0-r, x_0+r)$.
+  By hypothesis and the binomial formula,
+  \begin{equation}
+    \label{eq:power-binomial}
+    f(x) = \sum_{k=0}^\infty c_k x^k = \sum_{k=0}^\infty c_k \bigl( (x-x_0) + x_0 \bigr)^k = \sum_{k=0}^\infty c_k \sum_{j=0}^k \binom{k}{j} x_0^{k-j} (x-x_0)^j.
+  \end{equation}
+  Since $\sum_{k=0}^\infty c_k y^k$ converges absolutely at $y := |x - x_0| + |x_0| < R$, we have
+  \[
+    \sum_{k=0}^\infty \left| c_k \sum_{j=0}^k \binom{k}{j} x_0^{k-j} (x - x_0)^j \right| \leqslant \sum_{k=0}^\infty |c_k| \sum_{j=0}^k \binom{k}{j} |x_0|^{k-j} |x-x_0|^j = \sum_{k=0}^\infty |c_k| (|x - x_0| + |x_0|)^k < \infty.
+  \]
+  Hence the orders of the two summations in (\ref{eq:power-binomial}) can be interchanged (by absolute convergence), and we obtain that for $x \in (x_0-r, x_0+r)$,
+  \begin{align*}
+    f(x) &= \sum_{k=0}^\infty c_k \sum_{j=0}^k \binom{k}{j} x_0^{k-j} (x-x_0)^j \\
+    &= \sum_{j=0}^\infty (x-x_0)^j \sum_{k=j}^\infty c_k \binom{k}{j} (x-x_0)^{k-j} \\
+    &= \sum_{j=0}^\infty \frac{(x-x_0)^j}{j!} \sum_{k=j}^\infty \frac{k!}{(k-j)!} c_k x_0^{k-j} \\
+    &= \sum_{j=0}^\infty \frac{(x-x_0)^j}{j!} \cdot f^{(j)}(x_0),
+  \end{align*}
+  which is the Taylor polynomial for $f$ at $x_0$.
+\end{proof}
+\end{document}

@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{March 14, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 5: Weierstrass approximation theorem}
+\end{center}
+
+Given a continuous (but not differentiable) function $f$, we often want to make it smoother by a small perturbation.
+We want to approximate $f$ in $\mathcal{C}^0$ by a smooth function $g$.
+The ultimately smooth function is a polynomial, and we prove the following result of Weierstrass.
+
+\begin{thm}[Weierstrass approximation theorem]
+  The set of polynomials is dense in $\mathcal{C}^0([a,b], \mathbb{R})$.
+\end{thm}
+
+Density means that for each $f \in \mathcal{C}^0$ and each $\varepsilon > 0$ there is a polynomial function $p(x)$ such that for all $x \in [a,b]$,
+\[
+  |f(x) - p(x)| < \varepsilon.
+\]
+
+There are several proofs for this theorem.
+Here we give one that uses a common technique in analysis.
+Without loss of generality, we may assume that $[a,b] = [0,1]$ by translation and dilation.
+
+\begin{proof}
+  Let $f \in \mathcal{C}^0([a,b], \mathbb{R})$ be given and let $g(x) = f(x) - (mx+b)$, where
+  \[
+    m = f(1) - f(0) \quad \text{and} \quad b = f(0).
+  \]
+  Then $g \in \mathcal{C}^0$ and $g(0) = 0 = g(1)$.
+  If we can approximate $g$ arbitrarily well by polynomials, then the same is true for $f$ since $mx + b$ is also a polynomial.
+  In other words it is no loss of generality to assume that $f(0) = f(1) = 0$ in the first place.  We do so.
+  Also we extend $f$ to all of $\mathbb{R}$ by defining $f(x) = 0$ for all $x \in \mathbb{R} \setminus [0,1]$, so now $f$ is continuous on the whole real line $\mathbb{R}$.
+
+  Consider the following functions: for each $n \in \mathbb{N}$,
+  \[
+    \beta_n(t) = b_n (1-t^2)^n, \qquad -1 \leqslant t \leqslant 1,
+  \]
+  where the constant $b_n$ is chosen so that $\int_{-1}^1 \beta_n(t) \, \dd t = 1$.
+  For $0 \leqslant x \leqslant 1$, set
+  \[
+    P_n(x) = \int_{-1}^1 f(x+t) \beta_n(t) \, \dd t.
+  \]
+  This is a weighted average of the values of $f$ using the weight function $\beta_n$.
+  We claim that $P_n$ is a polynomial and $P_n \rightrightarrows f$ on $[0,1]$ as $n \to \infty$.
+
+  To see that $P_n$ is a polynomial in $x$, we use a change of variables $u = x+t$.
+  Then, for $0 \leqslant u \leqslant 1$ we have
+  \begin{equation}
+    \label{eq:puxt}
+    P_n(x) = \int_{x-1}^{x+1} f(u) \beta_n(u-x) \, \dd u = \int_0^1 f(u) \beta_n(u-x) \, \dd u
+  \end{equation}
+  since $f = 0$ outside $[0,1]$.
+  We can rewrite $\beta_n(u-x)$ as
+  \begin{equation}
+    \label{eq:beta-ux}
+    \beta_n(u-x) = b_n ( 1 - (u-x)^2 )^n = \sum_{i=0}^{2n} g_{n,i}(u) x^i,
+  \end{equation}
+  that is, $\beta_n(u-x)$ is a polynomial in $x$ whose coefficients $g_{n,i}(u)$, $i=0, 1, \dots, 2n$, are polynomials in $u$.
+  As we plug in (\ref{eq:beta-ux}) to (\ref{eq:puxt}) we get
+  \[
+    P_n(x) = \int_0^1 f(u) \beta_n(u-x) \, \dd u
+    = \int_0^1 f(u) \left( \sum_{i=0}^{2n} g_{n,i}(u) x^i \right) \dd u 
+    = \sum_{i=0}^{2n} \left( \int_0^1 f(u) g_{n,i}(u) \, \dd u \right) x^i,
+  \]
+  which is indeed a polynomial in $x$ (of degree at most $2n$.)
+
+  To check that $P_n \rightrightarrows f$ on $[0,1]$ as $n \to \infty$, we need to estimate $\beta_n(t)$, namely, the size of the coefficient $b_n$.
+  Consider the function
+  \[
+    h(t) = (1 - t^2)^n - (1 - nt^2), \qquad 0 \leqslant t \leqslant 1.
+  \]
+  For $0 \leqslant t \leqslant 1$,
+  \[
+    h'(t) = n (1-t^2)^{n-1} (-2t) + 2nt = 2nt \left( 1 - (1-t^2)^{n-1} \right) \geqslant 0.
+  \]
+  Hence $h$ is increasing on $[0,1]$ by the mean value theorem; in particular $h(t) \geqslant h(0) = 0$, i.e. $(1-t^2)^n \geqslant 1 - nt^2$ for $t \in [0,1]$.
+  So we have
+  \begin{align*}
+    \int_{-1}^1 (1 - t^2)^n \, \dd t &= 2 \int_0^1 (1 - t^2)^n \, \dd t \geqslant 2 \int_0^{1/\sqrt{n}} (1 - t^2)^n \, \dd t \\
+    &\geqslant 2 \int_0^{1/\sqrt{n}} (1 - nt^2) \, \dd t = 2 \left( \frac{1}{\sqrt{n}} - \frac{n}{3} \frac{1}{\sqrt{n^3}} \right) = \frac{4}{3 \sqrt{n}} > \frac{1}{\sqrt{n}},
+  \end{align*}
+  hence $b_n < \sqrt{n}$.
+  From this we conclude that, if $\delta$ is a positive number with $0 < \delta \leqslant 1$, then for $\delta \leqslant |t| \leqslant 1$,
+  \[
+    0 \leqslant \beta_n(t) = b_n (1 - t^2)^n < \sqrt{n} (1 - \delta^2)^n.
+  \]
+  Since $\sqrt{n}$ grows to infinity much slower than the exponents $(1-\delta^2)^{-n}$, we obtain the uniform convergence:
+  \begin{equation}
+    \label{eq:beta-uniform}
+    \beta_n(t) \rightrightarrows 0 \text{ on $[-1,-\delta] \cup [\delta,1]$ as $n \to \infty$.}
+  \end{equation}
+
+  From this we deduce $P_n \rightrightarrows f$ as follows.
+  Let $\varepsilon > 0$ be given.
+  Uniform continuity of $f$ on $[0,1]$ gives $\delta > 0$ such that
+  \[
+    |t| < \delta \implies | f(x+t) - f(x) | < \frac{\varepsilon}{2}.
+  \]
+  Since $\beta_n$ has integral $1$ on $[-1,1]$, we have
+  \begin{align*}
+    |P_n(x) - f(x)| &= \left| \int_{-1}^1 \left( f(x+t)-f(x) \right) \beta_n(t) \, \dd t \right| \\
+    &\leqslant \int_{-1}^1 |f(x+t) - f(x)| \beta_n(t) \, \dd t \\ 
+    &= \int_{|t| < \delta} |f(x+t) - f(x)| \beta_n(t) \, \dd t + \int_{\delta \leqslant |t| \leqslant 1} |f(x+t)-f(x)| \beta_n(t) \, \dd t.
+  \end{align*}
+  The first integral is less than $\varepsilon/2$ because
+  \[
+    \int_{|t| < \delta} |f(x+t) - f(x)| \beta_n(t) \, \dd t < \int_{|t|<\delta} \frac{\varepsilon}{2} \, \beta_n(t) \, \dd t \leqslant \frac{\varepsilon}{2} \int_{-1}^1 \beta_n(t) \, \dd t = \frac{\varepsilon}{2},
+  \]
+  while the second integral is at most $2M \int_{\delta \leqslant |t| \leqslant 1} \beta_n(t) \, \dd t$, where $M$ is an (prescribed) upper bound for $f$ on $[0,1]$. 
+  By (\ref{eq:beta-uniform}), the second integral will be less than $\varepsilon/2$ when $n$ is large enough.
+  Thus $P_n \rightrightarrows f$ on $[0,1$] as $n \to \infty$, as claimed.
+\end{proof}
+
+\noindent\textbf{Example.} We can define an inner product structure on $\mathcal{C}^0 = \mathcal{C}^0([0,1], \mathbb{R})$ by setting
+\[
+  \langle f, g \rangle = \int_0^1 f(x) g(x) \, \dd x, \qquad f, g \in \mathcal{C}^0.
+\]
+(One should check that it is indeed an inner product.)
+
+Assume that a function $f \in \mathcal{C}^0$ satisfies
+\[
+  \int_0^1 f(x) x^k \, \dd x = 0, \qquad k = 0, 1, 2, \dots.
+\]
+By the Weierstrass approximation theorem, there is a sequence of polynomials $\langle P_n \rangle$ that converges to $f$ uniformly on $[0,1]$.
+Then
+\begin{align*}
+  \int_0^1 f^2(x) \, \dd x &= \int_0^1 f(x) f(x) \, \dd x \\
+  &= \int_0^1 f(x) \left( \lim_{n \to \infty} P_n(x) \right) \dd x \\
+  &= \lim_{n \to \infty} \int_0^1 f(x) P_n(x) \, \dd x = 0.
+\end{align*}
+Therefore $f$ is identically zero on $[0,1]$.
+This computation shows that the zero function is the only continuous function on $[0,1]$ that is orthogonal to all polynomials.
+
+\medskip
+Let us mention a generalization to the Weierstrass approximation theorem.
+Let $K$ be a compact metric space and $\mathcal{C}^0(K)$ denote the space of continuous real functions on $K$ as usual.
+A nonemtpy subset $\mathcal{A} \subseteq \mathcal{C}^0(K)$ is called a \textsf{function algebra} if it is closed under addition, scalar multiplication, and pointwise multiplication.
+That is, whenever $f, g \in \mathcal{A}$ and $c \in \mathbb{R}$, we have $f+g, cf$, and $f \cdot g$ belong to $\mathcal{A}$ as well.
+For example, the set of polynomials is a function algebra.
+The function algebra $\mathcal{A}$ is said to \textsf{vanishes at a point} $p$ if $f(p) = 0$ for all $f \in \mathcal{A}$; $\mathcal{A}$ \textsf{vanishes nowhere} if it does not vanish at any point, i.e., for any $p \in K$ there is a function $f \in \mathcal{A}$ such that $f(p) \ne 0$.
+Finally, the function algebra $\mathcal{A}$ \textsf{separates points} if for each pair of distinct points $p, q \in K$ there is a function $f \in \mathcal{A}$ such that $f(p) \ne f(q)$.
+Below is the main result, whose proof is quite involved and can be found in Pugh's textbook (Theorem 20 in Chapter 4.)
+
+\begin{thm}[Stone-Weierstrass theorem]
+  If $K$ is a compact metric space and $\mathcal{A}$ is a function algebra in $\mathcal{C}^0(K)$ that vanishes nowhere and separates points, then $\mathcal{A}$ is dense in $\mathcal{C}^0(K)$.
+\end{thm}
+
+Let us mention one particular corollary here.
+In addition to polynomials, there are other nice families of functions that approximate continuous functions over a compact interval very well.
+Below is the one that we will see later in the semester.
+
+\begin{cor}
+  Any $2\pi$-periodic continuous function of $x \in \mathbb{R}$ can be uniformly approximated by \textbf{trigonometric polynomials}
+  \[
+    T(x) = \frac{a_0}{2} + \sum_{k=1}^n \left( a_k \cos kx + b_k \sin kx \right).
+  \]
+\end{cor}
+
+A $2\pi$-periodic function can be thought as a function defined on the unit circle $S^1$, which is parametrized by $x \mapsto (\cos x, \sin x)$; $S^1$ itself is of course a compact set.
+One simply checks that the family of trigonometric functions vanishes nowhere and separates points, and the result follows from the Stone-Weierstrass theorem.
+
+\end{document}

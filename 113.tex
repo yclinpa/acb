@@ -1,0 +1,121 @@
+\documentclass[11pt]{article}
+\newcommand{\ddd}{May 9, 2024}
+\input{24aac-macro}
+
+\begin{document}
+\begin{center}
+  \textbf{Topic 13: Outer measure}
+\end{center}
+
+Throught this topic and beyond, definitions and theorems are stated in $\mathbb{R}^n$ but proved in $\mathbb{R}^2$.  Multidimensionality can complicate notations of proofs but never its logic.
+
+How should we measure the length of a subset of a line?  If the set to be measured is simple, so is the answer.  For example, the length of the interval $(a,b)$ is $b-a$.
+But what is the length of the set of rational numbers?  As is often the case in analysis we proceed by inequalities and limits.
+In fact one might distinguish the fields of algebra and analysis solely according to their use of equalities versus inequalities.
+
+\begin{defn}
+  The \textsf{length} of an interval $I = (a,b) \subseteq \mathbb{R}$ is $b-a$.
+  It is denoted by $|I|$.  The \textsf{Lebesgue outer measure} of a set $A \subseteq \mathbb{R}$ is
+  \[
+    m^* A = \inf \left\{ \sum_k |I_k| : \text{$\{ I_k \}$ is a covering of $A$ by open intervals} \right\}.
+  \]
+\end{defn}
+Implicitly we assume that the covering is at most countable; the series $\sum_k |I_k|$ is its total length.  The outer measure of $A$ is the infimum of the total lengths of all possible coverings $\{I_k\}$ of $A$ by open intervals.  If every series $\sum_k |I_k|$ diverges then by definition $m^*A = \infty$.
+
+Outer measure is defined for every $A \subseteq \mathbb{R}$.  It measures $A$ from outside.  A dual approach measures $A$ from inside, called \textsf{inner measure}, which we will discuss later.
+
+Three properties of outer measures (the ``axioms of outer measure'') are easy to check.
+
+\begin{thm}
+  \begin{enumerate}[(1)]
+    \item The outer measure of the empty set is zero, i.e., $m^* \varnothing = 0$.
+
+    \item If $A \subseteq B$ then $m^*A \leqslant m^*B$ (monotonicity).
+
+    \item If $A = \cup_{n=1}^\infty A_n$ then $m^*A \leqslant \sum_{n=1}^\infty m^*A_n$ (countable additivity).
+  \end{enumerate} 
+\end{thm}
+
+\begin{proof}
+  Only (3) needs explanation.  Given $\varepsilon > 0$, for each $n$ there exists a covering $\{I_{n,k}\}_k$ of $A_n$ such that
+  \[
+    \sum_{k=1}^\infty |I_{n,k}| < m^*A_n + \frac{\varepsilon}{2^n}.
+  \]
+  Clearly the total collection $\{ I_{n,k} \}_{n,k}$ covers $A$, and
+  \[
+    \sum_{n,k} |I_{n,k}| = \sum_{n=1}^\infty \sum_{k=1}^\infty |I_{n,k}| \leqslant \sum_{n=1}^\infty \left( m^*A_n + \frac{\varepsilon}{2^n} \right) \leqslant \sum_{n=1}^\infty m^*A_n + \varepsilon.
+  \]
+  Thus $m^*A$ cannot exceed $\sum_{n=1}^\infty m^*A_n + \varepsilon$.  Since $\varepsilon$ is arbitrary, the infimum $m^*A$ is at most $\sum_{n=1}^\infty m^*A_n$, as required.
+\end{proof}
+
+Next, suppose you have a set $A$ is the plane and you want to measure its area.  Here is the natural way to do it.
+
+\begin{defn}
+  \label{defn:area}
+  The \textsf{area} of a rectangle $R = (a,b) \times (c,d)$ is $|R| := (b-a)(d-c)$ and the (planar) outer area of $A \subseteq \mathbb{R}^2$ is the infimum of the total area of countable coverings of $A$ by open rectangles $R_k$:
+  \[
+    m^* A = \inf \left\{ \sum_k |R_k| \colon \{ R_k \} \text{ covers $A$} \right\}.
+  \]
+\end{defn}
+Note that Definition~\ref{defn:area} is so natural that it can easily be generalized to higher dimensions.  We omit the technicality here.
+
+Now is the notion when the size of a set is ``small''.  Note that we have discussed this notion in the previous topic, and here is just a paraphrase.
+
+\begin{defn}
+  If $Z \subseteq \mathbb{R}^n$ has outer measure zero then it is called a \textsf{zero set}.
+\end{defn}
+
+\begin{prop}
+  Every subset of a zero set is a zero set.  A countable union of zero sets is a zero set.  Each hyperplane $P_i(a) = \{ (x_1, \dots, x_n) \in \mathbb{R}^n \colon x_i = a \}$ is a zero set in $\mathbb{R}^n$.
+\end{prop}
+
+\begin{proof}
+  The first statement follows from the monotonicity of outer measure.  The second statement can be proved using the $\varepsilon/2^n$-trick.
+
+  We prove the last statement when $n = 2$.  The ``hyperplane'' $P_i(a)$ is the line $\{ x = a \}$ when $i=1$ and $\{ y = a \}$ when $i=2$.  Given $\varepsilon > 0$ we can cover the line $P_1(a)$ with rectangle $R_k = I_k \times J_k$ where
+  \[
+    I_k = \left( a - \frac{\varepsilon}{k 2^{k+2}}, a + \frac{\varepsilon}{k 2^{k+2}} \right), \qquad J_k = (-k, k).
+  \]
+  The total area of these rectangles is $\varepsilon$ so $P_1(a)$ is a zero set.
+\end{proof}
+
+The next theorem states a property of outer measure that seems obvious.
+
+\begin{thm}
+  The linear outer measure of $[a,b]$ is $b-a$; the planar outer measure $[a,b] \times [c,d]$ is $(b-a)(d-c)$; the $n$-dimensional outer measure of a closed cell is the product of its edge lengths.
+\end{thm}
+
+\begin{proof}[Proof for $n=1$]
+  For each $\varepsilon > 0$ the open interval $(a-\varepsilon, b+\varepsilon)$ covers $[a,b]$.  Thus $m^*([a,b]) \leqslant (b+\varepsilon) - (a-\varepsilon) = b-a+2\varepsilon$.  By the $\varepsilon$-principle we get $m^*([a,b]) \leqslant b-a$.
+
+  The harder part is to get the reverse inequality.  We must show that if $\{ I_i \}$ is a countable open covering of $[a,b]$ then $\sum_i |I_i| \geqslant b-a$.  Since $[a,b]$ is compact it suffices to prove this for finite open coverings $\{ I_1, \dots, I_N \}$, where $I_i = (a_i, b_i)$.  If $N=1$ then $(a_1, b_1) \supseteq [a,b]$ implies $a_1 < a \leqslant b < b_1$ so $b-a < b_1 - a_1 = |I_1|$.  This is the base case for induction.  
+
+  Let us assume that for each open covering of a compact interval $[c,d]$ by $N$ open intervals $\{ J_j \}$ we have $d-c < \sum_{j=1}^N |J_j|$, and let $\{ I_i \}$ be a covering of $[a,b]$ by $N+1$ open intervals $I_i = (a_i, b_i)$.  We claim that $\sum_{i=1}^{N+1}|I_i| \geqslant b-a$.  One of the intervals contains $a$, say $I_1 = (a_1, b_1)$.  If $b_1 \geqslant b$ then $I_1 \supseteq [a,b)$ and again $a_1 < a \leqslant b \leqslant b_1$ implies that $\sum_{i=1}^{N+1} |I_i| \geqslant |I_1| = b_1 - a_1 > b-a$.  On the other hand, if $b_1 < b$ then
+  \[
+    [a,b] = [a, b_1) \cup [b_1, b]
+  \]
+  and $|I_1| > b_1 - a$.  The compact interval $[b_1, b]$ is now covered by the $N$ open intervals $I_2, \dots, I_{N+1}$.  By induction we have $\sum_{i=2}^{N+1} |I_i| > b - b_1$.  Thus
+  \[
+    \sum_{i=1}^{N+1} |I_i| = |I_1| + \sum_{i=2}^{N+1} |I_i| > (b_1-a) + (b-b_1) = b-a,
+  \]
+  which completes the induction and the proof.
+\end{proof}
+
+The preceding inductive proof does not carry over to rectangles, for a rectangle has no left to right order.  However, the following grid proof works for all $n$.
+
+\begin{proof}[Grid proof for $n=2$]
+  Let $R = [a,b] \times [c,d] \subseteq \mathbb{R}^2$.  It is simple to see that $m^* R \leqslant (b-a)(d-c)$.  To check the reverse inequality, consider any countable covering of $R$ by open rectangles $R_k$.  We must show that $\sum_k |R_k| \geqslant (b-a)(d-c)$.  Since $R$ is compact the covering has a positive Lebesgue number $\lambda$.  Partition $[a,b]$ and $[c,d]$ into subintervals $I_i = (a_i, b_i)$ and $J_j = (c_j, d_j)$ such that each rectangle $S_{ij} = I_i \times J_j$ has diameter less than $\lambda$.  Then $\sum_{i,j} |S_{ij}| = |R|$.  Also, the union of the rectangles $S_{ij}$ contained in any $R_k$ forms a smaller rectangle $R_k' \subseteq R_k$.  (Strictly speaking $R_k'$ includes edges of the $S_{ij}$ but they form a zero set.)  Thus
+  \[
+    \sum_{i, j: S_{ij} \subseteq R_k} |S_{ij}| \leqslant |R_k|.
+  \]
+  It follows that
+  \[
+    (b-a)(d-c) = |R| = \sum_{i,j} |S_{ij}| \leqslant \sum_k \sum_{i,j:S_{ij} \subseteq R_k} |S_{ij}| \leqslant \sum_k |R_k|,
+  \]
+  which completes the proof.
+\end{proof}
+
+\begin{cor}
+  The formula $m^* I = b-a$, $m^* R = (b-a)(d-c)$, and $m^* B = \prod_k m^*(I_k)$ hold also for intervals, rectangles, and boxes that are open or partly open.  In particular, $m*I=|I|$, $m^*R = |R|$, and $m^*B=|B|$ for open intervals, rectangles, and boxes.
+\end{cor}
+\end{document}
